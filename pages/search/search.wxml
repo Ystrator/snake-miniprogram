@@ -1,5 +1,13 @@
 <!--搜索页面 - 增强版-->
-<view class="container">
+<view class="container {{darkMode ? 'dark-mode' : ''}}">
+  <!-- 顶部状态栏 -->
+  <view class="status-bar">
+    <text class="page-title">搜索</text>
+    <view class="theme-toggle" bindtap="toggleDarkMode">
+      <text class="theme-icon">{{darkMode ? '☀️' : '🌙'}}</text>
+    </view>
+  </view>
+
   <view class="search-bar">
     <input class="search-input"
            placeholder="搜索育儿知识..."

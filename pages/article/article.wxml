@@ -1,6 +1,15 @@
 <!--文章详情页 - 优化版-->
-<scroll-view scroll-y class="article-container">
+<scroll-view scroll-y class="article-container {{darkMode ? 'dark-mode' : ''}}">
   <view class="article-header">
+    <!-- 顶部夜间模式切换按钮 -->
+    <view class="header-top">
+      <view class="back-btn" bindtap="goBack">
+        <text class="back-icon">←</text>
+      </view>
+      <view class="theme-toggle" bindtap="toggleDarkMode">
+        <text class="theme-icon">{{darkMode ? '☀️' : '🌙'}}</text>
+      </view>
+    </view>
     <text class="article-title">{{article.title}}</text>
     <view class="article-meta">
       <text class="article-category">{{article.categoryName}}</text>
@@ -12,12 +21,23 @@
   </view>
 
   <view class="article-content">
+    <!-- 快速解答板块（优先显示） -->
+    <view class="quick-answers-box" wx:if="{{article.quickAnswers && article.quickAnswers.length > 0}}">
+      <text class="quick-answers-title">⚡ 30秒快速解答</text>
+      <view class="quick-answers-list">
+        <view class="qa-item" wx:for="{{article.quickAnswers}}" wx:key="*this" wx:for-index="idx">
+          <text class="qa-question">Q: {{item.question}}</text>
+          <text class="qa-answer">A: {{item.answer}}</text>
+        </view>
+      </view>
+    </view>
+
     <!-- 摘要 -->
     <view class="article-summary-box">
       <text class="article-summary">{{article.summary}}</text>
     </view>
     
-    <!-- 快速解答板块 -->
+    <!-- 快速解答板块（旧版，向后兼容） -->
     <view class="quick-answer-box" wx:if="{{article.quickAnswer}}">
       <text class="quick-answer-title">{{article.quickAnswer.title}}</text>
       <view class="quick-answer-tips">

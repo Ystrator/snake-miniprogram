@@ -13,6 +13,12 @@ const knowledgeData = {
           id: '001',
           title: '新生儿睡眠指南',
           summary: '帮助宝宝建立良好的睡眠习惯，解决新生儿常见的睡眠问题。',
+          quickAnswers: [
+            { question: '新生儿每天睡多久？', answer: '14-17小时，昼夜无明显区分' },
+            { question: '晚上总是醒怎么办？', answer: '检查饥饿、尿布、温度不适' },
+            { question: '怎么培养睡眠习惯？', answer: '固定作息时间、建立睡前仪式' },
+            { question: '最佳睡眠环境？', answer: '室温20-22°C，仰卧睡眠，避免枕头' }
+          ],
           content: `
 # 新生儿睡眠指南
 
@@ -45,6 +51,12 @@ const knowledgeData = {
           id: '002',
           title: '母乳喂养实用指南',
           summary: '从初乳到断奶，全面的母乳喂养知识和技巧。',
+          quickAnswers: [
+            { question: '新生儿每天喂几次？', answer: '每天8-12次，按需喂养' },
+            { question: '怎么判断宝宝吃饱了？', answer: '每天6片以上湿尿布，体重稳步增长' },
+            { question: '乳头皲裂怎么办？', answer: '检查含乳姿势，涂抹羊脂膏' },
+            { question: '母乳应该喂到多久？', answer: 'WHO建议纯母乳至6个月，持续至2岁' }
+          ],
           content: `
 # 母乳喂养实用指南
 
@@ -80,6 +92,12 @@ WHO建议纯母乳喂养至6个月，持续喂养至2岁或以上。
           id: '003',
           title: '宝宝发育里程碑0-12个月',
           summary: '了解宝宝在第一年的重要发育节点。',
+          quickAnswers: [
+            { question: '3个月宝宝会什么？', answer: '抬头、转头、微笑、发出咕咕声' },
+            { question: '6个月宝宝会什么？', answer: '翻身、独坐、抓握玩具、咿呀学语' },
+            { question: '什么时候会爬？', answer: '通常7-9个月开始爬行' },
+            { question: '发育慢怎么办？', answer: '每个宝宝不同，持续观察，必要时咨询医生' }
+          ],
           content: `
 # 宝宝发育里程碑0-12个月
 

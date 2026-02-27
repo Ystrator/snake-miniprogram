@@ -1,6 +1,9 @@
 // 首页逻辑 - 带调试版本
+const app = getApp();
+
 Page({
   data: {
+    darkMode: false,
     hotArticles: [
       {
         id: '001',
@@ -31,11 +34,73 @@ Page({
       }
     ],
     showTipModal: false,
-    dailyTip: ''
+    dailyTip: '',
+    showEmergencyModal: false,
+    emergencyGuide: [
+      {
+        id: 'choking',
+        title: '🍼 呛奶怎么办',
+        steps: [
+          '立即停止喂奶，保持宝宝直立',
+          '轻拍宝宝背部，帮助排出奶液',
+          '观察宝宝呼吸和脸色',
+          '如果呼吸困难或脸色发紫，立即拨打120',
+          '不要摇晃宝宝'
+        ]
+      },
+      {
+        id: 'fever',
+        title: '🤒 宝宝发烧',
+        steps: [
+          '测量体温，确认发烧程度',
+          '3个月以下宝宝超过38°C立即就医',
+          '保持室内通风，不要穿太多',
+          '多喂温水或奶液',
+          '用温水擦拭身体帮助降温（不要用酒精）'
+        ]
+      },
+      {
+        id: 'crying',
+        title: '😭 大哭不止',
+        steps: [
+          '检查是否饿了、尿布湿了、太热或太冷',
+          '尝试安抚：轻拍、拥抱、白噪音',
+          '检查是否有不适（尿布疹、衣物过紧）',
+          '如果持续哭闹超过2小时，及时就医',
+          '观察是否伴有其他症状（呕吐、发烧）'
+        ]
+      },
+      {
+        id: 'vomiting',
+        title: '🤮 呕吐怎么办',
+        steps: [
+          '立即让宝宝侧卧，防止呛奶',
+          '清理口腔，保持呼吸道通畅',
+          '暂停喂奶，让胃休息30-60分钟',
+          '少量多次喂水或奶液',
+          '如果呕吐频繁或带血，立即就医'
+        ]
+      },
+      {
+        id: 'breathing',
+        title: '😰 呼吸困难',
+        steps: [
+          '立即拨打120急救电话',
+          '保持宝宝呼吸道通畅，清除口中异物',
+          '让宝宝上半身稍微抬高',
+          '保持冷静，观察宝宝脸色和意识',
+          '不要喂食任何东西'
+        ]
+      }
+    ]
   },
 
   onLoad() {
     console.log('=== 首页加载 ===');
+    // 加载夜间模式状态
+    this.setData({
+      darkMode: app.globalData.darkMode
+    });
     wx.showToast({
       title: '欢迎回来',
       icon: 'success',
@@ -45,6 +110,27 @@ Page({
 
   onShow() {
     console.log('=== 首页显示 ===');
+    // 每次显示时更新夜间模式状态
+    this.setData({
+      darkMode: app.globalData.darkMode
+    });
+  },
+
+  // 主题切换回调
+  onThemeChange(enabled) {
+    this.setData({
+      darkMode: enabled
+    });
+  },
+
+  // 切换夜间模式
+  toggleDarkMode() {
+    app.toggleDarkMode();
+    wx.showToast({
+      title: this.data.darkMode ? '已关闭夜间模式' : '已开启夜间模式',
+      icon: 'success',
+      duration: 1500
+    });
   },
 
   // 跳转到搜索页
@@ -182,5 +268,21 @@ Page({
   // 阻止冒泡
   stopPropagation() {
     console.log('阻止冒泡');
+  },
+
+  // 显示紧急情况指南
+  showEmergencyGuide() {
+    console.log('点击紧急情况指南');
+    this.setData({
+      showEmergencyModal: true
+    });
+  },
+
+  // 隐藏紧急情况指南
+  hideEmergencyGuide() {
+    console.log('关闭紧急情况指南');
+    this.setData({
+      showEmergencyModal: false
+    });
   }
 });

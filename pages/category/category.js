@@ -1,6 +1,9 @@
 // 分类页面 - 简化版
+const app = getApp();
+
 Page({
   data: {
+    darkMode: false,
     categories: [
       {
         id: 'age-0-1',
@@ -124,9 +127,33 @@ Page({
 
   onLoad(options) {
     console.log('分类页面加载', options);
+    this.setData({
+      darkMode: app.globalData.darkMode
+    });
     if (options.id) {
       this.selectCategoryById(options.id);
     }
+  },
+
+  onShow() {
+    this.setData({
+      darkMode: app.globalData.darkMode
+    });
+  },
+
+  onThemeChange(enabled) {
+    this.setData({
+      darkMode: enabled
+    });
+  },
+
+  toggleDarkMode() {
+    app.toggleDarkMode();
+    wx.showToast({
+      title: this.data.darkMode ? '已关闭夜间模式' : '已开启夜间模式',
+      icon: 'success',
+      duration: 1500
+    });
   },
 
   selectCategoryById(categoryId) {

@@ -1,5 +1,13 @@
 <!--首页 - 新手妈妈友好版-->
-<view class="container">
+<view class="container {{darkMode ? 'dark-mode' : ''}}">
+  <!-- 顶部状态栏（夜间模式切换） -->
+  <view class="status-bar">
+    <text class="app-name">育儿知识大全</text>
+    <view class="theme-toggle" bindtap="toggleDarkMode">
+      <text class="theme-icon">{{darkMode ? '☀️' : '🌙'}}</text>
+    </view>
+  </view>
+
   <!-- 顶部搜索区（最显眼） -->
   <view class="search-hero" bindtap="goToSearch">
     <view class="search-box">
@@ -29,6 +37,15 @@
         <text class="quick-emoji">🍼</text>
         <text class="quick-text">不吃饭</text>
       </view>
+    </view>
+  </view>
+
+  <!-- 紧急情况快速指南 -->
+  <view class="emergency-guide-section">
+    <view class="emergency-btn" bindtap="showEmergencyGuide">
+      <text class="emergency-icon">🚨</text>
+      <text class="emergency-text">紧急情况快速指南</text>
+      <text class="emergency-arrow">→</text>
     </view>
   </view>
 
@@ -74,6 +91,31 @@
     <text class="tip-icon">💡</text>
     <text class="tip-text">每日育儿小贴士</text>
     <text class="tip-arrow">›</text>
+  </view>
+</view>
+
+<!-- 紧急情况快速指南弹窗 -->
+<view class="modal emergency-modal" wx:if="{{showEmergencyModal}}" bindtap="hideEmergencyGuide">
+  <view class="modal-content emergency-content" catchtap="stopPropagation">
+    <view class="modal-header">
+      <text class="modal-title">🚨 紧急情况快速指南</text>
+      <text class="modal-close" bindtap="hideEmergencyGuide">✕</text>
+    </view>
+    <view class="modal-body emergency-body">
+      <scroll-view scroll-y class="emergency-scroll">
+        <view class="emergency-item" wx:for="{{emergencyGuide}}" wx:key="id">
+          <view class="emergency-item-header">
+            <text class="emergency-item-title">{{item.title}}</text>
+          </view>
+          <view class="emergency-steps">
+            <text class="step-item" wx:for="{{item.steps}}" wx:key="*this" wx:for-item="step" wx:for-index="idx">
+              <text class="step-number">{{idx + 1}}.</text>
+              <text class="step-text">{{step}}</text>
+            </text>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
   </view>
 </view>
 

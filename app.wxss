@@ -4,9 +4,16 @@ page {
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
   background-color: #F2F2F7;
   line-height: 1.6;
+  transition: background-color 0.3s;
 }
 
-/* iOS 标准配色 */
+/* 夜间模式 */
+page.dark-mode {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+/* iOS 标准配色 - 浅色模式 */
 :root {
   --primary-color: #007AFF;
   --success-color: #34C759;
@@ -18,6 +25,24 @@ page {
   --text-secondary: #8E8E93;
   --border-color: #E5E5EA;
   --shadow-color: rgba(0, 0, 0, 0.08);
+  --gradient-start: #667eea;
+  --gradient-end: #764ba2;
+}
+
+/* iOS 标准配色 - 深色模式 */
+page.dark-mode {
+  --primary-color: #0A84FF;
+  --success-color: #32D74B;
+  --warning-color: #FF9F0A;
+  --danger-color: #FF453A;
+  --background-color: #000000;
+  --card-background: #1C1C1E;
+  --text-primary: #FFFFFF;
+  --text-secondary: #98989D;
+  --border-color: #38383A;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --gradient-start: #5856D6;
+  --gradient-end: #AF52DE;
 }
 
 /* 通用容器 */

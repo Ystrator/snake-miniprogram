@@ -86,8 +86,11 @@ const allArticles = [
   }
 ];
 
+const app = getApp();
+
 Page({
   data: {
+    darkMode: false,
     keyword: '',
     searchResults: [],
     searched: false,
@@ -107,12 +110,36 @@ Page({
 
   onLoad(options) {
     console.log('搜索页面加载', options);
+    this.setData({
+      darkMode: app.globalData.darkMode
+    });
     if (options.keyword) {
       this.setData({ 
         keyword: decodeURIComponent(options.keyword) 
       });
       this.doSearch();
     }
+  },
+
+  onShow() {
+    this.setData({
+      darkMode: app.globalData.darkMode
+    });
+  },
+
+  onThemeChange(enabled) {
+    this.setData({
+      darkMode: enabled
+    });
+  },
+
+  toggleDarkMode() {
+    app.toggleDarkMode();
+    wx.showToast({
+      title: this.data.darkMode ? '已关闭夜间模式' : '已开启夜间模式',
+      icon: 'success',
+      duration: 1500
+    });
   },
 
   onSearchInput(e) {

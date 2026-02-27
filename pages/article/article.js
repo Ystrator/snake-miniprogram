@@ -626,7 +626,8 @@ const articles = {
 Page({
   data: {
     article: {},
-    isFavorited: false
+    isFavorited: false,
+    darkMode: false
   },
 
   onLoad(options) {
@@ -648,19 +649,54 @@ Page({
       return;
     }
 
+    const app = getApp();
     this.setData({ 
       article,
-      isFavorited: false
+      isFavorited: false,
+      darkMode: app.globalData.darkMode
     });
 
     // 检查是否已收藏
-    const app = getApp();
     if (app && app.loadFavorites && app.isFavorited) {
       app.loadFavorites();
       this.setData({
         isFavorited: app.isFavorited(articleId)
       });
     }
+  },
+
+  onShow() {
+    // 每次显示时更新夜间模式状态
+    const app = getApp();
+    this.setData({
+      darkMode: app.globalData.darkMode
+    });
+  },
+
+  // 主题切换回调
+  onThemeChange(enabled) {
+    this.setData({
+      darkMode: enabled
+    });
+  },
+
+  // 切换夜间模式
+  toggleDarkMode() {
+    const app = getApp();
+    app.toggleDarkMode();
+    this.setData({
+      darkMode: app.globalData.darkMode
+    });
+    wx.showToast({
+      title: this.data.darkMode ? '已关闭夜间模式' : '已开启夜间模式',
+      icon: 'success',
+      duration: 1500
+    });
+  },
+
+  // 返回上一页
+  goBack() {
+    wx.navigateBack();
   },
 
   toggleFavorite() {

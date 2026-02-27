@@ -1,5 +1,13 @@
 <!--分类页面-->
-<view class="container">
+<view class="container {{darkMode ? 'dark-mode' : ''}}">
+  <!-- 顶部状态栏 -->
+  <view class="status-bar">
+    <text class="page-title">分类浏览</text>
+    <view class="theme-toggle" bindtap="toggleDarkMode">
+      <text class="theme-icon">{{darkMode ? '☀️' : '🌙'}}</text>
+    </view>
+  </view>
+
   <view class="category-list">
     <view class="category-card" wx:for="{{categories}}" wx:key="id" bindtap="selectCategory" data-id="{{item.id}}">
       <view class="category-icon">{{item.icon}}</view>
