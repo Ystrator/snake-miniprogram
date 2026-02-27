@@ -1,7 +1,15 @@
 {
   "description": "育儿知识大全小程序",
   "packOptions": {
-    "ignore": [],
+    "ignore": [
+      "add_*.js",
+      "extend_*.js",
+      "final_*.js",
+      "test_*.js",
+      "data.js.backup*",
+      "*.md",
+      "ci_upload.js"
+    ],
     "include": []
   },
   "setting": {
