@@ -12,8 +12,8 @@ const projectConfig = {
 
 // 上传配置
 const uploadConfig = {
-  version: '1.0.0',
-  desc: '育儿知识大全 - 首次发布。专业育儿知识平台，涵盖0-6岁儿童发育、营养、健康、教育等全方位知识。iOS设计风格，简洁易用。'
+  version: '1.1.0',
+  desc: 'v1.1.0 - 新增夜间模式、紧急情况指南、30秒快速解答。专业育儿知识平台，涵盖0-6岁儿童发育、营养、健康、教育等全方位知识。iOS设计风格，简洁易用。'
 };
 
 async function upload() {
