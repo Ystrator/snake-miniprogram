@@ -1,0 +1,26 @@
+<!--收藏页面-->
+<view class="container">
+  <view class="favorites-header">
+    <text class="header-title">我的收藏</text>
+    <text class="header-count">{{favorites.length}} 篇文章</text>
+  </view>
+
+  <view class="favorites-list" wx:if="{{favorites.length > 0}}">
+    <view class="article-item" wx:for="{{favorites}}" wx:key="id" bindtap="readArticle" data-id="{{item.id}}">
+      <view class="article-content">
+        <text class="article-title">{{item.title}}</text>
+        <text class="article-summary">{{item.summary}}</text>
+        <view class="article-meta">
+          <text class="article-category">{{item.categoryName}}</text>
+          <text class="remove-btn" catchtap="removeFavorite" data-id="{{item.id}}">取消收藏</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:if="{{favorites.length === 0}}">
+    <text class="empty-icon">⭐</text>
+    <text class="empty-text">还没有收藏的文章</text>
+    <text class="empty-hint">去发现更多育儿知识吧</text>
+  </view>
+</view>

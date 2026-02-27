@@ -1,0 +1,74 @@
+<!--文章详情页 - 优化版-->
+<scroll-view scroll-y class="article-container">
+  <view class="article-header">
+    <text class="article-title">{{article.title}}</text>
+    <view class="article-meta">
+      <text class="article-category">{{article.categoryName}}</text>
+      <text class="article-date">{{article.publishDate}}</text>
+    </view>
+    <view class="article-tags">
+      <text class="tag" wx:for="{{article.tags}}" wx:key="*this" wx:for-item="tag">{{tag}}</text>
+    </view>
+  </view>
+
+  <view class="article-content">
+    <!-- 摘要 -->
+    <view class="article-summary-box">
+      <text class="article-summary">{{article.summary}}</text>
+    </view>
+    
+    <!-- 快速解答板块 -->
+    <view class="quick-answer-box" wx:if="{{article.quickAnswer}}">
+      <text class="quick-answer-title">{{article.quickAnswer.title}}</text>
+      <view class="quick-answer-tips">
+        <text class="quick-tip" wx:for="{{article.quickAnswer.tips}}" wx:key="*this">{{item}}</text>
+      </view>
+    </view>
+    
+    <!-- 详细内容 -->
+    <view class="article-body">
+      <view class="content-section" wx:for="{{article.sections}}" wx:key="index">
+        <!-- 标题 -->
+        <text class="section-heading" wx:if="{{item.type === 'heading'}}">{{item.text}}</text>
+        
+        <!-- 无序列表 -->
+        <view class="section-bullet" wx:if="{{item.type === 'bullet'}}">
+          <view class="bullet-item" wx:for="{{item.items}}" wx:key="*this" wx:for-item="bullet">
+            <text class="bullet-dot">•</text>
+            <text class="bullet-text">{{bullet}}</text>
+          </view>
+        </view>
+        
+        <!-- 有序列表 -->
+        <view class="section-numbered" wx:if="{{item.type === 'numbered'}}">
+          <view class="numbered-item" wx:for="{{item.items}}" wx:key="*this" wx:for-item="numItem">
+            <text class="numbered-dot">{{index + 1}}.</text>
+            <text class="numbered-text">{{numItem}}</text>
+          </view>
+        </view>
+        
+        <!-- 列表（带标题和描述） -->
+        <view class="section-list" wx:if="{{item.type === 'list'}}">
+          <view class="list-item" wx:for="{{item.items}}" wx:key="*this" wx:for-item="listItem">
+            <text class="list-title">{{listItem.title}}</text>
+            <text class="list-desc">{{listItem.desc}}</text>
+          </view>
+        </view>
+        
+        <!-- 提示信息 -->
+        <view class="section-info" wx:if="{{item.type === 'info'}}">
+          <text class="info-text">💡 {{item.text}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="article-actions">
+    <button class="action-btn" bindtap="toggleFavorite">
+      <text>{{isFavorited ? '❤️ 已收藏' : '🤍 收藏文章'}}</text>
+    </button>
+    <button class="action-btn outline" bindtap="shareArticle">
+      <text>📤 分享</text>
+    </button>
+  </view>
+</scroll-view>

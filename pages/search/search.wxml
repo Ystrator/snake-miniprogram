@@ -1,0 +1,42 @@
+<!--搜索页面 - 增强版-->
+<view class="container">
+  <view class="search-bar">
+    <input class="search-input"
+           placeholder="搜索育儿知识..."
+           value="{{keyword}}"
+           bindinput="onSearchInput"
+           confirm-type="search"
+           bindconfirm="doSearch" />
+    <text class="search-btn" bindtap="doSearch">搜索</text>
+  </view>
+
+  <view class="search-results" wx:if="{{searchResults.length > 0}}">
+    <text class="result-count">找到 {{searchResults.length}} 篇相关文章</text>
+    <view class="article-list">
+      <view class="article-card-enhanced" wx:for="{{searchResults}}" wx:key="id" bindtap="readArticle" data-id="{{item.id}}">
+        <view class="article-content">
+          <text class="article-title">{{item.title}}</text>
+          <text class="article-summary">{{item.summary}}</text>
+          <view class="article-meta">
+            <text class="article-category">{{item.categoryName}}</text>
+            <text class="article-recommend">推荐</text>
+          </view>
+        </view>
+        <text class="article-arrow">→</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:if="{{searched && searchResults.length === 0}}">
+    <text class="empty-icon">🔍</text>
+    <text class="empty-text">未找到相关文章</text>
+    <text class="empty-hint">试试搜索其他关键词</text>
+  </view>
+
+  <view class="search-tips" wx:if="{{!searched}}">
+    <text class="tips-title">🔥 热门搜索</text>
+    <view class="tags-cloud">
+      <text class="tag-item" wx:for="{{hotTags}}" wx:key="tag" bindtap="quickSearch" data-keyword="{{item.tag}}">{{item.tag}}</text>
+    </view>
+  </view>
+</view>

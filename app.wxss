@@ -1,0 +1,205 @@
+/* iOS 设计风格 - 全局样式 */
+
+page {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  background-color: #F2F2F7;
+  line-height: 1.6;
+}
+
+/* iOS 标准配色 */
+:root {
+  --primary-color: #007AFF;
+  --success-color: #34C759;
+  --warning-color: #FF9500;
+  --danger-color: #FF3B30;
+  --background-color: #F2F2F7;
+  --card-background: #FFFFFF;
+  --text-primary: #000000;
+  --text-secondary: #8E8E93;
+  --border-color: #E5E5EA;
+  --shadow-color: rgba(0, 0, 0, 0.08);
+}
+
+/* 通用容器 */
+.container {
+  min-height: 100vh;
+  padding-bottom: 100rpx;
+}
+
+/* iOS 风格卡片 */
+.card {
+  background: var(--card-background);
+  border-radius: 12rpx;
+  padding: 32rpx;
+  margin: 24rpx;
+  box-shadow: 0 2rpx 12rpx var(--shadow-color);
+}
+
+/* iOS 风格按钮 */
+.btn {
+  background: var(--primary-color);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 12rpx;
+  padding: 24rpx 48rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.btn:active {
+  opacity: 0.7;
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--primary-color);
+  border: 2rpx solid var(--primary-color);
+}
+
+/* iOS 风格列表项 */
+.list-item {
+  background: var(--card-background);
+  padding: 32rpx;
+  border-bottom: 1rpx solid var(--border-color);
+  transition: background 0.2s;
+}
+
+.list-item:active {
+  background: #F9F9F9;
+}
+
+.list-item:last-child {
+  border-bottom: none;
+}
+
+/* 标签样式 */
+.tag {
+  display: inline-block;
+  padding: 8rpx 16rpx;
+  background: #E5E5EA;
+  color: var(--text-secondary);
+  border-radius: 16rpx;
+  font-size: 24rpx;
+  margin-right: 16rpx;
+  margin-bottom: 16rpx;
+}
+
+.tag.primary {
+  background: rgba(0, 122, 255, 0.1);
+  color: var(--primary-color);
+}
+
+/* 文本样式 */
+.text-primary {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+  font-size: 28rpx;
+}
+
+.text-small {
+  font-size: 24rpx;
+  color: var(--text-secondary);
+}
+
+/* 灵动岛/刘海适配 */
+.safe-area-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* iOS 动画 */
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scale-in {
+  animation: scaleIn 0.2s ease-out;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* 图标按钮 */
+.icon-btn {
+  width: 80rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.icon-btn:active {
+  background: #E5E5EA;
+}
+
+/* 分割线 */
+.divider {
+  height: 1rpx;
+  background: var(--border-color);
+  margin: 32rpx 0;
+}
+
+/* 徽章数字 */
+.badge {
+  background: var(--danger-color);
+  color: #FFFFFF;
+  font-size: 20rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 20rpx;
+  min-width: 32rpx;
+  text-align: center;
+}
+
+/* 加载状态 */
+.loading {
+  text-align: center;
+  padding: 60rpx;
+  color: var(--text-secondary);
+}
+
+/* 空状态 */
+.empty {
+  text-align: center;
+  padding: 120rpx 60rpx;
+  color: var(--text-secondary);
+}
+
+.empty-icon {
+  font-size: 120rpx;
+  margin-bottom: 32rpx;
+  opacity: 0.5;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  line-height: 1.6;
+}
