@@ -1,90 +1,5 @@
-// 搜索页面 - 完整数据版
-const allArticles = [
-  {
-    id: '001',
-    title: '新生儿睡眠指南',
-    summary: '帮助宝宝建立良好的睡眠习惯。',
-    categoryName: '0-1岁',
-    categoryId: 'age-0-1'
-  },
-  {
-    id: '002',
-    title: '母乳喂养实用指南',
-    summary: '从初乳到断奶的全面知识。',
-    categoryName: '0-1岁',
-    categoryId: 'age-0-1'
-  },
-  {
-    id: '003',
-    title: '宝宝发育里程碑',
-    summary: '了解0-12个月的重要发育节点。',
-    categoryName: '0-1岁',
-    categoryId: 'age-0-1'
-  },
-  {
-    id: '101',
-    title: '幼儿营养均衡饮食',
-    summary: '如何为1-3岁幼儿提供均衡营养。',
-    categoryName: '1-3岁',
-    categoryId: 'age-1-3'
-  },
-  {
-    id: '102',
-    title: '应对幼儿发脾气',
-    summary: '理解并有效应对1-3岁幼儿的情绪爆发。',
-    categoryName: '1-3岁',
-    categoryId: 'age-1-3'
-  },
-  {
-    id: '103',
-    title: '如厕训练指南',
-    summary: '何时开始如厕训练，如何成功完成。',
-    categoryName: '1-3岁',
-    categoryId: 'age-1-3'
-  },
-  {
-    id: '201',
-    title: '培养孩子的社交能力',
-    summary: '帮助3-6岁儿童建立良好的社交技能。',
-    categoryName: '3-6岁',
-    categoryId: 'age-3-6'
-  },
-  {
-    id: '202',
-    title: '学龄前儿童的情绪管理',
-    summary: '帮助孩子认识和管理复杂情绪。',
-    categoryName: '3-6岁',
-    categoryId: 'age-3-6'
-  },
-  {
-    id: '203',
-    title: '幼小衔接准备指南',
-    summary: '为孩子进入小学做好全面准备。',
-    categoryName: '3-6岁',
-    categoryId: 'age-3-6'
-  },
-  {
-    id: '301',
-    title: '儿童家庭安全指南',
-    summary: '打造安全的家庭环境，预防意外伤害。',
-    categoryName: '通用知识',
-    categoryId: 'general'
-  },
-  {
-    id: '302',
-    title: '儿童常见疾病识别与护理',
-    summary: '识别常见儿童疾病的症状，家庭护理方法。',
-    categoryName: '通用知识',
-    categoryId: 'general'
-  },
-  {
-    id: '303',
-    title: '建立良好的亲子关系',
-    summary: '如何与孩子建立安全、信任的亲密关系。',
-    categoryName: '通用知识',
-    categoryId: 'general'
-  }
-];
+// 搜索页面 - 优化版本
+const knowledgeData = require('../../data.js');
 
 const app = getApp();
 
@@ -95,17 +10,16 @@ Page({
     searchResults: [],
     searched: false,
     hotTags: [
-      { tag: '睡眠' },
-      { tag: '喂养' },
-      { tag: '发育' },
-      { tag: '营养' },
-      { tag: '行为' },
-      { tag: '情绪' },
-      { tag: '教育' },
-      { tag: '安全' },
-      { tag: '健康' },
-      { tag: '社交' }
-    ]
+      { tag: '睡眠', count: 156 },
+      { tag: '喂养', count: 132 },
+      { tag: '发烧', count: 98 },
+      { tag: '发育', count: 87 },
+      { tag: '哭闹', count: 76 },
+      { tag: '营养', count: 65 },
+      { tag: '如厕', count: 54 },
+      { tag: '安全', count: 132 }
+    ],
+    relatedArticles: []
   },
 
   onLoad(options) {
@@ -114,8 +28,8 @@ Page({
       darkMode: app.globalData.darkMode
     });
     if (options.keyword) {
-      this.setData({ 
-        keyword: decodeURIComponent(options.keyword) 
+      this.setData({
+        keyword: decodeURIComponent(options.keyword)
       });
       this.doSearch();
     }
@@ -158,17 +72,52 @@ Page({
       return;
     }
 
-    const results = allArticles.filter(article => {
-      const searchText = `${article.title} ${article.summary} ${article.categoryName}`.toLowerCase();
-      return searchText.includes(keyword.toLowerCase());
+    // 从所有分类中提取文章
+    let allArticles = [];
+    knowledgeData.knowledgeData.categories.forEach(category => {
+      category.articles.forEach(article => {
+        allArticles.push({
+          ...article,
+          categoryName: category.name,
+          categoryId: category.id
+        });
+      });
     });
+
+    // 搜索并计算相关度
+    const results = allArticles.map(article => {
+      const titleMatch = article.title.toLowerCase().includes(keyword.toLowerCase());
+      const summaryMatch = article.summary && article.summary.toLowerCase().includes(keyword.toLowerCase());
+      const descMatch = article.description && article.description.toLowerCase().includes(keyword.toLowerCase());
+      const tagMatch = article.tags && article.tags.some(tag => tag.toLowerCase().includes(keyword.toLowerCase()));
+
+      let relevance = 0;
+      if (titleMatch) relevance += 10;
+      if (tagMatch) relevance += 5;
+      if (descMatch) relevance += 3;
+      if (summaryMatch) relevance += 2;
+
+      return {
+        ...article,
+        relevance: relevance,
+        isTopMatch: titleMatch,
+        isRecommended: relevance >= 5
+      };
+    }).filter(article => article.relevance > 0)
+      .sort((a, b) => b.relevance - a.relevance);
+
+    // 获取相关文章推荐（取前3篇，排除当前搜索结果）
+    const relatedArticles = allArticles
+      .filter(article => !results.find(r => r.id === article.id))
+      .slice(0, 3);
 
     this.setData({
       searchResults: results,
-      searched: true
+      searched: true,
+      relatedArticles: relatedArticles
     });
 
-    console.log('搜索结果:', results.length);
+    console.log('搜索结果:', results.length, '相关文章:', relatedArticles.length);
   },
 
   quickSearch(e) {
@@ -180,7 +129,7 @@ Page({
   readArticle(e) {
     const articleId = e.currentTarget.dataset.id;
     console.log('阅读文章:', articleId);
-    
+
     wx.navigateTo({
       url: `/pages/article/article?id=${articleId}`,
       success: () => {

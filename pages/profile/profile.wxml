@@ -1,0 +1,80 @@
+<!--pages/profile/profile.wxml-->
+<view class="profile-container {{darkMode ? 'dark' : ''}}">
+  <!-- 顶部标题 -->
+  <view class="header">
+    <text class="title">宝宝档案</text>
+    <text class="subtitle">记录宝宝的成长信息</text>
+  </view>
+
+  <!-- 档案表单 -->
+  <view class="form-card">
+    <view class="form-item">
+      <text class="label">小名</text>
+      <input 
+        class="input" 
+        placeholder="请输入宝宝的小名" 
+        value="{{nickname}}"
+        bindinput="onNicknameInput"
+        maxlength="10"
+      />
+    </view>
+
+    <view class="form-item">
+      <text class="label">生日</text>
+      <picker 
+        mode="date" 
+        value="{{birthday}}" 
+        start="2020-01-01" 
+        end="2026-12-31"
+        bindchange="onBirthdayChange"
+      >
+        <view class="picker">
+          {{birthday || '请选择生日'}}
+        </view>
+      </picker>
+    </view>
+
+    <view class="form-item">
+      <text class="label">性别</text>
+      <view class="gender-selector">
+        <view 
+          class="gender-option {{gender === 'male' ? 'active' : ''}}"
+          bindtap="selectGender"
+          data-gender="male"
+        >
+          <text class="gender-icon">👦</text>
+          <text class="gender-text">男宝</text>
+        </view>
+        <view 
+          class="gender-option {{gender === 'female' ? 'active' : ''}}"
+          bindtap="selectGender"
+          data-gender="female"
+        >
+          <text class="gender-icon">👧</text>
+          <text class="gender-text">女宝</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 保存按钮 -->
+  <view class="btn-save" bindtap="saveProfile">
+    <text>保存档案</text>
+  </view>
+
+  <!-- 删除按钮 -->
+  <view class="btn-delete" bindtap="deleteProfile" wx:if="{{hasProfile}}">
+    <text>删除档案</text>
+  </view>
+
+  <!-- 月龄显示 -->
+  <view class="age-info" wx:if="{{babyAgeText}}">
+    <view class="age-card">
+      <text class="age-label">当前月龄</text>
+      <text class="age-value">{{babyAgeText}}</text>
+    </view>
+    <view class="age-tip">
+      <text>💡 系统会根据宝宝月龄推荐合适的文章</text>
+    </view>
+  </view>
+</view>

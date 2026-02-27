@@ -3,9 +3,24 @@
   <!-- 顶部状态栏（夜间模式切换） -->
   <view class="status-bar">
     <text class="app-name">育儿知识大全</text>
-    <view class="theme-toggle" bindtap="toggleDarkMode">
-      <text class="theme-icon">{{darkMode ? '☀️' : '🌙'}}</text>
+    <view class="status-actions">
+      <view class="baby-age-badge" bindtap="goToBaby" wx:if="{{babyAgeText}}">
+        <text class="baby-age-icon">👶</text>
+        <text class="baby-age-text">{{babyAgeText}}</text>
+      </view>
+      <view class="theme-toggle" bindtap="toggleDarkMode">
+        <text class="theme-icon">{{darkMode ? '☀️' : '🌙'}}</text>
+      </view>
     </view>
+  </view>
+
+  <!-- 宝宝年龄显示卡片 -->
+  <view class="baby-age-card" wx:if="{{babyAgeText}}" bindtap="goToBaby">
+    <view class="baby-age-content">
+      <text class="baby-age-label">{{babyName}}</text>
+      <text class="baby-age-value">今天 {{babyAgeText}} 啦！</text>
+    </view>
+    <text class="baby-age-arrow">→</text>
   </view>
 
   <!-- 顶部搜索区（最显眼） -->

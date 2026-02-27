@@ -4,35 +4,11 @@ const app = getApp();
 Page({
   data: {
     darkMode: false,
-    hotArticles: [
-      {
-        id: '001',
-        title: '新生儿睡眠指南',
-        summary: '帮助宝宝建立良好的睡眠习惯，解决新生儿常见的睡眠问题。',
-        categoryName: '0-1岁',
-        categoryId: 'age-0-1',
-        tags: ['睡眠', '新生儿'],
-        publishDate: '2025-01-15'
-      },
-      {
-        id: '002',
-        title: '母乳喂养实用指南',
-        summary: '从初乳到断奶，全面的母乳喂养知识和技巧。',
-        categoryName: '0-1岁',
-        categoryId: 'age-0-1',
-        tags: ['喂养', '母乳'],
-        publishDate: '2025-01-10'
-      },
-      {
-        id: '003',
-        title: '宝宝发育里程碑',
-        summary: '了解0-12个月的重要发育节点。',
-        categoryName: '0-1岁',
-        categoryId: 'age-0-1',
-        tags: ['发育', '成长'],
-        publishDate: '2025-01-08'
-      }
-    ],
+    babyName: '',
+    babyAgeText: '',
+    recommendedCategory: '',
+    hotArticles: [],
+    allArticles: [],
     showTipModal: false,
     dailyTip: '',
     showEmergencyModal: false,
@@ -101,11 +77,39 @@ Page({
     this.setData({
       darkMode: app.globalData.darkMode
     });
+    // 加载所有文章数据
+    this.loadArticles();
+    // 加载宝宝信息
+    this.loadBabyInfo();
     wx.showToast({
       title: '欢迎回来',
       icon: 'success',
       duration: 1000
     });
+  },
+
+  // 加载文章数据
+  loadArticles() {
+    const knowledgeData = require('../../data.js').knowledgeData;
+    const allArticles = [];
+    
+    knowledgeData.categories.forEach(category => {
+      if (category.articles) {
+        category.articles.forEach(article => {
+          allArticles.push({
+            ...article,
+            categoryName: category.name,
+            categoryId: category.id
+          });
+        });
+      }
+    });
+    
+    this.setData({
+      allArticles: allArticles
+    });
+    
+    console.log('加载文章数量:', allArticles.length);
   },
 
   onShow() {
@@ -283,6 +287,103 @@ Page({
     console.log('关闭紧急情况指南');
     this.setData({
       showEmergencyModal: false
+    });
+  },
+
+  // ============ 宝宝档案相关 ============
+  // 加载宝宝信息
+  loadBabyInfo() {
+    // 先从全局数据读取
+    let babyInfo = app.getBabyInfo();
+    
+    // 如果全局数据没有，尝试从本地存储读取
+    if (!babyInfo) {
+      const profile = wx.getStorageSync('babyProfile');
+      if (profile) {
+        babyInfo = {
+          birthday: profile.birthday,
+          name: profile.nickname || '宝宝'
+        };
+        // 同步到全局数据
+        app.setBabyInfo(profile.birthday, profile.nickname);
+      }
+    }
+    
+    if (babyInfo && babyInfo.birthday) {
+      const babyAge = app.calculateBabyAge();
+      this.setData({
+        babyName: babyInfo.name || '宝宝',
+        babyAgeText: babyAge.text
+      });
+      console.log('宝宝年龄:', babyAge.text);
+      
+      // 根据月龄筛选推荐文章
+      this.filterRecommendedArticles(babyAge.totalMonths);
+    } else {
+      // 没有宝宝信息，显示默认文章
+      this.showDefaultArticles();
+    }
+  },
+
+  // 根据月龄筛选推荐文章
+  filterRecommendedArticles(months) {
+    let categoryId = '';
+    
+    if (months < 6) {
+      categoryId = 'age-0-1';
+    } else if (months < 12) {
+      categoryId = 'age-0-1';
+    } else if (months < 36) {
+      categoryId = 'age-1-3';
+    } else {
+      categoryId = 'age-3-6';
+    }
+    
+    this.setData({
+      recommendedCategory: categoryId
+    });
+    
+    // 筛选对应分类的文章
+    const filteredArticles = this.data.allArticles.filter(article => {
+      return article.categoryId === categoryId;
+    });
+    
+    // 随机选择3篇文章展示
+    const recommended = this.shuffleArray(filteredArticles).slice(0, 3);
+    
+    this.setData({
+      hotArticles: recommended
+    });
+    
+    console.log('推荐分类:', categoryId, '推荐文章数:', recommended.length);
+  },
+
+  // 显示默认文章
+  showDefaultArticles() {
+    // 随机选择3篇文章
+    const defaultArticles = this.shuffleArray(this.data.allArticles).slice(0, 3);
+    
+    this.setData({
+      hotArticles: defaultArticles
+    });
+    
+    console.log('显示默认文章数:', defaultArticles.length);
+  },
+
+  // 数组乱序
+  shuffleArray(array) {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  },
+
+  // 跳转到宝宝档案
+  goToBaby() {
+    wx.navigateTo({
+      url: '/pages/profile/profile'
     });
   }
 });

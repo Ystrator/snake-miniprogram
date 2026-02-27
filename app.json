@@ -4,7 +4,9 @@
     "pages/category/category",
     "pages/article/article",
     "pages/search/search",
-    "pages/favorites/favorites"
+    "pages/favorites/favorites",
+    "pages/baby/baby",
+    "pages/profile/profile"
   ],
   "window": {
     "backgroundTextStyle": "light",

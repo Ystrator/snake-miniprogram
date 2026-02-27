@@ -26,6 +26,32 @@
   color: var(--text-primary);
 }
 
+.status-actions {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.baby-age-badge {
+  display: flex;
+  align-items: center;
+  padding: 12rpx 24rpx;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50rpx;
+  box-shadow: 0 4rpx 12rpx rgba(102, 126, 234, 0.3);
+}
+
+.baby-age-icon {
+  font-size: 28rpx;
+  margin-right: 8rpx;
+}
+
+.baby-age-text {
+  font-size: 24rpx;
+  color: white;
+  font-weight: bold;
+}
+
 .theme-toggle {
   width: 80rpx;
   height: 80rpx;
@@ -38,6 +64,42 @@
 
 .theme-icon {
   font-size: 40rpx;
+}
+
+/* 宝宝年龄卡片 */
+.baby-age-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 32rpx 32rpx;
+  padding: 32rpx;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  border: 2rpx solid rgba(102, 126, 234, 0.2);
+  border-radius: 20rpx;
+}
+
+.baby-age-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.baby-age-label {
+  font-size: 24rpx;
+  color: var(--text-secondary);
+  margin-bottom: 8rpx;
+}
+
+.baby-age-value {
+  font-size: 32rpx;
+  font-weight: bold;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.baby-age-arrow {
+  font-size: 32rpx;
+  color: #667eea;
 }
 
 /* 搜索英雄区 */
