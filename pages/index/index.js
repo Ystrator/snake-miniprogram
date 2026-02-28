@@ -154,7 +154,7 @@ Page({
   // 跳转到搜索页
   goToSearch() {
     console.log('点击搜索框');
-    wx.navigateTo({
+    wx.switchTab({
       url: '/pages/search/search',
       success: () => {
         console.log('搜索页跳转成功');
@@ -194,7 +194,7 @@ Page({
     const categoryId = e.currentTarget.dataset.id;
     console.log('点击分类卡片:', categoryId);
     
-    wx.navigateTo({
+    wx.switchTab({
       url: `/pages/category/category?id=${categoryId}`,
       success: () => {
         console.log('分类页跳转成功:', categoryId);
