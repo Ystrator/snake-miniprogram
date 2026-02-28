@@ -12,14 +12,21 @@ Page({
   onLoad(options) {
     console.log('分类页面加载', options);
 
-    // 从 data.js 加载分类数据
-    const categories = knowledgeData.categories.map(category => ({
-      id: category.id,
-      name: category.name,
-      icon: category.icon,
-      description: category.description,
-      articles: category.articles || []
-    }));
+    // 从 data.js 加载分类数据，并关联文章
+    const categories = knowledgeData.categories.map(category => {
+      // 从 allArticles 中筛选属于该分类的文章
+      const categoryArticles = knowledgeData.allArticles.filter(article => 
+        article.categoryId === category.id
+      );
+
+      return {
+        id: category.id,
+        name: category.name,
+        icon: category.icon,
+        description: category.description,
+        articles: categoryArticles
+      };
+    });
 
     this.setData({
       categories: categories,
