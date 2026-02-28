@@ -384,6 +384,8 @@
 
 .emergency-modal {
   z-index: 1100;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(10rpx);
 }
 
 .modal-content {
@@ -392,11 +394,14 @@
   border-radius: 24rpx;
   overflow: hidden;
   animation: modalIn 0.3s;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.3);
 }
 
 .emergency-content {
   width: 640rpx;
   max-height: 80vh;
+  background: #FFFFFF;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.4);
 }
 
 @keyframes modalIn {
@@ -467,7 +472,7 @@
 .emergency-item-title {
   font-size: 32rpx;
   font-weight: 700;
-  color: var(--danger-color);
+  color: #FF3B30;
   line-height: 1.4;
 }
 
@@ -482,11 +487,11 @@
   align-items: flex-start;
   font-size: 28rpx;
   line-height: 1.6;
-  color: var(--text-primary);
+  color: #333333;
 }
 
 .step-number {
-  color: var(--primary-color);
+  color: #667eea;
   font-weight: 700;
   margin-right: 8rpx;
   flex-shrink: 0;
