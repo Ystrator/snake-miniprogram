@@ -389,25 +389,6 @@ Page({
   },
 
   // 跳转到宝宝档案
-
-  // 跳转到收藏页面
-  goToFavorites() {
-    console.log('点击收藏入口');
-    wx.switchTab({
-      url: '/pages/favorites/favorites',
-      success: () => {
-        console.log('收藏页跳转成功');
-      },
-      fail: (err) => {
-        console.error('收藏页跳转失败:', err);
-        wx.showToast({
-          title: '页面跳转失败',
-          icon: 'none'
-        });
-      }
-    });
-  },
-
   goToBaby() {
     wx.navigateTo({
       url: '/pages/profile/profile'

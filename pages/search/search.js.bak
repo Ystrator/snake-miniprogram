@@ -182,10 +182,6 @@ Page({
   },
 
   doSearch() {
-    wx.showLoading({
-      title: "搜索中...",
-      mask: true
-    });
     const keyword = this.data.keyword.trim();
     if (!keyword) {
       wx.showToast({
@@ -210,83 +206,3 @@ Page({
     let allArticles = knowledgeData.allArticles.map(article => {
       const categoryId = article.category ? (categoryMap[article.category] || 'general') : 'general';
       const category = knowledgeData.categories.find(cat => cat.id === categoryId);
-      return {
-        ...article,
-        categoryName: category ? category.name : '通用知识',
-        categoryId: categoryId
-      };
-    });
-
-    // 搜索并计算相关度
-    const results = allArticles.map(article => {
-      const titleMatch = article.title && article.title.toLowerCase().includes(keyword.toLowerCase());
-      const summaryMatch = article.summary && article.summary.toLowerCase().includes(keyword.toLowerCase());
-      const descMatch = article.description && article.description.toLowerCase().includes(keyword.toLowerCase());
-      const tagMatch = article.tags && article.tags.some(tag => tag.toLowerCase().includes(keyword.toLowerCase()));
-      const categoryMatch = article.categoryName && article.categoryName.toLowerCase().includes(keyword.toLowerCase());
-
-      let relevance = 0;
-      if (titleMatch) relevance += 10;
-      if (tagMatch) relevance += 5;
-      if (categoryMatch) relevance += 4;
-      if (descMatch) relevance += 3;
-      if (summaryMatch) relevance += 2;
-
-      return {
-        ...article,
-        relevance: relevance,
-        isTopMatch: titleMatch,
-        isRecommended: relevance >= 5
-      };
-    }).filter(article => article.relevance > 0)
-      .sort((a, b) => b.relevance - a.relevance);
-
-    // 获取相关文章推荐（取前3篇，排除当前搜索结果）
-    const relatedArticles = allArticles
-      .filter(article => !results.find(r => r.id === article.id))
-      .slice(0, 3);
-
-    this.setData({
-      searchResults: results,
-      searched: true,
-      relatedArticles: relatedArticles
-    });
-
-    setTimeout(() => {
-      wx.hideLoading();
-    }, 300);
-    console.log('搜索结果:', results.length, '相关文章:', relatedArticles.length);
-  },
-
-  quickSearch(e) {
-    const keyword = e.currentTarget.dataset.keyword;
-    this.setData({ keyword });
-    this.doSearch();
-  },
-
-  readArticle(e) {
-    const articleId = e.currentTarget.dataset.id;
-    console.log('阅读文章:', articleId);
-
-    wx.navigateTo({
-      url: `/pages/article/article?id=${articleId}`,
-      success: () => {
-        console.log('跳转成功');
-      },
-      fail: (err) => {
-        console.error('跳转失败:', err);
-        wx.showToast({
-          title: '打开文章失败',
-          icon: 'none'
-        });
-      }
-    });
-  }
-});
-
-// 高亮关键词函数
-function highlightKeyword(text, keyword) {
-  if (!text || !keyword) return text;
-  const regex = new RegExp(`(${keyword})`, 'gi');
-  return text.replace(regex, '<text class="highlight">$1</text>');
-}

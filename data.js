@@ -4,9 +4,9 @@
 
 const knowledgeData = {
   categories: [
-    { id: 'age-0-1', name: '0-1岁', icon: '👶', description: '新生儿护理与早期发育', articles: [] },
-    { id: 'age-1-3', name: '1-3岁', icon: '👧', description: '幼儿期成长与护理', articles: [] },
-    { id: 'age-3-6', name: '3-6岁', icon: '🧒', description: '学龄前准备与能力培养', articles: [] },
+    { id: 'age-0-1', name: '0-1岁', icon: '👶', description: '新生儿护理、喂养、睡眠指导', articles: [] },
+    { id: 'age-1-3', name: '1-3岁', icon: '👧', description: '学走路、说话、认知发展', articles: [] },
+    { id: 'age-3-6', name: '3-6岁', icon: '🧒', description: '入学准备、社交、情绪管理', articles: [] },
     { id: 'general', name: '通用知识', icon: '📚', description: '全年龄段适用的育儿知识', articles: [] }
   ],
   allArticles: [

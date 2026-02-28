@@ -1,21 +1,21 @@
-<!--首页 - P0修复版-->
+<!--首页 - 新手妈妈友好版-->
 <view class="container {{darkMode ? 'dark-mode' : ''}}">
   <!-- 顶部状态栏（夜间模式切换） -->
   <view class="status-bar">
     <text class="app-name">育儿知识大全</text>
     <view class="status-actions">
-      <view class="baby-age-badge large-tap" bindtap="goToBaby" wx:if="{{babyAgeText}}">
+      <view class="baby-age-badge" bindtap="goToBaby" wx:if="{{babyAgeText}}">
         <text class="baby-age-icon">👶</text>
         <text class="baby-age-text">{{babyAgeText}}</text>
       </view>
-      <view class="theme-toggle large-tap" bindtap="toggleDarkMode">
+      <view class="theme-toggle" bindtap="toggleDarkMode">
         <text class="theme-icon">{{darkMode ? '☀️' : '🌙'}}</text>
       </view>
     </view>
   </view>
 
   <!-- 宝宝年龄显示卡片 -->
-  <view class="baby-age-card large-tap" wx:if="{{babyAgeText}}" bindtap="goToBaby">
+  <view class="baby-age-card" wx:if="{{babyAgeText}}" bindtap="goToBaby">
     <view class="baby-age-content">
       <text class="baby-age-label">{{babyName}}</text>
       <text class="baby-age-value">今天 {{babyAgeText}} 啦！</text>
@@ -24,7 +24,7 @@
   </view>
 
   <!-- 顶部搜索区（最显眼） -->
-  <view class="search-hero large-tap" bindtap="goToSearch">
+  <view class="search-hero" bindtap="goToSearch">
     <view class="search-box">
       <text class="search-icon">🔍</text>
       <text class="search-placeholder">试试搜索：不睡觉、哭闹、发烧、喂养...</text>
@@ -36,55 +36,76 @@
   <view class="emergency-section">
     <text class="section-title">🚨 宝宝遇到问题？</text>
     <view class="quick-grid">
-      <view class="quick-btn large-tap" bindtap="searchKeyword" data-keyword="不睡觉">
+      <view class="quick-btn" bindtap="searchKeyword" data-keyword="不睡觉">
         <text class="quick-emoji">😴</text>
         <text class="quick-text">不睡觉</text>
       </view>
-      <view class="quick-btn large-tap" bindtap="searchKeyword" data-keyword="哭闹">
+      <view class="quick-btn" bindtap="searchKeyword" data-keyword="哭闹">
         <text class="quick-emoji">😭</text>
         <text class="quick-text">哭闹</text>
       </view>
-      <view class="quick-btn large-tap" bindtap="searchKeyword" data-keyword="发烧">
+      <view class="quick-btn" bindtap="searchKeyword" data-keyword="发烧">
         <text class="quick-emoji">🤒</text>
         <text class="quick-text">发烧</text>
       </view>
-      <view class="quick-btn large-tap" bindtap="searchKeyword" data-keyword="不吃饭">
+      <view class="quick-btn" bindtap="searchKeyword" data-keyword="不吃饭">
         <text class="quick-emoji">🍼</text>
         <text class="quick-text">不吃饭</text>
       </view>
     </view>
   </view>
 
-  <!-- 核心功能区 - 整合收藏入口 -->
-  <view class="core-section">
-    <text class="section-title">✨ 快捷入口</text>
-    <view class="core-grid">
-      <view class="core-card large-tap" bindtap="goToCategory" data-id="age-0-1">
-        <text class="core-emoji">👶</text>
-        <text class="core-title">知识库</text>
+  <!-- 紧急情况快速指南 -->
+  <view class="emergency-guide-section">
+    <view class="emergency-btn" bindtap="showEmergencyGuide">
+      <text class="emergency-icon">🚨</text>
+      <text class="emergency-text">紧急情况快速指南</text>
+      <text class="emergency-arrow">→</text>
+    </view>
+  </view>
+
+  <!-- 按年龄查找（简化版） -->
+  <view class="age-section">
+    <text class="section-title">👶 宝宝多大了？</text>
+    <view class="age-cards">
+      <view class="age-card" bindtap="goToCategory" data-id="age-0-1">
+        <text class="age-emoji">👶</text>
+        <text class="age-title">0-1岁</text>
+        <text class="age-desc">新生儿护理</text>
       </view>
-      <view class="core-card large-tap" bindtap="goToFavorites">
-        <text class="core-emoji">⭐</text>
-        <text class="core-title">我的收藏</text>
+      <view class="age-card" bindtap="goToCategory" data-id="age-1-3">
+        <text class="age-emoji">🧒</text>
+        <text class="age-title">1-3岁</text>
+        <text class="age-desc">幼儿期</text>
       </view>
-      <view class="core-card large-tap" bindtap="showEmergencyGuide">
-        <text class="core-emoji">🚨</text>
-        <text class="core-title">紧急指南</text>
-      </view>
-      <view class="core-card large-tap" bindtap="showDailyTip">
-        <text class="core-emoji">💡</text>
-        <text class="core-title">每日小贴士</text>
+      <view class="age-card" bindtap="goToCategory" data-id="age-3-6">
+        <text class="age-emoji">👦</text>
+        <text class="age-title">3-6岁</text>
+        <text class="age-desc">学龄前</text>
       </view>
     </view>
   </view>
 
-  <!-- 推荐阅读（精简版，只显示2篇） -->
-  <view class="articles-section" wx:if="{{hotArticles.length > 0}}">
-    <text class="section-title">📖 推荐阅读</text>
-    <view class="article-card large-tap" wx:for="{{hotArticles}}" wx:key="id" wx:for-index="idx" wx:if="{{idx < 2}}" bindtap="readArticle" data-id="{{item.id}}">
-      <text class="article-title">{{item.title}}</text>
-      <text class="article-summary">{{item.summary}}</text>
+  <!-- 热门文章（卡片式，易点击） -->
+  <view class="articles-section">
+    <text class="section-title">📖 爸妈都在看</text>
+    <view class="article-card" wx:for="{{hotArticles}}" wx:key="id" bindtap="readArticle" data-id="{{item.id}}">
+      <view class="article-left">
+        <text class="article-title">{{item.title}}</text>
+        <text class="article-summary">{{item.summary}}</text>
+        <view class="article-tags">
+          <text class="mini-tag" wx:for="{{item.tags}}" wx:key="*this" wx:for-item="tag">{{tag}}</text>
+        </view>
+      </view>
+      <text class="article-arrow">→</text>
     </view>
+  </view>
+
+  <!-- 每日小贴士 -->
+  <view class="tip-section" bindtap="showDailyTip">
+    <text class="tip-icon">💡</text>
+    <text class="tip-text">每日育儿小贴士</text>
+    <text class="tip-arrow">›</text>
   </view>
 </view>
 
@@ -93,7 +114,7 @@
   <view class="modal-content emergency-content" catchtap="stopPropagation">
     <view class="modal-header">
       <text class="modal-title">🚨 紧急情况快速指南</text>
-      <text class="modal-close large-tap" bindtap="hideEmergencyGuide">✕</text>
+      <text class="modal-close" bindtap="hideEmergencyGuide">✕</text>
     </view>
     <view class="modal-body emergency-body">
       <scroll-view scroll-y class="emergency-scroll">
@@ -118,13 +139,13 @@
   <view class="modal-content" catchtap="stopPropagation">
     <view class="modal-header">
       <text class="modal-title">💡 每日小贴士</text>
-      <text class="modal-close large-tap" bindtap="hideDailyTip">✕</text>
+      <text class="modal-close" bindtap="hideDailyTip">✕</text>
     </view>
     <view class="modal-body">
       <text class="tip-content">{{dailyTip}}</text>
     </view>
     <view class="modal-footer">
-      <button class="modal-btn large-tap" bindtap="hideDailyTip">知道了</button>
+      <button class="modal-btn" bindtap="hideDailyTip">知道了</button>
     </view>
   </view>
 </view>

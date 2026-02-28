@@ -1,39 +1,38 @@
-/* iOS 设计风格 - 全局样式 - P0修复版 */
+/* iOS 设计风格 - 全局样式 - 新手妈妈优化版 */
 
 page {
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
-  background-color: #FAF8F5;
+  background-color: #FAF8F5;  /* 更柔和的暖灰色，降低粉调 */
   line-height: 1.6;
   transition: background-color 0.3s;
 }
 
-/* ========== 夜间模式优化 - 纯黑背景 + 低饱和度 ========== */
+/* 夜间模式 */
 page.dark-mode {
-  background-color: #000000;
-  color: #E5E5E5;
+  background-color: #1A1A1D;
+  color: #ffffff;
 }
 
-/* ========== 新手妈妈友好配色 - 浅色模式 ========== */
+/* 新手妈妈友好配色 - 浅色模式 */
 :root {
-  --primary-color: #E891A7;
-  --primary-light: #FFF6F8;
-  --success-color: #88C9A8;
-  --warning-color: #F5B885;
-  --danger-color: #E88A85;
+  --primary-color: #E891A7;  /* 更柔和的玫瑰粉，降低饱和度 */
+  --primary-light: #FFF6F8;  /* 极浅粉背景，减少粉色面积 */
+  --success-color: #88C9A8;  /* 更柔和的鼠尾草绿 */
+  --warning-color: #F5B885;  /* 柔和的杏色 */
+  --danger-color: #E88A85;   /* 降低饱和度的红色 */
   
-  --background-color: #FAF8F5;
-  --card-background: #FFFFFF;
-  --card-background-hover: #F6F4F1;
-  --section-bg: #F4F2EF;
-  --highlight-bg: #FDF6F0;
+  --background-color: #FAF8F5;     /* 更柔和的暖灰背景 */
+  --card-background: #FFFFFF;      /* 纯白卡片 */
+  --card-background-hover: #F6F4F1; /* 温暖的悬停色 */
+  --section-bg: #F4F2EF;           /* 浅暖灰章节背景 */
+  --highlight-bg: #FDF6F0;         /* 高亮背景，减少橙调 */
   
-  /* 提高对比度 - 主文字更黑 */
-  --text-primary: #1A1A1A;
-  --text-secondary: #4A4A4A;
-  --text-light: #8A8A8A;
+  --text-primary: #2C2C2C;   /* 深灰黑，保证可读性同时柔和 */
+  --text-secondary: #6B6B6B; /* 中灰色 */
+  --text-light: #A8A8A8;     /* 浅灰色 */
   
-  --border-color: #E8E0D8;
-  --border-medium: #D8CFC4;
+  --border-color: #E8E0D8;   /* 浅暖灰边框，更清晰 */
+  --border-medium: #D8CFC4;  /* 中等边框 */
   
   --shadow-color: rgba(62, 62, 62, 0.06);
   --card-shadow: 0 4rpx 16rpx rgba(62, 62, 62, 0.08);
@@ -49,47 +48,46 @@ page.dark-mode {
   --warm-blue: #E3F2FD;
 }
 
-/* ========== 夜间模式配色优化 - 纯黑背景 + 低饱和度 ========== */
+/* 新手妈妈友好配色 - 深色模式 */
 page.dark-mode {
-  --primary-color: #C78BA8;
-  --primary-light: #2D2A2D;
-  --success-color: #7BA88E;
-  --warning-color: #C99A6B;
-  --danger-color: #C47A75;
+  --primary-color: #FF8AB3;  /* 深色模式下的粉色 */
+  --primary-light: #3D2A33;
+  --success-color: #7CB342;
+  --warning-color: #FFA726;
+  --danger-color: #EF5350;
   
-  --background-color: #000000;
-  --card-background: #1A1A1A;
-  --card-background-hover: #252525;
-  --section-bg: #151515;
-  --highlight-bg: #2A2A2A;
+  --background-color: #1A1A1D;     /* 深灰背景 */
+  --card-background: #252528;      /* 深灰卡片 */
+  --card-background-hover: #2D2D31;
+  --section-bg: #1E1E21;
+  --highlight-bg: #2A2A2D;
   
-  /* 提高对比度 - 深色模式下文字更亮 */
-  --text-primary: #E5E5E5;
+  --text-primary: #F5F5F5;  /* 接近白色 */
   --text-secondary: #B0B0B0;
-  --text-light: #707070;
+  --text-light: #6E6E6E;
   
-  --border-color: #2A2A2A;
-  --border-medium: #353535;
+  --border-color: #353538;
+  --border-medium: #404045;
   
-  --shadow-color: rgba(0, 0, 0, 0.5);
-  --card-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.4);
-  --soft-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.3);
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --card-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.2);
+  --soft-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
   
-  --gradient-start: #5A4A5C;
-  --gradient-end: #7A6A7C;
+  --gradient-start: #8E24AA;
+  --gradient-end: #BA68C8;
 }
 
-/* ========== 通用容器 ========== */
+/* 通用容器 */
 .container {
   min-height: 100vh;
   padding-bottom: 100rpx;
   background-color: var(--background-color);
 }
 
-/* ========== 卡片优化 ========== */
+/* 卡片优化 - 温暖柔和 */
 .card {
   background: var(--card-background);
-  border-radius: 16rpx;
+  border-radius: 16rpx;  /* 更圆润 */
   padding: 32rpx;
   margin: 24rpx;
   box-shadow: var(--card-shadow);
@@ -100,7 +98,7 @@ page.dark-mode {
   background: var(--card-background-hover);
 }
 
-/* ========== 文本样式 - 提高对比度 ========== */
+/* 文本样式 - 柔和对比 */
 .text-primary {
   color: var(--text-primary);
   font-weight: 500;
@@ -111,13 +109,13 @@ page.dark-mode {
   font-size: 28rpx;
 }
 
-/* ========== 标签优化 ========== */
+/* 标签优化 - 温暖色系 */
 .tag {
   display: inline-block;
   padding: 10rpx 20rpx;
   background: var(--section-bg);
   color: var(--text-secondary);
-  border-radius: 20rpx;
+  border-radius: 20rpx;  /* 更圆润 */
   font-size: 24rpx;
   margin-right: 16rpx;
   margin-bottom: 16rpx;
@@ -140,12 +138,12 @@ page.dark-mode {
   color: var(--danger-color);
 }
 
-/* ========== 按钮优化 ========== */
+/* 按钮优化 - 温暖柔和 */
 .btn {
   background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
   color: #FFFFFF;
   border: none;
-  border-radius: 24rpx;
+  border-radius: 24rpx;  /* 更圆润 */
   padding: 28rpx 56rpx;
   font-size: 32rpx;
   font-weight: 500;
@@ -169,11 +167,11 @@ page.dark-mode {
   background: var(--section-bg);
 }
 
-/* ========== 搜索框优化 ========== */
+/* 搜索框优化 */
 .search-box {
   background: var(--card-background);
   border: 2rpx solid var(--border-color);
-  border-radius: 24rpx;
+  border-radius: 24rpx;  /* 更圆润 */
   padding: 24rpx 28rpx;
   display: flex;
   align-items: center;
@@ -185,11 +183,11 @@ page.dark-mode {
   font-size: 28rpx;
 }
 
-/* ========== 快捷按钮优化 ========== */
+/* 快捷按钮优化 - 温暖色 */
 .quick-btn {
   background: var(--card-background);
   border: 1rpx solid var(--border-color);
-  border-radius: 20rpx;
+  border-radius: 20rpx;  /* 更圆润 */
   padding: 24rpx;
   display: flex;
   flex-direction: column;
@@ -203,7 +201,7 @@ page.dark-mode {
   transform: scale(0.97);
 }
 
-/* ========== 分类卡片优化 ========== */
+/* 分类卡片优化 */
 .age-card {
   background: var(--card-background);
   border: 1rpx solid var(--border-color);
@@ -219,7 +217,7 @@ page.dark-mode {
   transform: scale(0.97);
 }
 
-/* ========== 文章卡片优化 ========== */
+/* 文章卡片优化 */
 .article-card {
   background: var(--card-background);
   border: 1rpx solid var(--border-color);
@@ -234,16 +232,16 @@ page.dark-mode {
   background: var(--card-background-hover);
 }
 
-/* ========== 紧急按钮 - 低饱和度 ========== */
+/* 紧急按钮 - 柔和的红色系 */
 .emergency-btn {
-  background: linear-gradient(135deg, #C47A75 0%, #B56A65 100%);
+  background: linear-gradient(135deg, #E88A85 0%, #E06A65 100%);
   border: none;
   border-radius: 50rpx;
   padding: 24rpx 48rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4rpx 16rpx rgba(196, 122, 117, 0.25);
+  box-shadow: 0 4rpx 16rpx rgba(224, 106, 101, 0.25);
 }
 
 .emergency-btn:active {
@@ -251,10 +249,10 @@ page.dark-mode {
   transform: scale(0.98);
 }
 
-/* ========== Modal 弹窗优化 ========== */
+/* Modal 弹窗优化 */
 .modal-content {
   background: var(--card-background);
-  border-radius: 24rpx;
+  border-radius: 24rpx;  /* 更圆润 */
   padding: 48rpx;
   box-shadow: 0 8rpx 32rpx rgba(62, 62, 62, 0.15);
   max-height: 80vh;
@@ -262,7 +260,7 @@ page.dark-mode {
   border: 1rpx solid var(--border-color);
 }
 
-/* ========== 列表项优化 ========== */
+/* 列表项优化 */
 .list-item {
   background: var(--card-background);
   padding: 32rpx;
@@ -274,7 +272,7 @@ page.dark-mode {
   background: var(--card-background-hover);
 }
 
-/* ========== 紧急指南优化 ========== */
+/* 紧急指南优化 */
 .emergency-item {
   background: var(--section-bg);
   border: 1rpx solid var(--border-color);
@@ -283,7 +281,7 @@ page.dark-mode {
   margin-bottom: 20rpx;
 }
 
-/* ========== 标题优化 ========== */
+/* 标题优化 */
 .modal-title,
 .section-title {
   color: var(--text-primary);
@@ -307,7 +305,7 @@ page.dark-mode {
   margin-bottom: 16rpx;
 }
 
-/* ========== 章节背景 ========== */
+/* 章节背景 */
 .section-bg {
   background: var(--section-bg);
   border-radius: 16rpx;
@@ -315,14 +313,14 @@ page.dark-mode {
   margin-bottom: 32rpx;
 }
 
-/* ========== 高亮背景 ========== */
+/* 高亮背景 */
 .highlight-bg {
   background: var(--highlight-bg);
   border-radius: 12rpx;
   padding: 12rpx 20rpx;
 }
 
-/* ========== 搜索英雄区域 ========== */
+/* 搜索英雄区域 */
 .search-hero {
   background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
   padding: 48rpx 32rpx;
@@ -331,7 +329,7 @@ page.dark-mode {
   box-shadow: 0 8rpx 24rpx rgba(255, 107, 157, 0.2);
 }
 
-/* ========== 图标按钮优化 ========== */
+/* 图标按钮优化 */
 .icon-btn {
   width: 80rpx;
   height: 80rpx;
@@ -346,18 +344,18 @@ page.dark-mode {
   background: var(--section-bg);
 }
 
-/* ========== 深色模式特殊优化 ========== */
+/* 深色模式特殊优化 */
 page.dark-mode .emergency-btn {
-  background: linear-gradient(135deg, #8A3A35 0%, #A54A45 100%);
-  box-shadow: 0 4rpx 16rpx rgba(138, 58, 53, 0.3);
+  background: linear-gradient(135deg, #C62828 0%, #E53935 100%);
+  box-shadow: 0 4rpx 16rpx rgba(198, 40, 40, 0.3);
 }
 
 page.dark-mode .search-hero {
-  background: linear-gradient(135deg, #4A3F5C 0%, #6A5A7C 100%);
-  box-shadow: 0 8rpx 24rpx rgba(74, 63, 92, 0.3);
+  background: linear-gradient(135deg, #7B1FA2 0%, #9C27B0 100%);
+  box-shadow: 0 8rpx 24rpx rgba(123, 31, 162, 0.3);
 }
 
-/* ========== 辅助类 ========== */
+/* 辅助类 */
 .card-group {
   display: flex;
   flex-direction: column;
@@ -403,7 +401,7 @@ page.dark-mode .search-hero {
   line-height: 1.6;
 }
 
-/* ========== 动画 ========== */
+/* 动画 */
 .fade-in {
   animation: fadeIn 0.4s ease-out;
 }
@@ -434,7 +432,7 @@ page.dark-mode .search-hero {
   }
 }
 
-/* ========== 灵动岛/刘海适配 ========== */
+/* 灵动岛/刘海适配 */
 .safe-area-top {
   padding-top: env(safe-area-inset-top);
 }
@@ -443,13 +441,14 @@ page.dark-mode .search-hero {
   padding-bottom: env(safe-area-inset-bottom);
 }
 
-/* ==================== P0修复: 热区优化 ==================== */
+/* ==================== P1视觉问题修复 ==================== */
 
-/* 统一88rpx最小热区 */
+/* 修复2: 返回按钮热区优化 - 确保最小88rpx热区 */
 .page {
   position: relative;
 }
 
+/* 导航栏返回按钮热区优化 */
 .navigate-back {
   min-width: 88rpx !important;
   min-height: 88rpx !important;
@@ -459,6 +458,7 @@ page.dark-mode .search-hero {
   justify-content: center !important;
 }
 
+/* 页面级返回按钮热区优化 */
 .page-nav-back {
   position: relative;
   z-index: 1000;
@@ -470,6 +470,7 @@ page.dark-mode .search-hero {
   justify-content: center;
 }
 
+/* 增大所有可点击元素的最小热区 */
 button, navigator, .clickable {
   min-height: 88rpx;
   min-width: 88rpx;
@@ -484,36 +485,8 @@ button, navigator, .clickable {
   padding-bottom: max(env(safe-area-inset-bottom), 34rpx);
 }
 
-/* ==================== P0修复结束 ==================== */
-
-/* ==================== P2修复：图标尺寸统一规范 ==================== */
-/* 统一图标尺寸，解决P2问题4 */
-.icon-small {
-  font-size: 32rpx;
-}
-
-.icon-medium {
-  font-size: 40rpx;
-}
-
-.icon-large {
-  font-size: 48rpx;
-}
-
-/* 语音按钮使用统一样式 */
-.voice-btn {
-  font-size: 40rpx; /* 使用icon-medium */
-  padding: 8rpx 16rpx;
-  margin-right: 8rpx;
-}
-
-/* 搜索图标使用统一样式 */
-.search-icon {
-  font-size: 36rpx; /* 接近icon-medium */
-  margin-right: 16rpx;
-}
-
-/* 主题切换图标使用统一样式 */
-.theme-icon {
-  font-size: 40rpx; /* 使用icon-medium */
-}
+/* ==================== P1视觉问题修复结束 ==================== */
+/* 图标尺寸规范 - P2修复 */
+.icon-small { font-size: 32rpx; }
+.icon-medium { font-size: 40rpx; }
+.icon-large { font-size: 48rpx; }

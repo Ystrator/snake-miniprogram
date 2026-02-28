@@ -12,53 +12,74 @@
   <view class="search-bar">
     <text class="search-icon">🔍</text>
     <input class="search-input"
-           placeholder="搜索育儿知识..."
+           placeholder="试试搜索：宝宝不睡觉、哭闹、发烧..."
            value="{{keyword}}"
            bindinput="onSearchInput"
            confirm-type="search"
            bindconfirm="doSearch" />
+    <text class="voice-btn" bindtap="startVoiceSearch">🎤</text>
     <text class="search-btn" bindtap="doSearch">搜索</text>
   </view>
 
-  <!-- 搜索结果 -->
-  <view class="search-results" wx:if="{{searchResults.length > 0}}">
-    <text class="result-count">找到 {{searchResults.length}} 篇相关文章</text>
-
-    <!-- 文章列表 -->
-    <view class="article-list">
-      <view class="article-card {{item.isTopMatch ? 'top-match' : ''}}" wx:for="{{searchResults}}" wx:key="id" bindtap="readArticle" data-id="{{item.id}}">
-        <view class="article-header">
-          <text class="article-title">{{item.title}}</text>
-          <view class="badges" wx:if="{{item.isTopMatch || item.isRecommended}}">
-            <text class="badge hot" wx:if="{{item.isTopMatch}}">🔥 最相关</text>
-            <text class="badge recommend" wx:if="{{item.isRecommended && !item.isTopMatch}}">⭐ 推荐</text>
-          </view>
-        </view>
-
-        <text class="article-description">{{item.description || item.summary}}</text>
-
-        <view class="article-meta">
-          <text class="article-category">{{item.categoryName}}</text>
-          <text class="article-tags" wx:if="{{item.tags}}">
-            <text class="tag" wx:for="{{item.tags}}" wx:key="*this" wx:for-item="tag">#{{tag}}</text>
-          </text>
-        </view>
-      </view>
+  <!-- 搜索历史 -->
+  <view class="search-history" wx:if="{{!searched && searchHistory.length > 0}}">
+    <view class="history-header">
+      <text class="history-title">🕐 搜索历史</text>
+      <text class="history-clear" bindtap="clearSearchHistory">清空</text>
     </view>
-
-    <!-- 相关文章推荐 -->
-    <view class="related-section" wx:if="{{relatedArticles.length > 0}}">
-      <view class="related-header">
-        <text class="related-title">📚 相关文章推荐</text>
-      </view>
-      <view class="related-list">
-        <view class="related-item" wx:for="{{relatedArticles}}" wx:key="id" bindtap="readArticle" data-id="{{item.id}}">
-          <text class="related-title-text">{{item.title}}</text>
-          <text class="related-arrow">→</text>
-        </view>
-      </view>
+    <view class="history-list">
+      <text class="history-item" wx:for="{{searchHistory}}" wx:key="*this" bindtap="quickSearch" data-keyword="{{item}}">
+        {{item}}
+      </text>
     </view>
   </view>
+
+  <!-- 搜索结果 -->
+  <scroll-view class="search-results-scroll" scroll-y="true" refresher-enabled="true" refresher-triggered="{{refreshing}}" bindrefresherrefresh="onPullDownRefresh" wx:if="{{searchResults.length > 0}}">
+    <view class="search-results">
+      <text class="result-count">找到 {{searchResults.length}} 篇相关文章</text>
+
+      <!-- 文章列表 -->
+      <view class="article-list">
+        <view class="article-card {{item.isTopMatch ? 'top-match' : ''}}" wx:for="{{searchResults}}" wx:key="id" bindtap="readArticle" data-id="{{item.id}}">
+          <view class="article-icon-placeholder">
+            <text class="placeholder-icon">📄</text>
+          </view>
+          <view class="article-content">
+            <view class="article-header">
+              <text class="article-title">{{item.title}}</text>
+              <view class="badges" wx:if="{{item.isTopMatch || item.isRecommended}}">
+                <text class="badge hot" wx:if="{{item.isTopMatch}}">🔥 最相关</text>
+                <text class="badge recommend" wx:if="{{item.isRecommended && !item.isTopMatch}}">⭐ 推荐</text>
+              </view>
+            </view>
+
+            <text class="article-description">{{item.description || item.summary}}</text>
+
+            <view class="article-meta">
+              <text class="article-category">{{item.categoryName}}</text>
+              <text class="article-tags" wx:if="{{item.tags}}">
+                <text class="tag" wx:for="{{item.tags}}" wx:key="*this" wx:for-item="tag">#{{tag}}</text>
+              </text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 相关文章推荐 -->
+      <view class="related-section" wx:if="{{relatedArticles.length > 0}}">
+        <view class="related-header">
+          <text class="related-title">📚 相关文章推荐</text>
+        </view>
+        <view class="related-list">
+          <view class="related-item" wx:for="{{relatedArticles}}" wx:key="id" bindtap="readArticle" data-id="{{item.id}}">
+            <text class="related-title-text">{{item.title}}</text>
+            <text class="related-arrow">→</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
 
   <!-- 空状态 -->
   <view class="empty-state" wx:if="{{searched && searchResults.length === 0}}">

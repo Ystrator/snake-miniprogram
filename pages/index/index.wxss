@@ -1,4 +1,15 @@
-/* 首页样式 - 新手妈妈友好版 */
+/* 首页样式 - P0修复版 */
+
+/* ========== 全局热区优化 - 统一88rpx ========== */
+.large-tap {
+  min-width: 88rpx !important;
+  min-height: 88rpx !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* ========== 容器与背景 ========== */
 .container {
   min-height: 100vh;
   background: var(--background-color);
@@ -6,12 +17,12 @@
   transition: background 0.3s;
 }
 
-/* 夜间模式 */
+/* ========== 夜间模式优化 - 纯黑背景 + 低饱和度 ========== */
 .container.dark-mode {
   background: #000000;
 }
 
-/* 顶部状态栏 */
+/* ========== 顶部状态栏 ========== */
 .status-bar {
   display: flex;
   justify-content: space-between;
@@ -66,7 +77,7 @@
   font-size: 40rpx;
 }
 
-/* 宝宝年龄卡片 */
+/* ========== 宝宝年龄卡片 ========== */
 .baby-age-card {
   display: flex;
   justify-content: space-between;
@@ -102,7 +113,7 @@
   color: #667eea;
 }
 
-/* 搜索英雄区 */
+/* ========== 搜索英雄区 ========== */
 .search-hero {
   padding: 40rpx 32rpx;
   background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
@@ -137,7 +148,7 @@
   color: rgba(255, 255, 255, 0.8);
 }
 
-/* 紧急问题区 */
+/* ========== 紧急问题区 ========== */
 .emergency-section {
   padding: 32rpx;
 }
@@ -163,7 +174,7 @@
   padding: 24rpx 16rpx;
   background: var(--card-background);
   border-radius: 16rpx;
-  box-shadow: 0 2rpx 8rpx var(--shadow-color);
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.12);
   transition: all 0.2s;
 }
 
@@ -179,105 +190,60 @@
 
 .quick-text {
   font-size: 24rpx;
-  color: #333;
+  color: var(--text-primary);
   font-weight: 600;
 }
 
-/* 年龄区 */
-.age-section {
+/* ========== 核心功能区（新增 - 整合收藏入口） ========== */
+.core-section {
   padding: 0 32rpx 32rpx;
 }
 
-.age-cards {
-  display: flex;
+.core-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 16rpx;
 }
 
-.age-card {
-  flex: 1;
+.core-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 32rpx 16rpx;
+  padding: 40rpx 24rpx;
   background: var(--card-background);
   border-radius: 20rpx;
-  box-shadow: 0 4rpx 16rpx var(--shadow-color);
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.15);
   transition: all 0.2s;
+  min-height: 160rpx;
 }
 
-.age-card:active {
-  transform: translateY(-4rpx);
-  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.12);
+.core-card:active {
+  transform: scale(0.97);
 }
 
-.age-emoji {
-  font-size: 80rpx;
-  margin-bottom: 16rpx;
+.core-emoji {
+  font-size: 72rpx;
+  margin-bottom: 12rpx;
 }
 
-.age-title {
-  display: block;
-  font-size: 32rpx;
-  font-weight: 700;
+.core-title {
+  font-size: 28rpx;
+  font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 8rpx;
+  text-align: center;
 }
 
-.age-desc {
-  display: block;
-  font-size: 24rpx;
-  color: var(--text-secondary);
-}
-
-/* 紧急情况快速指南区 */
-.emergency-guide-section {
-  padding: 0 32rpx 32rpx;
-}
-
-.emergency-btn {
-  display: flex;
-  align-items: center;
-  padding: 32rpx;
-  background: linear-gradient(135deg, #FF3B30 0%, #FF6B6B 100%);
-  border-radius: 20rpx;
-  box-shadow: 0 4rpx 16rpx rgba(255, 59, 48, 0.3);
-  transition: all 0.2s;
-}
-
-.emergency-btn:active {
-  transform: scale(0.98);
-}
-
-.emergency-icon {
-  font-size: 64rpx;
-  margin-right: 16rpx;
-}
-
-.emergency-text {
-  flex: 1;
-  font-size: 32rpx;
-  font-weight: 700;
-  color: #FFFFFF;
-}
-
-.emergency-arrow {
-  font-size: 56rpx;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-/* 文章区 */
+/* ========== 推荐阅读区（精简版 - 只显示2篇） ========== */
 .articles-section {
   padding: 32rpx;
 }
 
 .article-card {
-  display: flex;
-  align-items: center;
   padding: 32rpx;
   background: var(--card-background);
   border-radius: 20rpx;
   margin-bottom: 16rpx;
-  box-shadow: 0 4rpx 16rpx var(--shadow-color);
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.15);
   transition: all 0.2s;
 }
 
@@ -286,25 +252,20 @@
   background: var(--background-color);
 }
 
-.article-left {
-  flex: 1;
-}
-
 .article-title {
   display: block;
   font-size: 32rpx;
   font-weight: 700;
   color: var(--text-primary);
   margin-bottom: 12rpx;
-  line-height: 1.4;
+  line-height: 1.8;
 }
 
 .article-summary {
   display: block;
   font-size: 26rpx;
   color: var(--text-secondary);
-  margin-bottom: 16rpx;
-  line-height: 1.5;
+  line-height: 1.8;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -312,63 +273,7 @@
   -webkit-box-orient: vertical;
 }
 
-.article-tags {
-  display: flex;
-  gap: 8rpx;
-  flex-wrap: wrap;
-}
-
-.mini-tag {
-  display: inline-block;
-  padding: 4rpx 12rpx;
-  background: rgba(0, 122, 255, 0.1);
-  color: #007AFF;
-  border-radius: 12rpx;
-  font-size: 22rpx;
-  font-weight: 600;
-}
-
-.article-arrow {
-  font-size: 56rpx;
-  color: var(--text-secondary);
-  margin-left: 16rpx;
-  font-weight: 300;
-}
-
-/* 每日小贴士 */
-.tip-section {
-  display: flex;
-  align-items: center;
-  padding: 32rpx;
-  margin: 0 32rpx 32rpx;
-  background: linear-gradient(135deg, #FFA07A 0%, #FF6B6B 100%);
-  border-radius: 20rpx;
-  box-shadow: 0 4rpx 16rpx rgba(255, 107, 107, 0.3);
-  transition: all 0.2s;
-}
-
-.tip-section:active {
-  transform: scale(0.98);
-}
-
-.tip-icon {
-  font-size: 64rpx;
-  margin-right: 16rpx;
-}
-
-.tip-text {
-  flex: 1;
-  font-size: 32rpx;
-  font-weight: 700;
-  color: #FFFFFF;
-}
-
-.tip-arrow {
-  font-size: 48rpx;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-/* 弹窗 */
+/* ========== 弹窗 ========== */
 .modal {
   position: fixed;
   top: 0;
@@ -473,7 +378,7 @@
   font-size: 32rpx;
   font-weight: 700;
   color: #FF3B30;
-  line-height: 1.4;
+  line-height: 1.8;
 }
 
 .emergency-steps {
@@ -486,8 +391,13 @@
   display: flex;
   align-items: flex-start;
   font-size: 28rpx;
-  line-height: 1.6;
-  color: #333333;
+  line-height: 2.0;
+  margin-bottom: 16rpx;
+  padding: 16rpx;
+  background: rgba(102, 126, 234, 0.05);
+  border-radius: 12rpx;
+  border-left: 4rpx solid #667eea;
+  color: var(--text-primary);
 }
 
 .step-number {
@@ -522,4 +432,39 @@
   border-radius: 12rpx;
   font-size: 32rpx;
   font-weight: 600;
+}
+
+/* ========== 夜间模式特殊优化 ========== */
+/* 纯黑背景 + 低饱和度 + 高对比度 */
+.container.dark-mode .baby-age-card {
+  background: rgba(102, 126, 234, 0.15);
+  border-color: rgba(102, 126, 234, 0.3);
+}
+
+.container.dark-mode .search-hero {
+  background: linear-gradient(135deg, #4A3F5C 0%, #6A5A7C 100%);
+}
+
+.container.dark-mode .core-card,
+.container.dark-mode .article-card,
+.container.dark-mode .quick-btn {
+  background: #1A1A1A;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.4);
+}
+
+.container.dark-mode .article-card:active {
+  background: #252525;
+}
+
+.container.dark-mode .core-card:active,
+.container.dark-mode .quick-btn:active {
+  background: #252525;
+}
+
+.container.dark-mode .emergency-content {
+  background: #1A1A1A;
+}
+
+.container.dark-mode .step-item {
+  color: #E5E5E5;
 }

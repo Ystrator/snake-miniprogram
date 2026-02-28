@@ -459,3 +459,7 @@
 .quick-answer-box {
   animation: slideIn 0.5s ease-out;
 }
+/* 段落间距 - P2修复 */
+.paragraph {
+  margin-bottom: 48rpx;
+}

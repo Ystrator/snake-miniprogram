@@ -1,12 +1,37 @@
-<!--收藏页面-->
+<!--收藏页面 - 优化版本-->
 <view class="container">
   <view class="favorites-header">
     <text class="header-title">我的收藏</text>
     <text class="header-count">{{favorites.length}} 篇文章</text>
   </view>
 
-  <view class="favorites-list" wx:if="{{favorites.length > 0}}">
-    <view class="article-item" wx:for="{{favorites}}" wx:key="id" bindtap="readArticle" data-id="{{item.id}}">
+  <!-- 搜索和筛选栏 -->
+  <view class="filter-bar" wx:if="{{favorites.length > 0}}">
+    <view class="search-box">
+      <text class="search-icon">🔍</text>
+      <input class="search-input"
+             placeholder="搜索收藏的文章..."
+             value="{{searchKeyword}}"
+             bindinput="onSearchInput" />
+    </view>
+    <view class="category-filter">
+      <text class="filter-item {{selectedCategory === '' ? 'active' : ''}}" bindtap="filterByCategory" data-category="">
+        全部
+      </text>
+      <text class="filter-item {{selectedCategory === 'age-0-1' ? 'active' : ''}}" bindtap="filterByCategory" data-category="age-0-1">
+        0-1岁
+      </text>
+      <text class="filter-item {{selectedCategory === 'age-1-3' ? 'active' : ''}}" bindtap="filterByCategory" data-category="age-1-3">
+        1-3岁
+      </text>
+      <text class="filter-item {{selectedCategory === 'age-3-6' ? 'active' : ''}}" bindtap="filterByCategory" data-category="age-3-6">
+        3-6岁
+      </text>
+    </view>
+  </view>
+
+  <view class="favorites-list" wx:if="{{filteredFavorites.length > 0}}">
+    <view class="article-item" wx:for="{{filteredFavorites}}" wx:key="id" bindtap="readArticle" data-id="{{item.id}}">
       <view class="article-content">
         <text class="article-title">{{item.title}}</text>
         <text class="article-summary">{{item.summary}}</text>
@@ -22,5 +47,11 @@
     <text class="empty-icon">⭐</text>
     <text class="empty-text">还没有收藏的文章</text>
     <text class="empty-hint">去发现更多育儿知识吧</text>
+  </view>
+
+  <view class="empty-state" wx:if="{{favorites.length > 0 && filteredFavorites.length === 0}}">
+    <text class="empty-icon">🔍</text>
+    <text class="empty-text">没有找到匹配的文章</text>
+    <text class="empty-hint">试试其他搜索词或分类</text>
   </view>
 </view>
