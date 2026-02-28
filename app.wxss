@@ -1,84 +1,107 @@
-/* iOS 设计风格 - 全局样式 - 优化配色方案 */
+/* iOS 设计风格 - 全局样式 - 新手妈妈优化版 */
 
 page {
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
-  background-color: #F5F5F7;  /* 稍微深一点的背景，减少刺眼的白色 */
+  background-color: #FFFBF7;  /* 温暖的米白色，类似婴儿用品包装 */
   line-height: 1.6;
   transition: background-color 0.3s;
 }
 
 /* 夜间模式 */
 page.dark-mode {
-  background-color: #000000;
+  background-color: #1A1A1D;
   color: #ffffff;
 }
 
-/* iOS 标准配色 - 浅色模式（优化版） */
+/* 新手妈妈友好配色 - 浅色模式 */
 :root {
-  --primary-color: #007AFF;
-  --success-color: #34C759;
-  --warning-color: #FF9500;
-  --danger-color: #FF3B30;
-  --background-color: #F5F5F7;  /* 优化：浅灰蓝色背景 */
-  --card-background: #FFFFFF;     /* 保持纯白卡片 */
-  --card-background-hover: #F9F9FB;  /* 添加悬停背景 */
-  --text-primary: #000000;
-  --text-secondary: #666666;   /* 加深灰色，增强对比度 */
-  --border-color: #E0E0E0;     /* 加深的边框颜色 */
-  --shadow-color: rgba(0, 0, 0, 0.08);
-  --gradient-start: #667eea;
-  --end-color: #764ba2;
-  --card-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);  /* 加深阴影 */
-  --section-bg: #FAFAFC;     /* 章节背景色，略深于整体背景 */
-  --highlight-bg: #FFF8E1;     /* 高亮背景色 */
+  --primary-color: #FF6B9D;  /* 温柔的粉色，温暖但不过分 */
+  --primary-light: #FFF0F5;  /* 浅粉背景 */
+  --success-color: #95D475;  /* 柔和的绿色 */
+  --warning-color: #FFB74D;  /* 温暖的橙色 */
+  --danger-color: #FF8A80;   /* 柔和的红色 */
+  
+  --background-color: #FFFBF7;     /* 温暖米白 */
+  --card-background: #FFFFFF;      /* 纯白卡片 */
+  --card-background-hover: #FFF8F0; /* 温暖的悬停色 */
+  --section-bg: #FFF9F5;           /* 浅暖灰章节背景 */
+  --highlight-bg: #FFF0E6;         /* 高亮背景 */
+  
+  --text-primary: #3E3E3E;   /* 深灰色，比纯黑柔和 */
+  --text-secondary: #757575; /* 中灰色 */
+  --text-light: #BDBDBD;     /* 浅灰色 */
+  
+  --border-color: #F0E6DD;   /* 浅暖灰边框 */
+  --border-medium: #E0D0C0;  /* 中等边框 */
+  
+  --shadow-color: rgba(62, 62, 62, 0.06);
+  --card-shadow: 0 4rpx 16rpx rgba(62, 62, 62, 0.08);
+  --soft-shadow: 0 2rpx 8rpx rgba(62, 62, 62, 0.04);
+  
+  --gradient-start: #FF9A9E;
+  --gradient-end: #FECFEF;
+  
+  --warm-pink: #FFF0F5;
+  --warm-peach: #FFF8E7;
+  --warm-lavender: #F3E5F5;
+  --warm-mint: #E8F5E9;
+  --warm-blue: #E3F2FD;
 }
 
-/* iOS 标准配色 - 深色模式（优化版） */
+/* 新手妈妈友好配色 - 深色模式 */
 page.dark-mode {
-  --primary-color: #0A84FF;
-  --success-color: #32D74B;
-  --warning-color: #FF9F0A;
-  --danger-color: #FF453A;
-  --background-color: #1A1A1D;     /* 深灰色背景，不是纯黑 */
-  --card-background: #2C2C2E;     /* 深灰色卡片 */
-  --card-background-hover: #343436;
-  --text-primary: #FFFFFF;
-  --text-secondary: #A0A0A0;
-  --border-color: #3A3A3C;
-  --shadow-color: rgba(0, 0, 0, 0.3);
-  --gradient-start: #5856D6;
-  --gradient-end: #AF52DE;
-  --card-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.3);
-  --section-bg: #1E1E20;     /* 深色章节背景 */
+  --primary-color: #FF8AB3;  /* 深色模式下的粉色 */
+  --primary-light: #3D2A33;
+  --success-color: #7CB342;
+  --warning-color: #FFA726;
+  --danger-color: #EF5350;
+  
+  --background-color: #1A1A1D;     /* 深灰背景 */
+  --card-background: #252528;      /* 深灰卡片 */
+  --card-background-hover: #2D2D31;
+  --section-bg: #1E1E21;
   --highlight-bg: #2A2A2D;
+  
+  --text-primary: #F5F5F5;  /* 接近白色 */
+  --text-secondary: #B0B0B0;
+  --text-light: #6E6E6E;
+  
+  --border-color: #353538;
+  --border-medium: #404045;
+  
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --card-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.2);
+  --soft-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+  
+  --gradient-start: #8E24AA;
+  --gradient-end: #BA68C8;
 }
 
 /* 通用容器 */
 .container {
   min-height: 100vh;
   padding-bottom: 100rpx;
-  background-color: var(--background-color);  /* 使用CSS变量 */
+  background-color: var(--background-color);
 }
 
-/* iOS 风格卡片（优化版） */
+/* 卡片优化 - 温暖柔和 */
 .card {
   background: var(--card-background);
-  border-radius: 12rpx;
+  border-radius: 16rpx;  /* 更圆润 */
   padding: 32rpx;
   margin: 24rpx;
   box-shadow: var(--card-shadow);
-  border: 1rpx solid var(--border-color);  /* 添加边框增强对比 */
+  border: 1rpx solid var(--border-color);
 }
 
-/* 卡片悬停效果（浅色模式） */
 .card:active {
   background: var(--card-background-hover);
 }
 
-/* 文本样式（优化对比度） */
+/* 文本样式 - 柔和对比 */
 .text-primary {
   color: var(--text-primary);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .text-secondary {
@@ -86,81 +109,155 @@ page.dark-mode {
   font-size: 28rpx;
 }
 
-/* 小标签样式（优化） */
+/* 标签优化 - 温暖色系 */
 .tag {
   display: inline-block;
-  padding: 8rpx 16rpx;
-  background: #F0F0F0;  /* 更明显的灰色背景 */
-  color: #666666;
-  border-radius: 16rpx;
+  padding: 10rpx 20rpx;
+  background: var(--section-bg);
+  color: var(--text-secondary);
+  border-radius: 20rpx;  /* 更圆润 */
   font-size: 24rpx;
   margin-right: 16rpx;
   margin-bottom: 16rpx;
+  border: 1rpx solid var(--border-color);
 }
 
 .tag.primary {
-  background: rgba(0, 122, 255, 0.08);
+  background: var(--primary-light);
   color: var(--primary-color);
+  border-color: var(--primary-color);
 }
 
 .tag.warning {
-  background: rgba(255, 149, 0, 0.08);
+  background: var(--warm-peach);
   color: var(--warning-color);
 }
 
 .tag.danger {
-  background: rgba(255, 59, 48, 0.08);
+  background: #FFEBEE;
   color: var(--danger-color);
 }
 
-/* 章节背景（新增） */
-.section-bg {
-  background: var(--section-bg);
-  border-radius: 12rpx;
-  padding: 24rpx;
-  margin-bottom: 32rpx;
-}
-
-/* 高亮背景（新增） */
-.highlight-bg {
-  background: var(--highlight-bg);
-  border-radius: 8rpx;
-  padding: 8rpx 16rpx;
-}
-
-/* 卡片组优化 */
-.card-group {
-  display: flex;
-  flex-direction: column;
-  gap: 24rpx;
-}
-
-/* 优化按钮样式 */
+/* 按钮优化 - 温暖柔和 */
 .btn {
-  background: var(--primary-color);
+  background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
   color: #FFFFFF;
   border: none;
-  border-radius: 12rpx;
-  padding: 24rpx 48rpx;
+  border-radius: 24rpx;  /* 更圆润 */
+  padding: 28rpx 56rpx;
   font-size: 32rpx;
-  font-weight: 600;
+  font-weight: 500;
   transition: all 0.3s;
-  box-shadow: 0 2rpx 8rpx rgba(0, 122, 255, 0.3);
+  box-shadow: 0 4rpx 12rpx rgba(255, 107, 157, 0.25);
 }
 
 .btn:active {
-  opacity: 0.8;
-  transform: scale(0.98);
+  opacity: 0.85;
+  transform: scale(0.97);
 }
 
 .btn-secondary {
-  background: #F0F0F0;
-  color: #666666;
-  box-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.05);
+  background: var(--card-background);
+  color: var(--text-primary);
+  border: 2rpx solid var(--border-color);
+  box-shadow: var(--soft-shadow);
 }
 
 .btn-secondary:active {
-  background: #E5E5EA;
+  background: var(--section-bg);
+}
+
+/* 搜索框优化 */
+.search-box {
+  background: var(--card-background);
+  border: 2rpx solid var(--border-color);
+  border-radius: 24rpx;  /* 更圆润 */
+  padding: 24rpx 28rpx;
+  display: flex;
+  align-items: center;
+  box-shadow: var(--soft-shadow);
+}
+
+.search-placeholder {
+  color: var(--text-light);
+  font-size: 28rpx;
+}
+
+/* 快捷按钮优化 - 温暖色 */
+.quick-btn {
+  background: var(--card-background);
+  border: 1rpx solid var(--border-color);
+  border-radius: 20rpx;  /* 更圆润 */
+  padding: 24rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.2s;
+  box-shadow: var(--soft-shadow);
+}
+
+.quick-btn:active {
+  background: var(--card-background-hover);
+  transform: scale(0.97);
+}
+
+/* 分类卡片优化 */
+.age-card {
+  background: var(--card-background);
+  border: 1rpx solid var(--border-color);
+  border-radius: 20rpx;
+  padding: 28rpx;
+  text-align: center;
+  transition: all 0.2s;
+  box-shadow: var(--soft-shadow);
+}
+
+.age-card:active {
+  background: var(--card-background-hover);
+  transform: scale(0.97);
+}
+
+/* 文章卡片优化 */
+.article-card {
+  background: var(--card-background);
+  border: 1rpx solid var(--border-color);
+  border-radius: 16rpx;
+  padding: 28rpx;
+  margin-bottom: 24rpx;
+  transition: all 0.2s;
+  box-shadow: var(--soft-shadow);
+}
+
+.article-card:active {
+  background: var(--card-background-hover);
+}
+
+/* 紧急按钮 - 柔和的红色系 */
+.emergency-btn {
+  background: linear-gradient(135deg, #FF8A80 0%, #FF5252 100%);
+  border: none;
+  border-radius: 50rpx;
+  padding: 24rpx 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 16rpx rgba(255, 82, 82, 0.25);
+}
+
+.emergency-btn:active {
+  opacity: 0.85;
+  transform: scale(0.98);
+}
+
+/* Modal 弹窗优化 */
+.modal-content {
+  background: var(--card-background);
+  border-radius: 24rpx;  /* 更圆润 */
+  padding: 48rpx;
+  box-shadow: 0 8rpx 32rpx rgba(62, 62, 62, 0.15);
+  max-height: 80vh;
+  overflow-y: auto;
+  border: 1rpx solid var(--border-color);
 }
 
 /* 列表项优化 */
@@ -175,165 +272,20 @@ page.dark-mode {
   background: var(--card-background-hover);
 }
 
-/* Modal 弹窗优化 */
-.modal-content {
-  background: var(--card-background);
-  border-radius: 16rpx;
-  padding: 40rpx;
-  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.15);
-  max-height: 80vh;
-  overflow-y: auto;
-  border: 1rpx solid var(--border-color);
-}
-
-/* 搜索框优化 */
-.search-box {
-  background: var(--card-background);
-  border: 2rpx solid #E0E0E0;
-  border-radius: 16rpx;
-  padding: 24rpx;
-  display: flex;
-  align-items: center;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
-}
-
-.search-placeholder {
-  color: #999999;
-  font-size: 28rpx;
-}
-
-/* 快捷按钮优化 */
-.quick-btn {
-  background: #FFFFFF;
-  border: 1rpx solid #E0E0E0;
-  border-radius: 12rpx;
-  padding: 20rpx;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transition: all 0.2s;
-  box-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.05);
-}
-
-.quick-btn:active {
-  background: #F8F8F8;
-  transform: scale(0.98);
-}
-
-/* 分类卡片优化 */
-.age-card {
-  background: #FFFFFF;
-  border: 1rpx solid #E0E0E0;
-  border-radius: 12rpx;
-  padding: 24rpx;
-  text-align: center;
-  transition: all 0.2s;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
-}
-
-.age-card:active {
-  background: #F8F8F8;
-  transform: scale(0.98);
-}
-
-/* 文章卡片优化 */
-.article-card {
-  background: #FFFFFF;
-  border: 1rpx solid #E0E0E0;
-  border-radius: 12rpx;
-  padding: 24rpx;
-  margin-bottom: 24rpx;
-  transition: all 0.2s;
-  box-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.04);
-}
-
-.article-card:active {
-  background: #F8F8F8;
-}
-
-/* 夜间模式优化 */
-page.dark-mode .card {
-  background: #2C2C2E;
-  border-color: #3A3A3C;
-}
-
-page.dark-mode .tag {
-  background: #3A3A3C;
-  color: #A0A0A0;
-}
-
-page.dark-mode .btn-secondary {
-  background: #3A3A3C;
-  color: #B0B0B0;
-}
-
-page.dark-mode .quick-btn {
-  background: #2C2C2E;
-  border-color: #3A3A3C;
-}
-
-page.dark-mode .age-card {
-  background: #2C2C2E;
-  border-color: #3A3A3C;
-}
-
-page.dark-mode .article-card {
-  background: #2C2C2E;
-  border-color: #3A3A3C;
-}
-
-page.dark-mode .list-item {
-  background: #2C2C2E;
-  border-color: #3A3A3C;
-}
-
-page.dark-mode .list-item:active {
-  background: #343436;
-}
-
-/* 弹窗标题 */
-.modal-title {
-  font-size: 36rpx;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 32rpx;
-}
-
-/* 弹窗内容 */
+/* 紧急指南优化 */
 .emergency-item {
   background: var(--section-bg);
   border: 1rpx solid var(--border-color);
-  border-radius: 12rpx;
+  border-radius: 16rpx;
   padding: 24rpx;
-  margin-bottom: 16rpx;
+  margin-bottom: 20rpx;
 }
 
-/* 紧急按钮 */
-.emergency-btn {
-  background: #FFF4F4;
-  border: none;
-  border-radius: 50rpx;
-  padding: 24rpx 48rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.12);
-}
-
-.emergency-btn:active {
-  background: #FFE5E5;
-  transform: scale(0.98);
-}
-
-/* 修复夜间模式下的紧急按钮样式 */
-page.dark-mode .emergency-btn {
-  background: #2D3D30;
-}
-
-/* 改善对比度 */
+/* 标题优化 */
+.modal-title,
 .section-title {
   color: var(--text-primary);
-  font-size: 32rpx;
+  font-size: 34rpx;
   font-weight: 600;
   margin-bottom: 24rpx;
 }
@@ -342,124 +294,149 @@ page.dark-mode .emergency-btn {
   color: var(--text-primary);
   font-size: 30rpx;
   font-weight: 600;
-  margin-bottom: 8rpx;
+  margin-bottom: 12rpx;
+  line-height: 1.4;
 }
 
 .article-summary {
   color: var(--text-secondary);
-  font-size: 26rpx;
-  line-height: 1.5;
+  font-size: 28rpx;
+  line-height: 1.6;
   margin-bottom: 16rpx;
 }
 
-/* 优化标题和图标颜色 */
-.page-name,
-.baby-name-text,
-.baby-age-value {
-  color: var(--text-primary);
-}
-
-.search-hint,
-.tip-arrow,
-.tip-text {
-  color: var(--text-secondary);
-}
-
-/* 骁体样式优化 */
-.emergency-item-title {
-  color: var(--text-primary);
-  font-size: 28rpx;
-  font-weight: 600;
-  margin-bottom: 12rpx;
-}
-
-.emergency-steps {
-  padding-left: 0;
-}
-
-.step-item {
-  color: var(--text-secondary);
-  font-size: 26rpx;
-  line-height: 1.6;
-  margin-bottom: 8rpx;
-}
-
-.step-number {
-  color: var(--primary-color);
-  font-weight: 600;
-}
-
-/* 标签样式优化 */
-.mini-tag {
-  background: #F0F0F0;
-  color: #666666;
-  border-radius: 8rpx;
-  padding: 4rpx 8rpx;
-  font-size: 22rpx;
-  margin-right: 8rpx;
-  margin-bottom: 8r;
-}
-
-/* 间距优化 */
-.status-bar {
-  padding: 20rpx 32rpx;
-  background: var(--card-background);
-  border-bottom: 1rpx solid var(--border-color);
-}
-
-.baby-age-card {
-  background: var(--card-background);
-  border: 1rpx solid var(--border-color);
-  border-radius: 12rpx;
-  padding: 24rpx;
-  margin: 16rpx 0;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
-}
-
-/* 搜索区域 */
-.search-hero {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 48rpx 32rpx;
+/* 章节背景 */
+.section-bg {
+  background: var(--section-bg);
   border-radius: 16rpx;
+  padding: 32rpx;
+  margin-bottom: 32rpx;
+}
+
+/* 高亮背景 */
+.highlight-bg {
+  background: var(--highlight-bg);
+  border-radius: 12rpx;
+  padding: 12rpx 20rpx;
+}
+
+/* 搜索英雄区域 */
+.search-hero {
+  background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+  padding: 48rpx 32rpx;
+  border-radius: 24rpx;
   margin: 32rpx;
-  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8rpx 24rpx rgba(255, 107, 157, 0.2);
 }
 
-/* 分类区域 */
-.age-section,
-.articles-section {
-  background: transparent;
+/* 图标按钮优化 */
+.icon-btn {
+  width: 80rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s;
 }
 
-/* 技影效果 */
-.shadow {
-  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.12);
+.icon-btn:active {
+  background: var(--section-bg);
 }
 
-/* 空状态 */
+/* 深色模式特殊优化 */
+page.dark-mode .emergency-btn {
+  background: linear-gradient(135deg, #C62828 0%, #E53935 100%);
+  box-shadow: 0 4rpx 16rpx rgba(198, 40, 40, 0.3);
+}
+
+page.dark-mode .search-hero {
+  background: linear-gradient(135deg, #7B1FA2 0%, #9C27B0 100%);
+  box-shadow: 0 8rpx 24rpx rgba(123, 31, 162, 0.3);
+}
+
+/* 辅助类 */
+.card-group {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.divider {
+  height: 1rpx;
+  background: var(--border-color);
+  margin: 32rpx 0;
+}
+
+.badge {
+  background: var(--danger-color);
+  color: #FFFFFF;
+  font-size: 20rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 20rpx;
+  min-width: 32rpx;
+  text-align: center;
+}
+
+.loading {
+  text-align: center;
+  padding: 60rpx;
+  color: var(--text-secondary);
+}
+
+.empty {
+  text-align: center;
+  padding: 120rpx 60rpx;
+  color: var(--text-secondary);
+}
+
 .empty-icon {
-  color: #C7C7CC;
   font-size: 120rpx;
   margin-bottom: 32rpx;
   opacity: 0.4;
 }
 
 .empty-text {
-  color: var(--text-secondary);
   font-size: 28rpx;
+  line-height: 1.6;
 }
 
-/* 加载状态 */
-.loading {
-  color: var(--text-secondary);
+/* 动画 */
+.fade-in {
+  animation: fadeIn 0.4s ease-out;
 }
 
-/* 滚动岛区域 */
-.status-actions {
-  gap: 24rpx;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* 页面切换动画 */
-.transition {
-  transition: all 0.3s;
+.scale-in {
+  animation: scaleIn 0.3s ease-out;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* 灵动岛/刘海适配 */
+.safe-area-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
 }
