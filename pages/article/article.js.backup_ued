@@ -1,4 +1,4 @@
-// 文章详情页 - UED优化版
+// 文章详情页 - 从data.js加载（修复版）
 const knowledgeData = require('../../data.js');
 
 const app = getApp();
@@ -7,8 +7,7 @@ Page({
   data: {
     article: {},
     isFavorited: false,
-    darkMode: false,
-    themeAnimating: false  // 主题动画状态
+    darkMode: false
   },
 
   onLoad(options) {
@@ -124,33 +123,17 @@ Page({
     });
   },
 
-  // 🔥 切换夜间模式 - 增强版（带动画反馈）
+  // 切换夜间模式
   toggleDarkMode() {
-    // 触发图标旋转动画
-    this.setData({ themeAnimating: true });
-    
-    // 切换主题
     app.toggleDarkMode();
     this.setData({
       darkMode: app.globalData.darkMode
     });
-    
-    // 显示更强的视觉反馈
     wx.showToast({
-      title: this.data.darkMode ? '🌙 夜间模式已开启' : '☀️ 日间模式已开启',
-      icon: 'none',
+      title: this.data.darkMode ? '已关闭夜间模式' : '已开启夜间模式',
+      icon: 'success',
       duration: 1500
     });
-    
-    // 震动反馈（如果设备支持）
-    wx.vibrateShort({
-      type: 'light'
-    });
-    
-    // 动画结束后重置状态
-    setTimeout(() => {
-      this.setData({ themeAnimating: false });
-    }, 500);
   },
 
   // 返回上一页
@@ -168,22 +151,12 @@ Page({
         if (this.data.isFavorited) {
           app.removeFavorite(article.id);
           this.setData({ isFavorited: false });
-          wx.showToast({ 
-            title: '💔 已取消收藏', 
-            icon: 'none',
-            duration: 1500 
-          });
+          wx.showToast({ title: '已取消收藏', icon: 'success' });
         } else {
           app.addFavorite(article);
           this.setData({ isFavorited: true });
-          wx.showToast({ 
-            title: '❤️ 收藏成功', 
-            icon: 'success',
-            duration: 1500 
-          });
+          wx.showToast({ title: '收藏成功', icon: 'success' });
         }
-        // 震动反馈
-        wx.vibrateShort({ type: 'light' });
         return;
       } catch (e) {
         console.error('全局收藏方法失败:', e);
@@ -199,12 +172,12 @@ Page({
         const newFav = favorites.filter(f => f.id !== article.id);
         wx.setStorageSync('favorites', newFav);
         this.setData({ isFavorited: false });
-        wx.showToast({ title: '💔 已取消收藏', icon: 'none' });
+        wx.showToast({ title: '已取消收藏', icon: 'success' });
       } else {
         favorites.push(article);
         wx.setStorageSync('favorites', favorites);
         this.setData({ isFavorited: true });
-        wx.showToast({ title: '❤️ 收藏成功', icon: 'success' });
+        wx.showToast({ title: '收藏成功', icon: 'success' });
       }
     } catch (e) {
       console.error('本地收藏失败:', e);

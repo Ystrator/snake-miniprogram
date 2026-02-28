@@ -7,7 +7,7 @@
         <text class="back-icon">←</text>
       </view>
       <view class="theme-toggle" bindtap="toggleDarkMode">
-        <text class="theme-icon">{{darkMode ? '☀️' : '🌙'}}</text>
+        <text class="theme-icon {{themeAnimating ? "icon-rotate" : ""}}">{{darkMode ? '☀️' : '🌙'}}</text>
       </view>
     </view>
     <text class="article-title">{{article.title}}</text>
