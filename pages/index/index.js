@@ -174,7 +174,7 @@ Page({
     const keyword = e.currentTarget.dataset.keyword;
     console.log('点击关键词按钮:', keyword);
     
-    wx.navigateTo({
+    wx.switchTab({
       url: `/pages/search/search?keyword=${encodeURIComponent(keyword)}`,
       success: () => {
         console.log('关键词搜索跳转成功:', keyword);
