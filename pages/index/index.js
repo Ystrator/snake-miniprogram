@@ -154,27 +154,19 @@ Page({
   // 跳转到搜索页
   goToSearch() {
     console.log('点击搜索框');
-    wx.showToast({
-      title: '跳转搜索...',
-      icon: 'loading',
-      duration: 500
+    wx.navigateTo({
+      url: '/pages/search/search',
+      success: () => {
+        console.log('搜索页跳转成功');
+      },
+      fail: (err) => {
+        console.error('搜索页跳转失败:', err);
+        wx.showToast({
+          title: '页面跳转失败',
+          icon: 'none'
+        });
+      }
     });
-    
-    setTimeout(() => {
-      wx.navigateTo({
-        url: '/pages/search/search',
-        success: () => {
-          console.log('搜索页跳转成功');
-        },
-        fail: (err) => {
-          console.error('搜索页跳转失败:', err);
-          wx.showToast({
-            title: '页面跳转失败',
-            icon: 'none'
-          });
-        }
-      });
-    }, 500);
   },
 
   // 按关键词搜索
@@ -182,23 +174,19 @@ Page({
     const keyword = e.currentTarget.dataset.keyword;
     console.log('点击关键词按钮:', keyword);
     
-    wx.showToast({
-      title: `搜索: ${keyword}`,
-      icon: 'loading',
-      duration: 500
+    wx.navigateTo({
+      url: `/pages/search/search?keyword=${encodeURIComponent(keyword)}`,
+      success: () => {
+        console.log('关键词搜索跳转成功:', keyword);
+      },
+      fail: (err) => {
+        console.error('关键词搜索跳转失败:', err);
+        wx.showToast({
+          title: '页面跳转失败',
+          icon: 'none'
+        });
+      }
     });
-    
-    setTimeout(() => {
-      wx.navigateTo({
-        url: `/pages/search/search?keyword=${encodeURIComponent(keyword)}`,
-        success: () => {
-          console.log('关键词搜索跳转成功:', keyword);
-        },
-        fail: (err) => {
-          console.error('关键词搜索跳转失败:', err);
-        }
-      });
-    }, 500);
   },
 
   // 跳转到分类页
@@ -206,23 +194,19 @@ Page({
     const categoryId = e.currentTarget.dataset.id;
     console.log('点击分类卡片:', categoryId);
     
-    wx.showToast({
-      title: '打开分类...',
-      icon: 'loading',
-      duration: 500
+    wx.navigateTo({
+      url: `/pages/category/category?id=${categoryId}`,
+      success: () => {
+        console.log('分类页跳转成功:', categoryId);
+      },
+      fail: (err) => {
+        console.error('分类页跳转失败:', err);
+        wx.showToast({
+          title: '页面跳转失败',
+          icon: 'none'
+        });
+      }
     });
-    
-    setTimeout(() => {
-      wx.navigateTo({
-        url: `/pages/category/category?id=${categoryId}`,
-        success: () => {
-          console.log('分类页跳转成功:', categoryId);
-        },
-        fail: (err) => {
-          console.error('分类页跳转失败:', err);
-        }
-      });
-    }, 500);
   },
 
   // 阅读文章
@@ -230,23 +214,19 @@ Page({
     const articleId = e.currentTarget.dataset.id;
     console.log('点击文章卡片:', articleId);
     
-    wx.showToast({
-      title: '加载文章...',
-      icon: 'loading',
-      duration: 500
+    wx.navigateTo({
+      url: `/pages/article/article?id=${articleId}`,
+      success: () => {
+        console.log('文章页跳转成功:', articleId);
+      },
+      fail: (err) => {
+        console.error('文章页跳转失败:', err);
+        wx.showToast({
+          title: '页面跳转失败',
+          icon: 'none'
+        });
+      }
     });
-    
-    setTimeout(() => {
-      wx.navigateTo({
-        url: `/pages/article/article?id=${articleId}`,
-        success: () => {
-          console.log('文章页跳转成功:', articleId);
-        },
-        fail: (err) => {
-          console.error('文章页跳转失败:', err);
-        }
-      });
-    }, 500);
   },
 
   // 显示每日小贴士
