@@ -120,12 +120,22 @@
   box-shadow: 0 4rpx 12rpx rgba(255, 179, 0, 0.2);
 }
 
+.dark-mode .quick-answers-box {
+  background: linear-gradient(135deg, #3D2E00 0%, #4A3800 100%);
+  border-left-color: #FFD60A;
+  box-shadow: 0 4rpx 12rpx rgba(255, 214, 10, 0.15);
+}
+
 .quick-answers-title {
   display: block;
   font-size: 36rpx;
   font-weight: 700;
   color: #F57C00;
   margin-bottom: 24rpx;
+}
+
+.dark-mode .quick-answers-title {
+  color: #FFD60A;
 }
 
 .quick-answers-list {
@@ -143,6 +153,10 @@
   border-radius: 12rpx;
 }
 
+.dark-mode .qa-item {
+  background: rgba(255, 255, 255, 0.1);
+}
+
 .qa-question {
   font-size: 28rpx;
   font-weight: 700;
@@ -150,11 +164,19 @@
   line-height: 1.4;
 }
 
+.dark-mode .qa-question {
+  color: #FF9500;
+}
+
 .qa-answer {
   font-size: 30rpx;
   color: #333;
   line-height: 1.5;
   padding-left: 16rpx;
+}
+
+.dark-mode .qa-answer {
+  color: #E5E5E5;
 }
 
 /* 快速解答板块（旧版，向后兼容） */

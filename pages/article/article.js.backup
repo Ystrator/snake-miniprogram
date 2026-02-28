@@ -1,0 +1,208 @@
+// 文章详情页 - 动态加载版本
+const knowledgeData = require('../../data.js');
+
+Page({
+  data: {
+    article: {},
+    isFavorited: false,
+    darkMode: false
+  },
+
+  onLoad(options) {
+    const articleId = options.id;
+    console.log('文章页面加载', articleId);
+
+    // 从 data.js 中查找文章
+    let article = null;
+
+    // 先从 categories 中查找
+    for (const category of knowledgeData.categories) {
+      if (category.articles) {
+        const found = category.articles.find(a => a.id === articleId);
+        if (found) {
+          article = {
+            ...found,
+            categoryName: category.name,
+            categoryId: category.id
+          };
+          break;
+        }
+      }
+    }
+
+    // 如果没找到，从 allArticles 中查找
+    if (!article && knowledgeData.allArticles) {
+      const found = knowledgeData.allArticles.find(a => a.id === articleId);
+      if (found) {
+        const category = knowledgeData.categories.find(cat => cat.id === found.categoryId);
+        article = {
+          ...found,
+          categoryName: category ? category.name : '通用知识',
+          categoryId: found.categoryId || 'general'
+        };
+      }
+    }
+
+    console.log('找到文章:', article ? article.id : '未找到');
+
+    if (!article) {
+      wx.showToast({
+        title: '文章不存在',
+        icon: 'none',
+        duration: 2000
+      });
+      setTimeout(() => {
+        wx.navigateBack();
+      }, 2000);
+      return;
+    }
+
+    // 转换数据格式以兼容模板
+    article = this.convertArticleFormat(article);
+
+    const app = getApp();
+    this.setData({
+      article,
+      isFavorited: false,
+      darkMode: app.globalData.darkMode
+    });
+
+    // 检查是否已收藏
+    if (app && app.loadFavorites && app.isFavorited) {
+      app.loadFavorites();
+      this.setData({
+        isFavorited: app.isFavorited(articleId)
+      });
+    }
+  },
+
+  // 转换文章数据格式
+  convertArticleFormat(article) {
+    // 如果文章已经有 sections，直接返回
+    if (article.sections && article.sections.length > 0) {
+      return article;
+    }
+
+    // 如果文章有 content，转换为 sections 格式
+    if (article.content && article.content.length > 0) {
+      const sections = article.content.map(item => {
+        // 处理不同类型的内容
+        if (item.type === 'bullet' || item.type === 'numbered') {
+          // 如果有 items 字段，直接使用
+          if (item.items) {
+            return item;
+          }
+          // 如果只有 text 字段，转换为 items
+          return {
+            type: item.type,
+            items: [item.text]
+          };
+        }
+        return item;
+      });
+      return {
+        ...article,
+        sections: sections
+      };
+    }
+
+    // 如果都没有，返回默认格式
+    return article;
+  },
+
+  onShow() {
+    // 每次显示时更新夜间模式状态
+    const app = getApp();
+    this.setData({
+      darkMode: app.globalData.darkMode
+    });
+  },
+
+  // 主题切换回调
+  onThemeChange(enabled) {
+    this.setData({
+      darkMode: enabled
+    });
+  },
+
+  // 切换夜间模式
+  toggleDarkMode() {
+    const app = getApp();
+    app.toggleDarkMode();
+    this.setData({
+      darkMode: app.globalData.darkMode
+    });
+    wx.showToast({
+      title: this.data.darkMode ? '已关闭夜间模式' : '已开启夜间模式',
+      icon: 'success',
+      duration: 1500
+    });
+  },
+
+  // 返回上一页
+  goBack() {
+    wx.navigateBack();
+  },
+
+  toggleFavorite() {
+    const app = getApp();
+    const article = this.data.article;
+
+    // 检查 app 是否有收藏方法
+    if (!app || !app.addFavorite || !app.removeFavorite) {
+      wx.showToast({
+        title: '收藏功能暂不可用',
+        icon: 'none'
+      });
+
+      // 本地存储作为备用
+      const favorites = wx.getStorageSync('favorites') || [];
+      const isFav = favorites.some(f => f.id === article.id);
+
+      if (isFav) {
+        const newFav = favorites.filter(f => f.id !== article.id);
+        wx.setStorageSync('favorites', newFav);
+        this.setData({ isFavorited: false });
+        wx.showToast({ title: '已取消收藏', icon: 'success' });
+      } else {
+        favorites.push(article);
+        wx.setStorageSync('favorites', favorites);
+        this.setData({ isFavorited: true });
+        wx.showToast({ title: '收藏成功', icon: 'success' });
+      }
+      return;
+    }
+
+    // 使用全局收藏方法
+    if (this.data.isFavorited) {
+      app.removeFavorite(article.id);
+      this.setData({ isFavorited: false });
+      wx.showToast({
+        title: '已取消收藏',
+        icon: 'success'
+      });
+    } else {
+      app.addFavorite(article);
+      this.setData({ isFavorited: true });
+      wx.showToast({
+        title: '收藏成功',
+        icon: 'success'
+      });
+    }
+  },
+
+  shareArticle() {
+    wx.showShareMenu({
+      withShareTicket: true,
+      menus: ['shareAppMessage', 'shareTimeline']
+    });
+  },
+
+  onShareAppMessage() {
+    return {
+      title: this.data.article.title,
+      path: `/pages/article/article?id=${this.data.article.id}`,
+      imageUrl: ''
+    };
+  }
+});

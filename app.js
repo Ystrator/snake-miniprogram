@@ -104,24 +104,22 @@ App({
     const birthDate = new Date(babyInfo.birthday);
     const today = new Date();
 
-    // 计算月数
-    let months = (today.getFullYear() - birthDate.getFullYear()) * 12;
-    months -= birthDate.getMonth();
-    months += today.getMonth();
-
-    // 计算天数
-    const days = Math.floor((today - birthDate) / (1000 * 60 * 60 * 24));
-
-    // 计算月和天
-    const ageMonths = Math.floor(days / 30);
-    const ageDays = days % 30;
+    // 计算总天数（更准确）
+    const totalDays = Math.floor((today - birthDate) / (1000 * 60 * 60 * 24));
+    
+    // 基于天数计算月龄（更准确）
+    const totalMonths = Math.floor(totalDays / 30);
+    
+    // 计算显示用的月和天
+    const months = Math.floor(totalDays / 30);
+    const days = totalDays % 30;
 
     return {
-      totalDays: days,
-      totalMonths: months,
-      months: ageMonths,
-      days: ageDays,
-      text: `${ageMonths}个月${ageDays}天`
+      totalDays: totalDays,
+      totalMonths: totalMonths,  // 统一使用基于天数的月龄
+      months: months,
+      days: days,
+      text: `${months}个月${days}天`
     };
   },
 

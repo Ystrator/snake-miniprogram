@@ -79,19 +79,10 @@ Page({
 
   // 检查收藏状态
   checkFavorite(articleId) {
-    // 标准化ID格式（确保使用文章的实际ID）
-    const standardId = this.data.article.id;
-    
     // 尝试从本地存储读取
     try {
       const favorites = wx.getStorageSync('favorites') || [];
-      // 检查多种ID格式
-      const isFav = favorites.some(f => 
-        f.id === standardId || 
-        f.id === articleId ||
-        f.id === `article_${articleId}` ||
-        f.id === articleId.replace('article_', '')
-      );
+      const isFav = favorites.some(f => f.id === articleId);
       this.setData({ isFavorited: isFav });
     } catch (e) {
       console.error('读取收藏失败:', e);
@@ -101,7 +92,7 @@ Page({
     if (app && app.loadFavorites && app.isFavorited) {
       try {
         app.loadFavorites();
-        const isFav = app.isFavorited(standardId);
+        const isFav = app.isFavorited(articleId);
         this.setData({ isFavorited: isFav });
       } catch (e) {
         console.error('全局收藏方法调用失败:', e);

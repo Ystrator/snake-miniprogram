@@ -90,25 +90,39 @@ Page({
 
   // 加载文章数据
   loadArticles() {
-    const knowledgeData = require('../../data.js').knowledgeData;
+    const knowledgeData = require('../../data.js');
     const allArticles = [];
-    
-    knowledgeData.categories.forEach(category => {
-      if (category.articles) {
-        category.articles.forEach(article => {
-          allArticles.push({
-            ...article,
-            categoryName: category.name,
-            categoryId: category.id
-          });
-        });
+
+    // 从allArticles数组中获取所有文章
+    knowledgeData.allArticles.forEach(article => {
+      // 根据category字段映射到categoryId
+      let categoryId = 'general';
+      const categoryMap = {
+        '0-6个月': 'age-0-1',
+        '6-12个月': 'age-0-1',
+        '1-3岁': 'age-1-3',
+        '3-6岁': 'age-3-6',
+        '通用': 'general'
+      };
+
+      if (article.category) {
+        categoryId = categoryMap[article.category] || 'general';
       }
+
+      // 查找分类名称
+      const category = knowledgeData.categories.find(cat => cat.id === categoryId);
+
+      allArticles.push({
+        ...article,
+        categoryName: category ? category.name : '通用知识',
+        categoryId: categoryId
+      });
     });
-    
+
     this.setData({
       allArticles: allArticles
     });
-    
+
     console.log('加载文章数量:', allArticles.length);
   },
 
@@ -344,9 +358,23 @@ Page({
     });
     
     // 筛选对应分类的文章
-    const filteredArticles = this.data.allArticles.filter(article => {
+    let filteredArticles = this.data.allArticles.filter(article => {
       return article.categoryId === categoryId;
     });
+    
+    // 如果该分类下没有文章，使用通用知识分类
+    if (filteredArticles.length === 0) {
+      console.log('推荐分类无文章，使用通用知识分类');
+      filteredArticles = this.data.allArticles.filter(article => {
+        return article.categoryId === 'general';
+      });
+    }
+    
+    // 如果仍然没有文章，使用所有文章
+    if (filteredArticles.length === 0) {
+      console.log('通用知识分类也无文章，使用所有文章');
+      filteredArticles = this.data.allArticles;
+    }
     
     // 随机选择3篇文章展示
     const recommended = this.shuffleArray(filteredArticles).slice(0, 3);

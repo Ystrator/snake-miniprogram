@@ -72,28 +72,37 @@ Page({
       return;
     }
 
-    // 从所有分类中提取文章
-    let allArticles = [];
-    knowledgeData.knowledgeData.categories.forEach(category => {
-      category.articles.forEach(article => {
-        allArticles.push({
-          ...article,
-          categoryName: category.name,
-          categoryId: category.id
-        });
-      });
+    // 从allArticles中获取所有文章，并映射分类信息
+    const categoryMap = {
+      '0-6个月': 'age-0-1',
+      '6-12个月': 'age-0-1',
+      '1-3岁': 'age-1-3',
+      '3-6岁': 'age-3-6',
+      '通用': 'general'
+    };
+
+    let allArticles = knowledgeData.allArticles.map(article => {
+      const categoryId = article.category ? (categoryMap[article.category] || 'general') : 'general';
+      const category = knowledgeData.categories.find(cat => cat.id === categoryId);
+      return {
+        ...article,
+        categoryName: category ? category.name : '通用知识',
+        categoryId: categoryId
+      };
     });
 
     // 搜索并计算相关度
     const results = allArticles.map(article => {
-      const titleMatch = article.title.toLowerCase().includes(keyword.toLowerCase());
+      const titleMatch = article.title && article.title.toLowerCase().includes(keyword.toLowerCase());
       const summaryMatch = article.summary && article.summary.toLowerCase().includes(keyword.toLowerCase());
       const descMatch = article.description && article.description.toLowerCase().includes(keyword.toLowerCase());
       const tagMatch = article.tags && article.tags.some(tag => tag.toLowerCase().includes(keyword.toLowerCase()));
+      const categoryMatch = article.categoryName && article.categoryName.toLowerCase().includes(keyword.toLowerCase());
 
       let relevance = 0;
       if (titleMatch) relevance += 10;
       if (tagMatch) relevance += 5;
+      if (categoryMatch) relevance += 4;
       if (descMatch) relevance += 3;
       if (summaryMatch) relevance += 2;
 
@@ -137,6 +146,10 @@ Page({
       },
       fail: (err) => {
         console.error('跳转失败:', err);
+        wx.showToast({
+          title: '打开文章失败',
+          icon: 'none'
+        });
       }
     });
   }

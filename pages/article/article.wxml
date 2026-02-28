@@ -47,26 +47,42 @@
     
     <!-- 详细内容 -->
     <view class="article-body">
-      <view class="content-section" wx:for="{{article.sections}}" wx:key="index">
+      <view class="content-section" wx:for="{{article.content || article.sections}}" wx:key="index">
         <!-- 标题 -->
         <text class="section-heading" wx:if="{{item.type === 'heading'}}">{{item.text}}</text>
-        
-        <!-- 无序列表 -->
-        <view class="section-bullet" wx:if="{{item.type === 'bullet'}}">
+
+        <!-- 无序列表（新格式：text字段） -->
+        <view class="section-bullet" wx:if="{{item.type === 'bullet' && item.text}}">
+          <view class="bullet-item">
+            <text class="bullet-dot">•</text>
+            <text class="bullet-text">{{item.text}}</text>
+          </view>
+        </view>
+
+        <!-- 无序列表（旧格式：items数组） -->
+        <view class="section-bullet" wx:if="{{item.type === 'bullet' && item.items}}">
           <view class="bullet-item" wx:for="{{item.items}}" wx:key="*this" wx:for-item="bullet">
             <text class="bullet-dot">•</text>
             <text class="bullet-text">{{bullet}}</text>
           </view>
         </view>
-        
-        <!-- 有序列表 -->
-        <view class="section-numbered" wx:if="{{item.type === 'numbered'}}">
+
+        <!-- 有序列表（新格式：text字段） -->
+        <view class="section-numbered" wx:if="{{item.type === 'numbered' && item.text}}">
+          <view class="numbered-item">
+            <text class="numbered-dot">{{index + 1}}.</text>
+            <text class="numbered-text">{{item.text}}</text>
+          </view>
+        </view>
+
+        <!-- 有序列表（旧格式：items数组） -->
+        <view class="section-numbered" wx:if="{{item.type === 'numbered' && item.items}}">
           <view class="numbered-item" wx:for="{{item.items}}" wx:key="*this" wx:for-item="numItem">
             <text class="numbered-dot">{{index + 1}}.</text>
             <text class="numbered-text">{{numItem}}</text>
           </view>
         </view>
-        
+
         <!-- 列表（带标题和描述） -->
         <view class="section-list" wx:if="{{item.type === 'list'}}">
           <view class="list-item" wx:for="{{item.items}}" wx:key="*this" wx:for-item="listItem">
@@ -74,10 +90,10 @@
             <text class="list-desc">{{listItem.desc}}</text>
           </view>
         </view>
-        
+
         <!-- 提示信息 -->
         <view class="section-info" wx:if="{{item.type === 'info'}}">
-          <text class="info-text">💡 {{item.text}}</text>
+          <text class="info-text">{{item.text}}</text>
         </view>
       </view>
     </view>

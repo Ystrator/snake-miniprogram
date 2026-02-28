@@ -39,6 +39,8 @@ Page({
 
     if (babyInfo && babyInfo.birthday) {
       const babyAge = app.calculateBabyAge();
+      // 添加格式化的日期字段
+      babyInfo.formattedBirthday = this.formatDate(new Date(babyInfo.birthday));
       this.setData({
         babyInfo: babyInfo,
         babyAge: babyAge,
@@ -78,6 +80,28 @@ Page({
   confirmDate() {
     const birthday = new Date(this.data.tempDate).getTime();
     const name = this.data.babyName.trim() || '宝宝';
+    
+    // 验证日期合理性
+    const today = new Date().getTime();
+    const maxPast = today - (50 * 365 * 24 * 60 * 60 * 1000); // 50年前
+    
+    if (birthday > today) {
+      wx.showToast({
+        title: '生日不能是未来日期',
+        icon: 'none',
+        duration: 2000
+      });
+      return;
+    }
+    
+    if (birthday < maxPast) {
+      wx.showToast({
+        title: '生日日期不合理',
+        icon: 'none',
+        duration: 2000
+      });
+      return;
+    }
 
     app.setBabyInfo(birthday, name);
 

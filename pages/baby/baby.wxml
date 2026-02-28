@@ -32,7 +32,7 @@
 
       <view class="info-row">
         <text class="info-label">生日</text>
-        <text class="info-value">{{babyInfo.birthday ? formatDate(new Date(babyInfo.birthday)) : '-'}}</text>
+        <text class="info-value">{{babyInfo.formattedBirthday || '-'}}</text>
       </view>
 
       <view class="info-row highlight">
@@ -128,14 +128,3 @@
   </view>
 
 </view>
-
-<wxs module="utils">
-  module.exports = {
-    formatDate: function(date) {
-      var year = date.getFullYear();
-      var month = date.getMonth() + 1;
-      var day = date.getDate();
-      return year + '-' + (month < 10 ? '0' + month : month) + '-' + (day < 10 ? '0' + day : day);
-    }
-  };
-</wxs>

@@ -14,7 +14,6 @@ const knowledgeData = {
     "id": "article_001",
     "title": "新生儿黄疸怎么办",
     "category": "0-6个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -80,7 +79,6 @@ const knowledgeData = {
     "id": "article_002",
     "title": "新生儿脐带护理",
     "category": "0-6个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -146,7 +144,6 @@ const knowledgeData = {
     "id": "article_003",
     "title": "新生儿拍嗝技巧",
     "category": "0-6个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -212,7 +209,6 @@ const knowledgeData = {
     "id": "article_004",
     "title": "新生儿打嗝怎么办",
     "category": "0-6个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -278,7 +274,6 @@ const knowledgeData = {
     "id": "article_005",
     "title": "新生儿溢奶vs吐奶",
     "category": "0-6个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -344,7 +339,6 @@ const knowledgeData = {
     "id": "article_006",
     "title": "新生儿便秘怎么办",
     "category": "0-6个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -410,7 +404,6 @@ const knowledgeData = {
     "id": "article_007",
     "title": "新生儿腹泻护理",
     "category": "0-6个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -476,7 +469,6 @@ const knowledgeData = {
     "id": "article_008",
     "title": "新生儿湿疹治疗",
     "category": "0-6个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -542,7 +534,6 @@ const knowledgeData = {
     "id": "article_009",
     "title": "新生儿睡眠安全指南",
     "category": "0-6个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -608,7 +599,6 @@ const knowledgeData = {
     "id": "article_010",
     "title": "新生儿疫苗接种时间表",
     "category": "0-6个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -674,7 +664,6 @@ const knowledgeData = {
     "id": "article_011",
     "title": "新生儿洗澡步骤",
     "category": "0-6个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -740,7 +729,6 @@ const knowledgeData = {
     "id": "article_012",
     "title": "新生儿穿衣指南",
     "category": "0-6个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -806,7 +794,6 @@ const knowledgeData = {
     "id": "article_013",
     "title": "新生儿哄睡技巧",
     "category": "0-6个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -872,7 +859,6 @@ const knowledgeData = {
     "id": "article_014",
     "title": "新生儿肠绞痛缓解",
     "category": "0-6个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -938,7 +924,6 @@ const knowledgeData = {
     "id": "article_015",
     "title": "新生儿视力发育",
     "category": "0-6个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -1004,7 +989,6 @@ const knowledgeData = {
     "id": "article_016",
     "title": "什么时候开始添加辅食",
     "category": "6-12个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -1070,7 +1054,6 @@ const knowledgeData = {
     "id": "article_017",
     "title": "第一口辅食吃什么",
     "category": "6-12个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -1136,7 +1119,6 @@ const knowledgeData = {
     "id": "article_018",
     "title": "宝宝米粉怎么冲",
     "category": "6-12个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -1202,7 +1184,6 @@ const knowledgeData = {
     "id": "article_019",
     "title": "果泥制作方法",
     "category": "6-12个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -1268,7 +1249,6 @@ const knowledgeData = {
     "id": "article_020",
     "title": "肉泥制作方法",
     "category": "6-12个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -1334,7 +1314,6 @@ const knowledgeData = {
     "id": "article_021",
     "title": "Finger Food推荐",
     "category": "6-12个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -1400,7 +1379,6 @@ const knowledgeData = {
     "id": "article_022",
     "title": "宝宝食物过敏怎么办",
     "category": "6-12个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -1466,7 +1444,6 @@ const knowledgeData = {
     "id": "article_023",
     "title": "辅食添加顺序",
     "category": "6-12个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -1532,7 +1509,6 @@ const knowledgeData = {
     "id": "article_024",
     "title": "宝宝不吃辅食怎么办",
     "category": "6-12个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -1598,7 +1574,6 @@ const knowledgeData = {
     "id": "article_025",
     "title": "断奶夜奶的方法",
     "category": "6-12个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -1664,7 +1639,6 @@ const knowledgeData = {
     "id": "article_026",
     "title": "宝宝睡眠训练",
     "category": "6-12个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -1730,7 +1704,6 @@ const knowledgeData = {
     "id": "article_027",
     "title": "分离焦虑怎么办",
     "category": "6-12个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -1796,7 +1769,6 @@ const knowledgeData = {
     "id": "article_028",
     "title": "宝宝学爬指导",
     "category": "6-12个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -1862,7 +1834,6 @@ const knowledgeData = {
     "id": "article_029",
     "title": "宝宝学站注意事项",
     "category": "6-12个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -1928,7 +1899,6 @@ const knowledgeData = {
     "id": "article_030",
     "title": "1岁宝宝发育检查",
     "category": "6-12个月",
-    "categoryId": "age-0-1",
     "tags": [
       "育儿",
       "健康",
@@ -1994,7 +1964,6 @@ const knowledgeData = {
     "id": "article_031",
     "title": "如厕训练最佳时间",
     "category": "1-3岁",
-    "categoryId": "age-1-3",
     "tags": [
       "育儿",
       "健康",
@@ -2060,7 +2029,6 @@ const knowledgeData = {
     "id": "article_032",
     "title": "宝宝不肯刷牙怎么办",
     "category": "1-3岁",
-    "categoryId": "age-1-3",
     "tags": [
       "育儿",
       "健康",
@@ -2126,7 +2094,6 @@ const knowledgeData = {
     "id": "article_033",
     "title": "宝宝挑食偏食纠正",
     "category": "1-3岁",
-    "categoryId": "age-1-3",
     "tags": [
       "育儿",
       "健康",
@@ -2192,7 +2159,6 @@ const knowledgeData = {
     "id": "article_034",
     "title": "宝宝发脾气怎么处理",
     "category": "1-3岁",
-    "categoryId": "age-1-3",
     "tags": [
       "育儿",
       "健康",
@@ -2258,7 +2224,6 @@ const knowledgeData = {
     "id": "article_035",
     "title": "宝宝看电视的限制",
     "category": "1-3岁",
-    "categoryId": "age-1-3",
     "tags": [
       "育儿",
       "健康",
@@ -2324,7 +2289,6 @@ const knowledgeData = {
     "id": "article_036",
     "title": "宝宝语言发育里程碑",
     "category": "1-3岁",
-    "categoryId": "age-1-3",
     "tags": [
       "育儿",
       "健康",
@@ -2390,7 +2354,6 @@ const knowledgeData = {
     "id": "article_037",
     "title": "宝宝社交能力培养",
     "category": "1-3岁",
-    "categoryId": "age-1-3",
     "tags": [
       "育儿",
       "健康",
@@ -2456,7 +2419,6 @@ const knowledgeData = {
     "id": "article_038",
     "title": "宝宝分享意识培养",
     "category": "1-3岁",
-    "categoryId": "age-1-3",
     "tags": [
       "育儿",
       "健康",
@@ -2522,7 +2484,6 @@ const knowledgeData = {
     "id": "article_039",
     "title": "2岁叛逆期应对",
     "category": "1-3岁",
-    "categoryId": "age-1-3",
     "tags": [
       "育儿",
       "健康",
@@ -2588,7 +2549,6 @@ const knowledgeData = {
     "id": "article_040",
     "title": "宝宝安全座椅使用",
     "category": "1-3岁",
-    "categoryId": "age-1-3",
     "tags": [
       "育儿",
       "健康",
@@ -2654,7 +2614,6 @@ const knowledgeData = {
     "id": "article_041",
     "title": "幼小衔接准备",
     "category": "3-6岁",
-    "categoryId": "age-3-6",
     "tags": [
       "育儿",
       "健康",
@@ -2720,7 +2679,6 @@ const knowledgeData = {
     "id": "article_042",
     "title": "宝宝专注力训练",
     "category": "3-6岁",
-    "categoryId": "age-3-6",
     "tags": [
       "育儿",
       "健康",
@@ -2786,7 +2744,6 @@ const knowledgeData = {
     "id": "article_043",
     "title": "宝宝情绪管理",
     "category": "3-6岁",
-    "categoryId": "age-3-6",
     "tags": [
       "育儿",
       "健康",
@@ -2852,7 +2809,6 @@ const knowledgeData = {
     "id": "article_044",
     "title": "性教育启蒙",
     "category": "3-6岁",
-    "categoryId": "age-3-6",
     "tags": [
       "育儿",
       "健康",
@@ -2918,7 +2874,6 @@ const knowledgeData = {
     "id": "article_045",
     "title": "入学准备清单",
     "category": "3-6岁",
-    "categoryId": "age-3-6",
     "tags": [
       "育儿",
       "健康",
@@ -2984,7 +2939,6 @@ const knowledgeData = {
     "id": "article_046",
     "title": "婴儿心肺复苏CPR",
     "category": "通用知识",
-    "categoryId": "general",
     "tags": [
       "育儿",
       "健康",
@@ -3050,7 +3004,6 @@ const knowledgeData = {
     "id": "article_047",
     "title": "儿童家庭安全检查清单",
     "category": "通用知识",
-    "categoryId": "general",
     "tags": [
       "育儿",
       "健康",
@@ -3116,7 +3069,6 @@ const knowledgeData = {
     "id": "article_048",
     "title": "宝宝发烧护理指南",
     "category": "通用知识",
-    "categoryId": "general",
     "tags": [
       "育儿",
       "健康",
@@ -3182,7 +3134,6 @@ const knowledgeData = {
     "id": "article_049",
     "title": "亲子阅读技巧",
     "category": "通用知识",
-    "categoryId": "general",
     "tags": [
       "育儿",
       "健康",
@@ -3248,7 +3199,6 @@ const knowledgeData = {
     "id": "article_050",
     "title": "规矩和界限建立",
     "category": "通用知识",
-    "categoryId": "general",
     "tags": [
       "育儿",
       "健康",
@@ -3314,7 +3264,6 @@ const knowledgeData = {
     "id": "article_066",
     "title": "宝宝感冒鼻塞护理",
     "category": "通用知识",
-    "categoryId": "general",
     "tags": [
       "感冒",
       "鼻塞",
@@ -3399,7 +3348,6 @@ const knowledgeData = {
     "id": "article_067",
     "title": "宝宝咳嗽家庭护理",
     "category": "通用知识",
-    "categoryId": "general",
     "tags": [
       "咳嗽",
       "护理"
@@ -3463,7 +3411,6 @@ const knowledgeData = {
     "id": "article_068",
     "title": "宝宝发烧物理降温",
     "category": "通用知识",
-    "categoryId": "general",
     "tags": [
       "发烧",
       "降温"
@@ -3527,7 +3474,6 @@ const knowledgeData = {
     "id": "article_069",
     "title": "宝宝起痱子怎么办",
     "category": "通用知识",
-    "categoryId": "general",
     "tags": [
       "痱子",
       "皮肤"
@@ -3591,7 +3537,6 @@ const knowledgeData = {
     "id": "article_070",
     "title": "宝宝便秘开塞露使用",
     "category": "0-6个月",
-    "categoryId": "age-0-1",
     "tags": [
       "便秘",
       "开塞露"
@@ -3655,7 +3600,6 @@ const knowledgeData = {
     "id": "article_071",
     "title": "宝宝打人咬人纠正",
     "category": "1-3岁",
-    "categoryId": "age-1-3",
     "tags": [
       "打人",
       "咬人",
@@ -3724,7 +3668,6 @@ const knowledgeData = {
     "id": "article_072",
     "title": "宝宝黏人怎么办",
     "category": "6-12个月",
-    "categoryId": "age-0-1",
     "tags": [
       "黏人",
       "分离焦虑"
@@ -3792,7 +3735,6 @@ const knowledgeData = {
     "id": "article_073",
     "title": "宝宝胆小怕生引导",
     "category": "1-3岁",
-    "categoryId": "age-1-3",
     "tags": [
       "胆小",
       "怕生"
@@ -3860,7 +3802,6 @@ const knowledgeData = {
     "id": "article_074",
     "title": "宝宝说脏话怎么办",
     "category": "1-3岁",
-    "categoryId": "age-1-3",
     "tags": [
       "说脏话",
       "语言"
@@ -3928,7 +3869,6 @@ const knowledgeData = {
     "id": "article_075",
     "title": "宝宝分享意识培养",
     "category": "1-3岁",
-    "categoryId": "age-1-3",
     "tags": [
       "分享",
       "社交"
@@ -3996,7 +3936,6 @@ const knowledgeData = {
     "id": "article_076",
     "title": "宝宝白天不睡觉",
     "category": "0-6个月",
-    "categoryId": "age-0-1",
     "tags": [
       "小睡",
       "白天"
@@ -4060,7 +3999,6 @@ const knowledgeData = {
     "id": "article_077",
     "title": "宝宝睡觉磨牙",
     "category": "1-3岁",
-    "categoryId": "age-1-3",
     "tags": [
       "磨牙",
       "睡眠"
@@ -4124,7 +4062,6 @@ const knowledgeData = {
     "id": "article_078",
     "title": "宝宝睡觉出汗多",
     "category": "0-6个月",
-    "categoryId": "age-0-1",
     "tags": [
       "出汗",
       "睡眠"
@@ -4188,7 +4125,6 @@ const knowledgeData = {
     "id": "article_079",
     "title": "宝宝不爱喝水",
     "category": "6-12个月",
-    "categoryId": "age-0-1",
     "tags": [
       "喝水",
       "喂养"
@@ -4252,7 +4188,6 @@ const knowledgeData = {
     "id": "article_080",
     "title": "宝宝体重增长慢",
     "category": "0-6个月",
-    "categoryId": "age-0-1",
     "tags": [
       "体重",
       "生长"
@@ -4316,7 +4251,6 @@ const knowledgeData = {
     "id": "article_081",
     "title": "宝宝突然不吃辅食",
     "category": "6-12个月",
-    "categoryId": "age-0-1",
     "tags": [
       "辅食",
       "挑食"
@@ -4380,7 +4314,6 @@ const knowledgeData = {
     "id": "article_082",
     "title": "宝宝奶瓶依赖",
     "category": "1-3岁",
-    "categoryId": "age-1-3",
     "tags": [
       "奶瓶",
       "戒除"
@@ -4444,7 +4377,6 @@ const knowledgeData = {
     "id": "article_083",
     "title": "3个月发育评估",
     "category": "0-6个月",
-    "categoryId": "age-0-1",
     "tags": [
       "发育",
       "3个月"
@@ -4508,7 +4440,6 @@ const knowledgeData = {
     "id": "article_084",
     "title": "6个月发育评估",
     "category": "6-12个月",
-    "categoryId": "age-0-1",
     "tags": [
       "发育",
       "6个月"
@@ -4572,7 +4503,6 @@ const knowledgeData = {
     "id": "article_085",
     "title": "语言发育迟缓信号",
     "category": "1-3岁",
-    "categoryId": "age-1-3",
     "tags": [
       "语言",
       "发育"
@@ -4636,7 +4566,6 @@ const knowledgeData = {
     "id": "article_086",
     "title": "爬行期安全隐患",
     "category": "6-12个月",
-    "categoryId": "age-0-1",
     "tags": [
       "安全",
       "爬行"
@@ -4700,7 +4629,6 @@ const knowledgeData = {
     "id": "article_087",
     "title": "学步期防护措施",
     "category": "6-12个月",
-    "categoryId": "age-0-1",
     "tags": [
       "安全",
       "学步"
@@ -4764,7 +4692,6 @@ const knowledgeData = {
     "id": "article_088",
     "title": "带宝宝坐飞机",
     "category": "通用知识",
-    "categoryId": "general",
     "tags": [
       "旅行",
       "飞机"
@@ -4828,7 +4755,6 @@ const knowledgeData = {
     "id": "article_089",
     "title": "宝宝防晒指南",
     "category": "通用知识",
-    "categoryId": "general",
     "tags": [
       "防晒",
       "皮肤"
@@ -4892,7 +4818,6 @@ const knowledgeData = {
     "id": "article_090",
     "title": "宝宝游泳注意事项",
     "category": "6-12个月",
-    "categoryId": "age-0-1",
     "tags": [
       "游泳",
       "运动"
@@ -4956,7 +4881,6 @@ const knowledgeData = {
     "id": "article_091",
     "title": "宝宝添加辅食过敏症状",
     "category": "6-12个月",
-    "categoryId": "age-0-1",
     "tags": [
       "辅食",
       "过敏",
@@ -5117,7 +5041,6 @@ const knowledgeData = {
     "id": "article_092",
     "title": "宝宝学走路时间",
     "category": "6-12个月",
-    "categoryId": "age-0-1",
     "tags": [
       "学走路",
       "发育",
@@ -5250,7 +5173,6 @@ const knowledgeData = {
     "id": "article_093",
     "title": "宝宝接种疫苗反应",
     "category": "0-6个月",
-    "categoryId": "age-0-1",
     "tags": [
       "疫苗",
       "接种",
@@ -5403,7 +5325,6 @@ const knowledgeData = {
     "id": "article_094",
     "title": "宝宝如厕训练最佳方法",
     "category": "1-3岁",
-    "categoryId": "age-1-3",
     "tags": [
       "如厕",
       "训练",
@@ -5564,7 +5485,6 @@ const knowledgeData = {
     "id": "article_095",
     "title": "宝宝安全座椅选购指南",
     "category": "1-3岁",
-    "categoryId": "age-1-3",
     "tags": [
       "安全座椅",
       "安全",
