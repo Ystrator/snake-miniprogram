@@ -1,0 +1,20 @@
+{
+  "name": "parenting-knowledge-miniprogram",
+  "version": "1.0.0",
+  "description": "育儿知识大全 - 微信小程序",
+  "main": "app.js",
+  "scripts": {
+    "upload": "node ci_upload.js"
+  },
+  "keywords": [
+    "parenting",
+    "knowledge",
+    "miniprogram",
+    "weixin"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "miniprogram-ci": "^2.1.26"
+  }
+}

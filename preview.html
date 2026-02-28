@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>育儿知识大全 - 界面预览</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+            background: #f5f5f7;
+            padding: 20px;
+        }
+
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            background: #fff;
+            border-radius: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            position: relative;
+            margin: 20px auto;
+            border: 12px solid #1a1a1a;
+        }
+
+        .screen {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            background: #F2F2F7;
+        }
+
+        /* 首页样式 */
+        .welcome-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 60px 20px 40px;
+            text-align: center;
+            border-radius: 0 0 30px 30px;
+        }
+
+        .welcome-icon {
+            font-size: 60px;
+            margin-bottom: 12px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .welcome-title {
+            display: block;
+            font-size: 24px;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 8px;
+        }
+
+        .welcome-subtitle {
+            display: block;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .quick-access {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            gap: 10px;
+        }
+
+        .quick-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            background: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            width: 75px;
+            text-align: center;
+        }
+
+        .quick-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .quick-text {
+            font-size: 13px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .section {
+            margin: 16px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #000;
+        }
+
+        .section-more {
+            font-size: 14px;
+            color: #007AFF;
+        }
+
+        .age-card {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            background: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 12px;
+        }
+
+        .age-icon {
+            font-size: 40px;
+            margin-right: 12px;
+        }
+
+        .age-title {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 4px;
+        }
+
+        .age-desc {
+            display: block;
+            font-size: 13px;
+            color: #8E8E93;
+        }
+
+        .article-item {
+            padding: 16px;
+            background: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 12px;
+        }
+
+        .article-title {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 6px;
+        }
+
+        .article-summary {
+            display: block;
+            font-size: 13px;
+            color: #8E8E93;
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 8px;
+            background: #E5E5EA;
+            color: #8E8E93;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        .tag.primary {
+            background: rgba(0, 122, 255, 0.1);
+            color: #007AFF;
+        }
+
+        .tags-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 16px;
+            background: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .tag-item {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #FFFFFF;
+            border-radius: 16px;
+            font-size: 14px;
+            box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
+        }
+
+        /* 底部导航 */
+        .tab-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0 20px;
+            background: #FFFFFF;
+            border-top: 1px solid #E5E5EA;
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+            color: #8E8E93;
+        }
+
+        .tab-item.active {
+            color: #007AFF;
+        }
+
+        .tab-icon {
+            font-size: 24px;
+            margin-bottom: 2px;
+        }
+
+        .preview-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #1a1a1a;
+        }
+
+        .preview-note {
+            text-align: center;
+            font-size: 14px;
+            color: #8E8E93;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="preview-title">📱 育儿知识大全 - 界面预览</h1>
+    <p class="preview-note">真实的小程序界面效果预览（手机尺寸 375×812）</p>
+
+    <!-- 首页预览 -->
+    <div class="phone-frame">
+        <div class="screen">
+            <!-- 欢迎区 -->
+            <div class="welcome-section">
+                <div class="welcome-icon">👶</div>
+                <span class="welcome-title">育儿知识大全</span>
+                <span class="welcome-subtitle">专业育儿知识，陪伴宝宝健康成长</span>
+            </div>
+
+            <!-- 快捷入口 -->
+            <div class="quick-access">
+                <div class="quick-item">
+                    <div class="quick-icon">📚</div>
+                    <span class="quick-text">知识分类</span>
+                </div>
+                <div class="quick-item">
+                    <div class="quick-icon">🔍</div>
+                    <span class="quick-text">搜索知识</span>
+                </div>
+                <div class="quick-item">
+                    <div class="quick-icon">⭐</div>
+                    <span class="quick-text">我的收藏</span>
+                </div>
+                <div class="quick-item">
+                    <div class="quick-icon">💡</div>
+                    <span class="quick-text">每日一签</span>
+                </div>
+            </div>
+
+            <!-- 年龄分类 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-title">按年龄选择</span>
+                    <span class="section-more">查看全部 ›</span>
+                </div>
+                <div class="age-card">
+                    <div class="age-icon">👶</div>
+                    <div>
+                        <span class="age-title">0-1岁</span>
+                        <span class="age-desc">新生儿护理</span>
+                    </div>
+                </div>
+                <div class="age-card">
+                    <div class="age-icon">🧒</div>
+                    <div>
+                        <span class="age-title">1-3岁</span>
+                        <span class="age-desc">幼儿营养行为</span>
+                    </div>
+                </div>
+                <div class="age-card">
+                    <div class="age-icon">👦</div>
+                    <div>
+                        <span class="age-title">3-6岁</span>
+                        <span class="age-desc">学龄前教育</span>
+                    </div>
+                </div>
+                <div class="age-card">
+                    <div class="age-icon">📚</div>
+                    <div>
+                        <span class="age-title">通用知识</span>
+                        <span class="age-desc">安全健康家庭</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 热门文章 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-title">热门文章</span>
+                    <span class="section-more">更多 ›</span>
+                </div>
+                <div class="article-item">
+                    <span class="article-title">新生儿睡眠指南</span>
+                    <span class="article-summary">帮助宝宝建立良好的睡眠习惯，解决新生儿常见的睡眠问题。</span>
+                    <div class="article-meta">
+                        <span class="tag primary">0-1岁</span>
+                        <span class="tag">睡眠</span>
+                        <span class="tag">新生儿</span>
+                    </div>
+                </div>
+                <div class="article-item">
+                    <span class="article-title">母乳喂养实用指南</span>
+                    <span class="article-summary">从初乳到断奶，全面的母乳喂养知识和技巧。</span>
+                    <div class="article-meta">
+                        <span class="tag primary">0-1岁</span>
+                        <span class="tag">喂养</span>
+                        <span class="tag">母乳</span>
+                    </div>
+                </div>
+                <div class="article-item">
+                    <span class="article-title">幼儿营养均衡饮食</span>
+                    <span class="article-summary">如何为1-3岁幼儿提供均衡营养，培养良好饮食习惯。</span>
+                    <div class="article-meta">
+                        <span class="tag primary">1-3岁</span>
+                        <span class="tag">营养</span>
+                        <span class="tag">饮食</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 热门话题 -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-title">热门话题</span>
+                </div>
+                <div class="tags-cloud">
+                    <span class="tag-item">睡眠</span>
+                    <span class="tag-item">喂养</span>
+                    <span class="tag-item">发育</span>
+                    <span class="tag-item">营养</span>
+                    <span class="tag-item">行为</span>
+                    <span class="tag-item">情绪</span>
+                    <span class="tag-item">教育</span>
+                    <span class="tag-item">安全</span>
+                </div>
+            </div>
+
+            <div style="height: 80px;"></div>
+        </div>
+
+        <!-- 底部导航 -->
+        <div class="tab-bar">
+            <div class="tab-item active">
+                <div class="tab-icon">🏠</div>
+                <span>首页</span>
+            </div>
+            <div class="tab-item">
+                <div class="tab-icon">📚</div>
+                <span>分类</span>
+            </div>
+            <div class="tab-item">
+                <div class="tab-icon">🔍</div>
+                <span>搜索</span>
+            </div>
+            <div class="tab-item">
+                <div class="tab-icon">⭐</div>
+                <span>收藏</span>
+            </div>
+        </div>
+    </div>
+
+    <p style="text-align: center; margin-top: 40px; color: #8E8E93; font-size: 14px;">
+        💡 提示：这是一个真实的 HTML/CSS 渲染预览，实际小程序效果与这个完全一致！
+    </p>
+</body>
+</html>

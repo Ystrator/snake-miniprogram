@@ -1,0 +1,130 @@
+<!-- 宝宝档案页面 -->
+<view class="baby-container {{darkMode ? 'dark' : ''}}">
+
+  <!-- 页面标题 -->
+  <view class="page-header">
+    <text class="page-title">👶 宝宝档案</text>
+    <text class="page-subtitle">记录宝宝的成长时光</text>
+  </view>
+
+  <!-- 未设置宝宝信息 -->
+  <view wx:if="{{!hasBabyInfo}}" class="no-baby-info">
+    <view class="empty-icon">👶</view>
+    <text class="empty-title">还没有设置宝宝档案</text>
+    <text class="empty-desc">设置宝宝的生日后，我们可以为您推荐更适合的文章</text>
+    <button class="setup-btn" bindtap="showDatePicker">设置宝宝档案</button>
+  </view>
+
+  <!-- 已设置宝宝信息 -->
+  <view wx:else class="baby-info-card">
+
+    <!-- 宝宝基本信息 -->
+    <view class="info-section">
+      <view class="section-header">
+        <text class="section-icon">🎂</text>
+        <text class="section-title">基本信息</text>
+      </view>
+
+      <view class="info-row">
+        <text class="info-label">名字</text>
+        <text class="info-value">{{babyInfo.name || '宝宝'}}</text>
+      </view>
+
+      <view class="info-row">
+        <text class="info-label">生日</text>
+        <text class="info-value">{{babyInfo.formattedBirthday || '-'}}</text>
+      </view>
+
+      <view class="info-row highlight">
+        <text class="info-label">现在的年龄</text>
+        <text class="info-value age-text">{{babyAge.text}}</text>
+      </view>
+    </view>
+
+    <!-- 成长数据 -->
+    <view class="info-section">
+      <view class="section-header">
+        <text class="section-icon">📊</text>
+        <text class="section-title">成长数据</text>
+      </view>
+
+      <view class="stats-grid">
+        <view class="stat-item">
+          <text class="stat-value">{{babyAge.totalDays}}</text>
+          <text class="stat-label">出生天数</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{babyAge.totalMonths}}</text>
+          <text class="stat-label">月龄</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 推荐内容 -->
+    <view class="info-section">
+      <view class="section-header">
+        <text class="section-icon">💡</text>
+        <text class="section-title">为您推荐</text>
+      </view>
+
+      <view class="recommend-text">
+        根据宝宝的年龄，我们为您推荐
+        <text class="highlight">
+          {{babyAge.totalMonths < 12 ? '0-1岁' : babyAge.totalMonths < 36 ? '1-3岁' : '3-6岁'}}
+        </text>
+        相关的育儿知识
+      </view>
+
+      <button class="view-recommend-btn" bindtap="goHome">查看推荐文章</button>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="action-buttons">
+      <button class="edit-btn" bindtap="editBabyInfo">修改信息</button>
+      <button class="delete-btn" bindtap="deleteBabyInfo">删除档案</button>
+    </view>
+  </view>
+
+  <!-- 日期选择弹窗 -->
+  <view wx:if="{{showDatePicker}}" class="date-picker-mask" bindtap="hideDatePicker">
+    <view class="date-picker-dialog" catchtap="stopPropagation">
+      <view class="dialog-header">
+        <text class="dialog-title">设置宝宝生日</text>
+        <text class="dialog-close" bindtap="hideDatePicker">✕</text>
+      </view>
+
+      <view class="dialog-content">
+        <view class="form-item">
+          <text class="form-label">宝宝名字</text>
+          <input
+            class="form-input"
+            placeholder="请输入宝宝名字"
+            value="{{babyName}}"
+            bindinput="onNameInput"
+            maxlength="10"
+          />
+        </view>
+
+        <view class="form-item">
+          <text class="form-label">出生日期</text>
+          <picker
+            mode="date"
+            value="{{tempDate}}"
+            end="{{today}}"
+            bindchange="onDateChange"
+          >
+            <view class="picker-display">
+              {{tempDate}}
+            </view>
+          </picker>
+        </view>
+      </view>
+
+      <view class="dialog-footer">
+        <button class="cancel-btn" bindtap="hideDatePicker">取消</button>
+        <button class="confirm-btn" bindtap="confirmDate">确认保存</button>
+      </view>
+    </view>
+  </view>
+
+</view>

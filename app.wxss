@@ -1,0 +1,442 @@
+/* iOS 设计风格 - 全局样式 - 新手妈妈优化版 */
+
+page {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  background-color: #FAF8F5;  /* 更柔和的暖灰色，降低粉调 */
+  line-height: 1.6;
+  transition: background-color 0.3s;
+}
+
+/* 夜间模式 */
+page.dark-mode {
+  background-color: #1A1A1D;
+  color: #ffffff;
+}
+
+/* 新手妈妈友好配色 - 浅色模式 */
+:root {
+  --primary-color: #E891A7;  /* 更柔和的玫瑰粉，降低饱和度 */
+  --primary-light: #FFF6F8;  /* 极浅粉背景，减少粉色面积 */
+  --success-color: #88C9A8;  /* 更柔和的鼠尾草绿 */
+  --warning-color: #F5B885;  /* 柔和的杏色 */
+  --danger-color: #E88A85;   /* 降低饱和度的红色 */
+  
+  --background-color: #FAF8F5;     /* 更柔和的暖灰背景 */
+  --card-background: #FFFFFF;      /* 纯白卡片 */
+  --card-background-hover: #F6F4F1; /* 温暖的悬停色 */
+  --section-bg: #F4F2EF;           /* 浅暖灰章节背景 */
+  --highlight-bg: #FDF6F0;         /* 高亮背景，减少橙调 */
+  
+  --text-primary: #2C2C2C;   /* 深灰黑，保证可读性同时柔和 */
+  --text-secondary: #6B6B6B; /* 中灰色 */
+  --text-light: #A8A8A8;     /* 浅灰色 */
+  
+  --border-color: #E8E0D8;   /* 浅暖灰边框，更清晰 */
+  --border-medium: #D8CFC4;  /* 中等边框 */
+  
+  --shadow-color: rgba(62, 62, 62, 0.06);
+  --card-shadow: 0 4rpx 16rpx rgba(62, 62, 62, 0.08);
+  --soft-shadow: 0 2rpx 8rpx rgba(62, 62, 62, 0.04);
+  
+  --gradient-start: #E8B4C8;
+  --gradient-end: #F5D9E6;
+  
+  --warm-pink: #FFF0F5;
+  --warm-peach: #FFF8E7;
+  --warm-lavender: #F3E5F5;
+  --warm-mint: #E8F5E9;
+  --warm-blue: #E3F2FD;
+}
+
+/* 新手妈妈友好配色 - 深色模式 */
+page.dark-mode {
+  --primary-color: #FF8AB3;  /* 深色模式下的粉色 */
+  --primary-light: #3D2A33;
+  --success-color: #7CB342;
+  --warning-color: #FFA726;
+  --danger-color: #EF5350;
+  
+  --background-color: #1A1A1D;     /* 深灰背景 */
+  --card-background: #252528;      /* 深灰卡片 */
+  --card-background-hover: #2D2D31;
+  --section-bg: #1E1E21;
+  --highlight-bg: #2A2A2D;
+  
+  --text-primary: #F5F5F5;  /* 接近白色 */
+  --text-secondary: #B0B0B0;
+  --text-light: #6E6E6E;
+  
+  --border-color: #353538;
+  --border-medium: #404045;
+  
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --card-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.2);
+  --soft-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+  
+  --gradient-start: #8E24AA;
+  --gradient-end: #BA68C8;
+}
+
+/* 通用容器 */
+.container {
+  min-height: 100vh;
+  padding-bottom: 100rpx;
+  background-color: var(--background-color);
+}
+
+/* 卡片优化 - 温暖柔和 */
+.card {
+  background: var(--card-background);
+  border-radius: 16rpx;  /* 更圆润 */
+  padding: 32rpx;
+  margin: 24rpx;
+  box-shadow: var(--card-shadow);
+  border: 1rpx solid var(--border-color);
+}
+
+.card:active {
+  background: var(--card-background-hover);
+}
+
+/* 文本样式 - 柔和对比 */
+.text-primary {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+  font-size: 28rpx;
+}
+
+/* 标签优化 - 温暖色系 */
+.tag {
+  display: inline-block;
+  padding: 10rpx 20rpx;
+  background: var(--section-bg);
+  color: var(--text-secondary);
+  border-radius: 20rpx;  /* 更圆润 */
+  font-size: 24rpx;
+  margin-right: 16rpx;
+  margin-bottom: 16rpx;
+  border: 1rpx solid var(--border-color);
+}
+
+.tag.primary {
+  background: var(--primary-light);
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.tag.warning {
+  background: var(--warm-peach);
+  color: var(--warning-color);
+}
+
+.tag.danger {
+  background: #FDF0F0;
+  color: var(--danger-color);
+}
+
+/* 按钮优化 - 温暖柔和 */
+.btn {
+  background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 24rpx;  /* 更圆润 */
+  padding: 28rpx 56rpx;
+  font-size: 32rpx;
+  font-weight: 500;
+  transition: all 0.3s;
+  box-shadow: 0 4rpx 12rpx rgba(255, 107, 157, 0.25);
+}
+
+.btn:active {
+  opacity: 0.85;
+  transform: scale(0.97);
+}
+
+.btn-secondary {
+  background: var(--card-background);
+  color: var(--text-primary);
+  border: 2rpx solid var(--border-color);
+  box-shadow: var(--soft-shadow);
+}
+
+.btn-secondary:active {
+  background: var(--section-bg);
+}
+
+/* 搜索框优化 */
+.search-box {
+  background: var(--card-background);
+  border: 2rpx solid var(--border-color);
+  border-radius: 24rpx;  /* 更圆润 */
+  padding: 24rpx 28rpx;
+  display: flex;
+  align-items: center;
+  box-shadow: var(--soft-shadow);
+}
+
+.search-placeholder {
+  color: var(--text-light);
+  font-size: 28rpx;
+}
+
+/* 快捷按钮优化 - 温暖色 */
+.quick-btn {
+  background: var(--card-background);
+  border: 1rpx solid var(--border-color);
+  border-radius: 20rpx;  /* 更圆润 */
+  padding: 24rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.2s;
+  box-shadow: var(--soft-shadow);
+}
+
+.quick-btn:active {
+  background: var(--card-background-hover);
+  transform: scale(0.97);
+}
+
+/* 分类卡片优化 */
+.age-card {
+  background: var(--card-background);
+  border: 1rpx solid var(--border-color);
+  border-radius: 20rpx;
+  padding: 28rpx;
+  text-align: center;
+  transition: all 0.2s;
+  box-shadow: var(--soft-shadow);
+}
+
+.age-card:active {
+  background: var(--card-background-hover);
+  transform: scale(0.97);
+}
+
+/* 文章卡片优化 */
+.article-card {
+  background: var(--card-background);
+  border: 1rpx solid var(--border-color);
+  border-radius: 16rpx;
+  padding: 28rpx;
+  margin-bottom: 24rpx;
+  transition: all 0.2s;
+  box-shadow: var(--soft-shadow);
+}
+
+.article-card:active {
+  background: var(--card-background-hover);
+}
+
+/* 紧急按钮 - 柔和的红色系 */
+.emergency-btn {
+  background: linear-gradient(135deg, #E88A85 0%, #E06A65 100%);
+  border: none;
+  border-radius: 50rpx;
+  padding: 24rpx 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 16rpx rgba(224, 106, 101, 0.25);
+}
+
+.emergency-btn:active {
+  opacity: 0.85;
+  transform: scale(0.98);
+}
+
+/* Modal 弹窗优化 */
+.modal-content {
+  background: var(--card-background);
+  border-radius: 24rpx;  /* 更圆润 */
+  padding: 48rpx;
+  box-shadow: 0 8rpx 32rpx rgba(62, 62, 62, 0.15);
+  max-height: 80vh;
+  overflow-y: auto;
+  border: 1rpx solid var(--border-color);
+}
+
+/* 列表项优化 */
+.list-item {
+  background: var(--card-background);
+  padding: 32rpx;
+  border-bottom: 1rpx solid var(--border-color);
+  transition: background 0.2s;
+}
+
+.list-item:active {
+  background: var(--card-background-hover);
+}
+
+/* 紧急指南优化 */
+.emergency-item {
+  background: var(--section-bg);
+  border: 1rpx solid var(--border-color);
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+/* 标题优化 */
+.modal-title,
+.section-title {
+  color: var(--text-primary);
+  font-size: 34rpx;
+  font-weight: 600;
+  margin-bottom: 24rpx;
+}
+
+.article-title {
+  color: var(--text-primary);
+  font-size: 30rpx;
+  font-weight: 600;
+  margin-bottom: 12rpx;
+  line-height: 1.4;
+}
+
+.article-summary {
+  color: var(--text-secondary);
+  font-size: 28rpx;
+  line-height: 1.6;
+  margin-bottom: 16rpx;
+}
+
+/* 章节背景 */
+.section-bg {
+  background: var(--section-bg);
+  border-radius: 16rpx;
+  padding: 32rpx;
+  margin-bottom: 32rpx;
+}
+
+/* 高亮背景 */
+.highlight-bg {
+  background: var(--highlight-bg);
+  border-radius: 12rpx;
+  padding: 12rpx 20rpx;
+}
+
+/* 搜索英雄区域 */
+.search-hero {
+  background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+  padding: 48rpx 32rpx;
+  border-radius: 24rpx;
+  margin: 32rpx;
+  box-shadow: 0 8rpx 24rpx rgba(255, 107, 157, 0.2);
+}
+
+/* 图标按钮优化 */
+.icon-btn {
+  width: 80rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.icon-btn:active {
+  background: var(--section-bg);
+}
+
+/* 深色模式特殊优化 */
+page.dark-mode .emergency-btn {
+  background: linear-gradient(135deg, #C62828 0%, #E53935 100%);
+  box-shadow: 0 4rpx 16rpx rgba(198, 40, 40, 0.3);
+}
+
+page.dark-mode .search-hero {
+  background: linear-gradient(135deg, #7B1FA2 0%, #9C27B0 100%);
+  box-shadow: 0 8rpx 24rpx rgba(123, 31, 162, 0.3);
+}
+
+/* 辅助类 */
+.card-group {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.divider {
+  height: 1rpx;
+  background: var(--border-color);
+  margin: 32rpx 0;
+}
+
+.badge {
+  background: var(--danger-color);
+  color: #FFFFFF;
+  font-size: 20rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 20rpx;
+  min-width: 32rpx;
+  text-align: center;
+}
+
+.loading {
+  text-align: center;
+  padding: 60rpx;
+  color: var(--text-secondary);
+}
+
+.empty {
+  text-align: center;
+  padding: 120rpx 60rpx;
+  color: var(--text-secondary);
+}
+
+.empty-icon {
+  font-size: 120rpx;
+  margin-bottom: 32rpx;
+  opacity: 0.4;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  line-height: 1.6;
+}
+
+/* 动画 */
+.fade-in {
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scale-in {
+  animation: scaleIn 0.3s ease-out;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* 灵动岛/刘海适配 */
+.safe-area-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}

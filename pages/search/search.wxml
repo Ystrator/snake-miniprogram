@@ -1,0 +1,80 @@
+<!--搜索页面 - 优化版本-->
+<view class="container {{darkMode ? 'dark-mode' : ''}}">
+  <!-- 顶部状态栏 -->
+  <view class="status-bar">
+    <text class="page-title">搜索</text>
+    <view class="theme-toggle" bindtap="toggleDarkMode">
+      <text class="theme-icon">{{darkMode ? '☀️' : '🌙'}}</text>
+    </view>
+  </view>
+
+  <!-- 搜索栏 -->
+  <view class="search-bar">
+    <text class="search-icon">🔍</text>
+    <input class="search-input"
+           placeholder="搜索育儿知识..."
+           value="{{keyword}}"
+           bindinput="onSearchInput"
+           confirm-type="search"
+           bindconfirm="doSearch" />
+    <text class="search-btn" bindtap="doSearch">搜索</text>
+  </view>
+
+  <!-- 搜索结果 -->
+  <view class="search-results" wx:if="{{searchResults.length > 0}}">
+    <text class="result-count">找到 {{searchResults.length}} 篇相关文章</text>
+
+    <!-- 文章列表 -->
+    <view class="article-list">
+      <view class="article-card {{item.isTopMatch ? 'top-match' : ''}}" wx:for="{{searchResults}}" wx:key="id" bindtap="readArticle" data-id="{{item.id}}">
+        <view class="article-header">
+          <text class="article-title">{{item.title}}</text>
+          <view class="badges" wx:if="{{item.isTopMatch || item.isRecommended}}">
+            <text class="badge hot" wx:if="{{item.isTopMatch}}">🔥 最相关</text>
+            <text class="badge recommend" wx:if="{{item.isRecommended && !item.isTopMatch}}">⭐ 推荐</text>
+          </view>
+        </view>
+
+        <text class="article-description">{{item.description || item.summary}}</text>
+
+        <view class="article-meta">
+          <text class="article-category">{{item.categoryName}}</text>
+          <text class="article-tags" wx:if="{{item.tags}}">
+            <text class="tag" wx:for="{{item.tags}}" wx:key="*this" wx:for-item="tag">#{{tag}}</text>
+          </text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 相关文章推荐 -->
+    <view class="related-section" wx:if="{{relatedArticles.length > 0}}">
+      <view class="related-header">
+        <text class="related-title">📚 相关文章推荐</text>
+      </view>
+      <view class="related-list">
+        <view class="related-item" wx:for="{{relatedArticles}}" wx:key="id" bindtap="readArticle" data-id="{{item.id}}">
+          <text class="related-title-text">{{item.title}}</text>
+          <text class="related-arrow">→</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{searched && searchResults.length === 0}}">
+    <text class="empty-icon">🔍</text>
+    <text class="empty-text">未找到相关文章</text>
+    <text class="empty-hint">试试搜索"睡眠"、"喂养"等关键词</text>
+  </view>
+
+  <!-- 热门搜索 -->
+  <view class="search-tips" wx:if="{{!searched}}">
+    <text class="tips-title">🔥 热门搜索</text>
+    <view class="tags-cloud">
+      <text class="tag-item" wx:for="{{hotTags}}" wx:key="tag" bindtap="quickSearch" data-keyword="{{item.tag}}">
+        {{item.tag}}
+        <text class="tag-count" wx:if="{{item.count}}">{{item.count}}</text>
+      </text>
+    </view>
+  </view>
+</view>
