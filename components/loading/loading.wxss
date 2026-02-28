@@ -1,0 +1,132 @@
+/* components/loading/loading.wxss */
+
+.loading-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.loading-wrapper {
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 48rpx 64rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.15);
+  animation: scaleIn 0.3s ease-out;
+  min-width: 320rpx;
+}
+
+/* 加载动画 - 三点跳动 */
+.loading-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16rpx;
+  margin-bottom: 32rpx;
+}
+
+.spinner-dot {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FF9EB5 0%, #FFB6C1 100%);
+  animation: bounce 1.4s infinite ease-in-out both;
+  box-shadow: 0 2rpx 8rpx rgba(255, 158, 181, 0.4);
+}
+
+.spinner-dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.spinner-dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+.spinner-dot:nth-child(3) {
+  animation-delay: 0s;
+}
+
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0.8);
+    opacity: 0.6;
+  }
+  40% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+/* 加载文字 */
+.loading-text {
+  font-size: 28rpx;
+  color: var(--text-primary);
+  text-align: center;
+  line-height: 1.5;
+  margin-bottom: 24rpx;
+}
+
+/* 进度条 */
+.loading-progress {
+  width: 100%;
+  margin-top: 24rpx;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8rpx;
+  background: #F0F0F0;
+  border-radius: 4rpx;
+  overflow: hidden;
+  margin-bottom: 12rpx;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #FF9EB5 0%, #FFB6C1 100%);
+  border-radius: 4rpx;
+  transition: width 0.3s ease;
+  box-shadow: 0 0 8rpx rgba(255, 158, 181, 0.5);
+}
+
+.progress-text {
+  text-align: center;
+  font-size: 24rpx;
+  color: var(--text-secondary);
+}
+
+/* 深色模式适配 */
+page.dark-mode .loading-wrapper {
+  background: #252528;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.3);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

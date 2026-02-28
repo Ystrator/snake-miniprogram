@@ -440,3 +440,49 @@ page.dark-mode .search-hero {
 .safe-area-bottom {
   padding-bottom: env(safe-area-inset-bottom);
 }
+
+/* ==================== P1视觉问题修复 ==================== */
+
+/* 修复2: 返回按钮热区优化 - 确保最小88rpx热区 */
+.page {
+  position: relative;
+}
+
+/* 导航栏返回按钮热区优化 */
+.navigate-back {
+  min-width: 88rpx !important;
+  min-height: 88rpx !important;
+  padding: 12rpx !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* 页面级返回按钮热区优化 */
+.page-nav-back {
+  position: relative;
+  z-index: 1000;
+  min-width: 88rpx;
+  min-height: 88rpx;
+  padding: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 增大所有可点击元素的最小热区 */
+button, navigator, .clickable {
+  min-height: 88rpx;
+  min-width: 88rpx;
+}
+
+/* iOS安全区域适配增强 */
+.safe-area-inset-top {
+  padding-top: max(env(safe-area-inset-top), 44rpx);
+}
+
+.safe-area-inset-bottom {
+  padding-bottom: max(env(safe-area-inset-bottom), 34rpx);
+}
+
+/* ==================== P1视觉问题修复结束 ==================== */

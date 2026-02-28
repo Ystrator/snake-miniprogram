@@ -10,14 +10,14 @@
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#007AFF",
+    "navigationBarBackgroundColor": "#FF9EB5",
     "navigationBarTitleText": "育儿知识大全",
     "navigationBarTextStyle": "white",
     "backgroundColor": "#F2F2F7"
   },
   "tabBar": {
     "color": "#8E8E93",
-    "selectedColor": "#007AFF",
+    "selectedColor": "#FF9EB5",
     "backgroundColor": "#FFFFFF",
     "borderStyle": "black",
     "list": [
