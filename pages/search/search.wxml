@@ -1,4 +1,4 @@
-<!--搜索页面 - 优化版本-->
+<!--搜索页面 - 月龄筛选增强版-->
 <view class="container {{darkMode ? 'dark-mode' : ''}}">
   <!-- 顶部状态栏 -->
   <view class="status-bar">
@@ -9,16 +9,38 @@
   </view>
 
   <!-- 搜索栏 -->
-  <view class="search-bar">
-    <text class="search-icon">🔍</text>
-    <input class="search-input"
-           placeholder="试试搜索：宝宝不睡觉、哭闹、发烧..."
-           value="{{keyword}}"
-           bindinput="onSearchInput"
-           confirm-type="search"
-           bindconfirm="doSearch" />
-    <text class="voice-btn" bindtap="startVoiceSearch">🎤</text>
-    <text class="search-btn" bindtap="doSearch">搜索</text>
+  <view class="search-bar-wrapper">
+    <view class="search-bar">
+      <text class="search-icon">🔍</text>
+      <input 
+        class="search-input"
+        placeholder="试试搜索：宝宝不睡觉、哭闹、发烧..."
+        value="{{keyword}}"
+        bindinput="onInput"
+        confirm-type="search"
+        bindconfirm="doSearch" 
+      />
+      <text class="clear-btn" bindtap="clearInput" wx:if="{{keyword}}">✕</text>
+      <text class="search-btn" bindtap="doSearch">搜索</text>
+    </view>
+
+    <!-- 月龄筛选 -->
+    <view class="age-filter-bar" wx:if="{{hasBabyInfo || currentAgeFilter !== 'all'}}">
+      <scroll-view scroll-x class="filter-scroll">
+        <view class="filter-item {{currentAgeFilter === 'all' ? 'active' : ''}}" bindtap="switchAgeFilter" data-id="all">
+          <text>全部</text>
+        </view>
+        <view class="filter-item {{currentAgeFilter === 'age-0-1' ? 'active' : ''}}" bindtap="switchAgeFilter" data-id="age-0-1">
+          <text>0-1岁</text>
+        </view>
+        <view class="filter-item {{currentAgeFilter === 'age-1-3' ? 'active' : ''}}" bindtap="switchAgeFilter" data-id="age-1-3">
+          <text>1-3岁</text>
+        </view>
+        <view class="filter-item {{currentAgeFilter === 'age-3-6' ? 'active' : ''}}" bindtap="switchAgeFilter" data-id="age-3-6">
+          <text>3-6岁</text>
+        </view>
+      </scroll-view>
+    </view>
   </view>
 
   <!-- 搜索历史 -->
@@ -28,74 +50,78 @@
       <text class="history-clear" bindtap="clearSearchHistory">清空</text>
     </view>
     <view class="history-list">
-      <text class="history-item" wx:for="{{searchHistory}}" wx:key="*this" bindtap="quickSearch" data-keyword="{{item}}">
+      <text 
+        class="history-item" 
+        wx:for="{{searchHistory}}" 
+        wx:key="*this" 
+        bindtap="clickHistoryItem" 
+        data-keyword="{{item}}"
+      >
         {{item}}
       </text>
     </view>
   </view>
 
+  <!-- 热门标签 -->
+  <view class="hot-tags" wx:if="{{!searched}}">
+    <text class="hot-title">🔥 热门搜索</text>
+    <view class="tag-list">
+      <text 
+        class="tag-item" 
+        wx:for="{{hotTags}}" 
+        wx:key="tag" 
+        bindtap="clickHotTag" 
+        data-tag="{{item.tag}}"
+      >
+        {{item.tag}}
+      </text>
+    </view>
+  </view>
+
   <!-- 搜索结果 -->
-  <scroll-view class="search-results-scroll" scroll-y="true" refresher-enabled="true" refresher-triggered="{{refreshing}}" bindrefresherrefresh="onPullDownRefresh" wx:if="{{searchResults.length > 0}}">
+  <scroll-view 
+    class="search-results-scroll" 
+    scroll-y="true" 
+    wx:if="{{searchResults.length > 0}}"
+  >
     <view class="search-results">
-      <text class="result-count">找到 {{searchResults.length}} 篇相关文章</text>
+      <view class="result-header">
+        <text class="result-count">找到 {{searchResults.length}} 篇相关文章</text>
+        <text class="filter-badge" wx:if="{{currentAgeFilter !== 'all'}}">
+          {{ageFilters.find(f => f.id === currentAgeFilter)?.name}}
+        </text>
+      </view>
 
       <!-- 文章列表 -->
       <view class="article-list">
-        <view class="article-card {{item.isTopMatch ? 'top-match' : ''}}" wx:for="{{searchResults}}" wx:key="id" bindtap="readArticle" data-id="{{item.id}}">
-          <view class="article-icon-placeholder">
-            <text class="placeholder-icon">📄</text>
-          </view>
-          <view class="article-content">
-            <view class="article-header">
-              <text class="article-title">{{item.title}}</text>
-              <view class="badges" wx:if="{{item.isTopMatch || item.isRecommended}}">
-                <text class="badge hot" wx:if="{{item.isTopMatch}}">🔥 最相关</text>
-                <text class="badge recommend" wx:if="{{item.isRecommended && !item.isTopMatch}}">⭐ 推荐</text>
-              </view>
-            </view>
-
-            <text class="article-description">{{item.description || item.summary}}</text>
-
-            <view class="article-meta">
-              <text class="article-category">{{item.categoryName}}</text>
-              <text class="article-tags" wx:if="{{item.tags}}">
-                <text class="tag" wx:for="{{item.tags}}" wx:key="*this" wx:for-item="tag">#{{tag}}</text>
-              </text>
-            </view>
-          </view>
-        </view>
-      </view>
-
-      <!-- 相关文章推荐 -->
-      <view class="related-section" wx:if="{{relatedArticles.length > 0}}">
-        <view class="related-header">
-          <text class="related-title">📚 相关文章推荐</text>
-        </view>
-        <view class="related-list">
-          <view class="related-item" wx:for="{{relatedArticles}}" wx:key="id" bindtap="readArticle" data-id="{{item.id}}">
-            <text class="related-title-text">{{item.title}}</text>
-            <text class="related-arrow">→</text>
+        <view 
+          class="article-card" 
+          wx:for="{{searchResults}}" 
+          wx:key="id" 
+          bindtap="readArticle" 
+          data-id="{{item.id}}"
+        >
+          <text class="article-title">{{item.highlightTitle || item.title}}</text>
+          <text class="article-summary">{{item.highlightSummary || item.summary}}</text>
+          <view class="article-meta">
+            <text class="article-category">{{item.category}}</text>
           </view>
         </view>
       </view>
     </view>
   </scroll-view>
 
-  <!-- 空状态 -->
-  <view class="empty-state" wx:if="{{searched && searchResults.length === 0}}">
+  <!-- 空结果 -->
+  <view class="empty-result" wx:if="{{searched && searchResults.length === 0}}">
     <text class="empty-icon">🔍</text>
-    <text class="empty-text">未找到相关文章</text>
-    <text class="empty-hint">试试搜索"睡眠"、"喂养"等关键词</text>
+    <text class="empty-text">没有找到相关文章</text>
+    <text class="empty-hint">换个关键词试试吧</text>
   </view>
 
-  <!-- 热门搜索 -->
-  <view class="search-tips" wx:if="{{!searched}}">
-    <text class="tips-title">🔥 热门搜索</text>
-    <view class="tags-cloud">
-      <text class="tag-item" wx:for="{{hotTags}}" wx:key="tag" bindtap="quickSearch" data-keyword="{{item.tag}}">
-        {{item.tag}}
-        <text class="tag-count" wx:if="{{item.count}}">{{item.count}}</text>
-      </text>
-    </view>
+  <!-- 初始状态提示 -->
+  <view class="initial-hint" wx:if="{{!searched && searchHistory.length === 0}}">
+    <text class="hint-icon">💡</text>
+    <text class="hint-text">搜索育儿知识</text>
+    <text class="hint-detail">试试搜索：不睡觉、哭闹、发烧</text>
   </view>
 </view>
