@@ -1,7 +1,15 @@
 // 育儿知识大全 - 主程序
+// 引入AI引擎和推荐引擎
+const aiEngine = require('./utils/ai-engine.js');
+const recommendationEngine = require('./utils/recommendation-engine.js');
+
 App({
   onLaunch() {
     console.log('育儿知识大全启动');
+
+    // 🔧 P0修复: 初始化AI引擎和推荐引擎
+    this.initEngines();
+
     // 加载夜间模式设置
     this.loadDarkMode();
     // 检查是否需要自动开启夜间模式
@@ -12,7 +20,36 @@ App({
     userInfo: null,
     favorites: [],
     darkMode: false,
-    babyInfo: null  // { birthday: timestamp, name: string }
+    babyInfo: null,  // { birthday: timestamp, name: string }
+    // 暴露AI引擎和推荐引擎实例,方便所有页面访问
+    aiEngine: null,
+    recommendationEngine: null
+  },
+
+  /**
+   * 🔧 P0修复: 初始化AI引擎和推荐引擎
+   * 在应用启动时加载知识库数据
+   */
+  initEngines() {
+    try {
+      // 加载文章数据
+      const articles = require('./data.js').allArticles;
+
+      // 初始化AI引擎的知识库
+      aiEngine.initKnowledgeBase(articles);
+      console.log('✅ AI引擎初始化完成,知识库文章数:', articles.length);
+
+      // 初始化推荐引擎
+      recommendationEngine.init(articles);
+      console.log('✅ 推荐引擎初始化完成,文章数:', articles.length);
+
+      // 将引擎实例挂载到globalData,方便页面访问
+      this.globalData.aiEngine = aiEngine;
+      this.globalData.recommendationEngine = recommendationEngine;
+
+    } catch (e) {
+      console.error('❌ 引擎初始化失败:', e);
+    }
   },
 
   // 夜间模式管理

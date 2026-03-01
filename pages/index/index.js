@@ -1,4 +1,4 @@
-// 首页逻辑 - 带调试版本
+// 首页逻辑 - 🔧 P1修复: 使用推荐引擎进行个性化推荐
 const app = getApp();
 
 Page({
@@ -7,6 +7,8 @@ Page({
     babyName: '',
     babyAgeText: '',
     recommendedCategory: '',
+    recommendedCategoryTitle: '',
+    recommendedArticles: [],
     hotArticles: [],
     allArticles: [],
     showTipModal: false,
@@ -73,191 +75,292 @@ Page({
 
   onLoad() {
     console.log('=== 首页加载 ===');
-    // 加载夜间模式状态
     this.setData({
       darkMode: app.globalData.darkMode
     });
-    // 加载所有文章数据
     this.loadArticles();
-    // 加载宝宝信息
     this.loadBabyInfo();
-    wx.showToast({
-      title: '欢迎回来',
-      icon: 'success',
-      duration: 1000
-    });
   },
 
-  // 加载文章数据
+  onShow() {
+    this.setData({
+      darkMode: app.globalData.darkMode
+    });
+    this.loadBabyInfo();
+  },
+
+  /**
+   * 加载文章数据
+   * 将原始数据转换为推荐引擎需要的格式
+   */
   loadArticles() {
     const knowledgeData = require('../../data.js');
     const allArticles = [];
 
-    // 从allArticles数组中获取所有文章
     knowledgeData.allArticles.forEach(article => {
-      // 根据category字段映射到categoryId
       let categoryId = 'general';
       const categoryMap = {
-        '0-6个月': 'age-0-1',
-        '6-12个月': 'age-0-1',
-        '1-3岁': 'age-1-3',
-        '3-6岁': 'age-3-6',
-        '通用': 'general'
+        'feeding': '喂养',
+        'sleep': '睡眠',
+        'health': '健康',
+        'care': '护理',
+        'development': '发育',
+        'education': '教育',
+        'safety': '安全',
+        'psychology': '心理',
+        'age-0-1': '0-1岁',
+        'age-1-3': '1-3岁',
+        'age-3-6': '3-6岁'
       };
-
-      if (article.category) {
-        categoryId = categoryMap[article.category] || 'general';
+      
+      for (const [key, value] of Object.entries(categoryMap)) {
+        if (article.category && article.category.includes(value)) {
+          categoryId = key;
+          break;
+        }
       }
 
-      // 查找分类名称
-      const category = knowledgeData.categories.find(cat => cat.id === categoryId);
-
       allArticles.push({
-        ...article,
-        categoryName: category ? category.name : '通用知识',
-        categoryId: categoryId
+        id: article.id,
+        title: article.title,
+        summary: article.summary || article.title,
+        category: categoryMap[categoryId] || '综合',
+        categoryId: categoryId,
+        content: article.content,
+        ageRange: article.ageRange || null,
+        tags: article.tags || []
       });
     });
 
     this.setData({
-      allArticles: allArticles
+      allArticles: allArticles,
+      hotArticles: allArticles.slice(0, 10)
     });
-
-    console.log('加载文章数量:', allArticles.length);
   },
 
-  onShow() {
-    console.log('=== 首页显示 ===');
-    // 每次显示时更新夜间模式状态
+  /**
+   * 🔧 P1修复: 使用推荐引擎生成个性化推荐
+   * 替换原来的简单月龄筛选为多维度融合推荐
+   */
+  loadBabyInfo() {
+    const babyInfo = app.getBabyInfo();
+    const babyAge = app.calculateBabyAge();
+
+    if (babyInfo && babyAge) {
+      const months = babyAge.totalMonths;
+      let recommendedCategory = '';
+      let recommendedCategoryTitle = '';
+
+      if (months < 12) {
+        recommendedCategory = 'age-0-1';
+        recommendedCategoryTitle = '0-1岁宝宝专属';
+      } else if (months < 36) {
+        recommendedCategory = 'age-1-3';
+        recommendedCategoryTitle = '1-3岁宝宝专属';
+      } else {
+        recommendedCategory = 'age-3-6';
+        recommendedCategoryTitle = '3-6岁宝宝专属';
+      }
+
+      // 🔧 P1修复: 使用推荐引擎获取个性化推荐
+      let recommendedArticles = [];
+      
+      try {
+        // 调用推荐引擎的个性化推荐方法
+        const recommendations = app.globalData.recommendationEngine.getPersonalizedRecommendations({
+          babyAgeMonths: months,
+          limit: 4,
+          excludeViewed: false  // 是否排除最近浏览过的文章
+        });
+
+        console.log('🎯 推荐引擎返回结果数:', recommendations.length);
+
+        // 转换为页面需要的格式
+        recommendedArticles = recommendations.map(article => {
+          const categoryMap = {
+            'feeding': '喂养',
+            'sleep': '睡眠',
+            'health': '健康',
+            'care': '护理',
+            'development': '发育',
+            'education': '教育',
+            'safety': '安全',
+            'psychology': '心理',
+            'age-0-1': '0-1岁',
+            'age-1-3': '1-3岁',
+            'age-3-6': '3-6岁'
+          };
+
+          return {
+            id: article.id,
+            title: article.title,
+            summary: article.summary || article.title,
+            category: categoryMap[article.categoryId] || '综合',
+            categoryId: article.categoryId,
+            content: article.content,
+            ageRange: article.ageRange || null,
+            recommendationScore: article.recommendationScore  // 保留推荐分数
+          };
+        });
+
+        // 如果推荐引擎返回的结果不足4篇,用月龄筛选补充
+        if (recommendedArticles.length < 4) {
+          console.log('推荐结果不足,使用月龄筛选补充');
+          const ageFiltered = this.data.allArticles.filter(article => {
+            return article.categoryId === recommendedCategory;
+          });
+
+          // 去重
+          const existingIds = new Set(recommendedArticles.map(a => a.id));
+          const supplement = ageFiltered
+            .filter(a => !existingIds.has(a.id))
+            .slice(0, 4 - recommendedArticles.length);
+
+          recommendedArticles = [...recommendedArticles, ...supplement];
+        }
+
+      } catch (e) {
+        console.error('❌ 推荐引擎调用失败,使用月龄筛选:', e);
+        // 降级方案: 使用月龄筛选
+        recommendedArticles = this.data.allArticles.filter(article => {
+          return article.categoryId === recommendedCategory || 
+                 article.title.includes(recommendedCategoryTitle.replace('宝宝专属', ''));
+        }).slice(0, 4);
+      }
+
+      this.setData({
+        babyName: babyInfo.name || '宝宝',
+        babyAgeText: babyAge.text,
+        recommendedCategory,
+        recommendedCategoryTitle,
+        recommendedArticles
+      });
+    } else {
+      // 没有宝宝信息时,显示热门文章
+      const hotArticles = this.data.allArticles.slice(0, 4);
+      
+      this.setData({
+        babyName: '',
+        babyAgeText: '',
+        recommendedCategory: '',
+        recommendedCategoryTitle: '热门推荐',
+        recommendedArticles: hotArticles
+      });
+    }
+  },
+
+  // 主题切换
+  toggleDarkMode() {
+    app.toggleDarkMode();
     this.setData({
       darkMode: app.globalData.darkMode
     });
   },
 
-  // 主题切换回调
-  onThemeChange(enabled) {
-    this.setData({
-      darkMode: enabled
-    });
-  },
-
-  // 切换夜间模式
-  toggleDarkMode() {
-    app.toggleDarkMode();
-    wx.showToast({
-      title: this.data.darkMode ? '已关闭夜间模式' : '已开启夜间模式',
-      icon: 'success',
-      duration: 1500
-    });
-  },
-
-  // 跳转到搜索页
+  // 跳转到搜索
   goToSearch() {
-    console.log('点击搜索框');
-    wx.switchTab({
-      url: '/pages/search/search',
-      success: () => {
-        console.log('搜索页跳转成功');
-      },
-      fail: (err) => {
-        console.error('搜索页跳转失败:', err);
-        wx.showToast({
-          title: '页面跳转失败',
-          icon: 'none'
-        });
-      }
+    wx.navigateTo({
+      url: '/pages/search/search'
     });
   },
 
-  // 按关键词搜索
+  // 搜索关键词
   searchKeyword(e) {
     const keyword = e.currentTarget.dataset.keyword;
-    console.log('点击关键词按钮:', keyword);
-    
-    wx.switchTab({
-      url: `/pages/search/search?keyword=${encodeURIComponent(keyword)}`,
-      success: () => {
-        console.log('关键词搜索跳转成功:', keyword);
-      },
-      fail: (err) => {
-        console.error('关键词搜索跳转失败:', err);
-        wx.showToast({
-          title: '页面跳转失败',
-          icon: 'none'
-        });
-      }
+    wx.navigateTo({
+      url: `/pages/search/search?keyword=${keyword}`
     });
   },
 
-  // 跳转到分类页
+  // 跳转到分类
   goToCategory(e) {
-    const categoryId = e.currentTarget.dataset.id;
-    console.log('点击分类卡片:', categoryId);
-    
+    const id = e.currentTarget.dataset.id;
+    wx.navigateTo({
+      url: `/pages/category/category?id=${id}`
+    });
+  },
+
+  // 跳转到收藏
+  goToFavorites() {
     wx.switchTab({
-      url: `/pages/category/category?id=${categoryId}`,
-      success: () => {
-        console.log('分类页跳转成功:', categoryId);
-      },
-      fail: (err) => {
-        console.error('分类页跳转失败:', err);
-        wx.showToast({
-          title: '页面跳转失败',
-          icon: 'none'
-        });
-      }
+      url: '/pages/favorites/favorites'
+    });
+  },
+
+  // 跳转到宝宝档案
+  goToBaby() {
+    wx.navigateTo({
+      url: '/pages/baby/baby'
+    });
+  },
+
+  // 跳转到发烧护理
+  goToFever() {
+    wx.navigateTo({
+      url: '/pages/fever/fever'
+    });
+  },
+
+  // 跳转到成长曲线
+  goToGrowth() {
+    wx.navigateTo({
+      url: '/pages/growth/growth'
+    });
+  },
+
+  // 跳转到疫苗提醒
+  goToVaccine() {
+    wx.navigateTo({
+      url: '/pages/vaccine/vaccine'
     });
   },
 
   // 阅读文章
   readArticle(e) {
-    const articleId = e.currentTarget.dataset.id;
-    console.log('点击文章卡片:', articleId);
-    
+    const id = e.currentTarget.dataset.id;
     wx.navigateTo({
-      url: `/pages/article/article?id=${articleId}`,
-      success: () => {
-        console.log('文章页跳转成功:', articleId);
-      },
-      fail: (err) => {
-        console.error('文章页跳转失败:', err);
-        wx.showToast({
-          title: '页面跳转失败',
-          icon: 'none'
-        });
-      }
+      url: `/pages/article/article?id=${id}`
+    });
+  },
+
+  // 显示紧急指南
+  showEmergencyGuide() {
+    this.setData({
+      showEmergencyModal: true
+    });
+  },
+
+  // 隐藏紧急指南
+  hideEmergencyGuide() {
+    this.setData({
+      showEmergencyModal: false
     });
   },
 
   // 显示每日小贴士
   showDailyTip() {
-    console.log('点击每日小贴士');
-    
     const tips = [
-      '🌟 宝宝的每一次哭泣都是在表达需求，请耐心倾听。',
-      '💤 充足的睡眠有助于宝宝大脑发育，建立规律的作息非常重要。',
-      '🤱 母乳是宝宝最好的食物，坚持母乳喂养至6个月。',
-      '👶 多和宝宝说话、唱歌，有助于语言能力发展。',
-      '🎵 给宝宝播放轻柔的音乐，可以安抚情绪，促进听觉发育。',
-      '📚 亲子阅读是培养宝宝阅读兴趣的最好方式。',
-      '🤗 拥抱和抚摸可以给宝宝安全感，促进情感发展。',
-      '🎨 让宝宝自由探索，但要在安全的前提下。',
-      '😴 白天多活动，晚上容易入睡，帮助宝宝建立昼夜节律。',
-      '💡 父母的情绪稳定是宝宝最好的心理营养。'
+      '宝宝每次吃奶后都要拍嗝，防止吐奶',
+      '新生儿每天睡眠时间可达16-18小时',
+      '3个月内的宝宝不要枕头，防止颈部受伤',
+      '宝宝发烧时，不要用酒精擦拭身体降温',
+      '6个月后开始添加辅食，从单一食材开始',
+      '1岁内的宝宝不要吃蜂蜜，防止肉毒杆菌中毒',
+      '每天给宝宝做抚触按摩，促进发育',
+      '保持室内湿度在50%-60%，宝宝更舒适',
+      '宝宝哭闹时，先检查是否饿了或尿布湿了',
+      '定期测量宝宝身高体重，记录成长曲线'
     ];
-
-    const randomTip = tips[Math.floor(Math.random() * tips.length)];
-    console.log('随机小贴士:', randomTip);
     
+    const randomTip = tips[Math.floor(Math.random() * tips.length)];
     this.setData({
       dailyTip: randomTip,
       showTipModal: true
     });
   },
 
-  // 隐藏小贴士
+  // 隐藏每日小贴士
   hideDailyTip() {
-    console.log('关闭小贴士弹窗');
     this.setData({
       showTipModal: false
     });
@@ -265,152 +368,20 @@ Page({
 
   // 阻止冒泡
   stopPropagation() {
-    console.log('阻止冒泡');
+    return false;
   },
 
-  // 显示紧急情况指南
-  showEmergencyGuide() {
-    console.log('点击紧急情况指南');
-    this.setData({
-      showEmergencyModal: true
-    });
-  },
-
-  // 隐藏紧急情况指南
-  hideEmergencyGuide() {
-    console.log('关闭紧急情况指南');
-    this.setData({
-      showEmergencyModal: false
-    });
-  },
-
-  // ============ 宝宝档案相关 ============
-  // 加载宝宝信息
-  loadBabyInfo() {
-    // 先从全局数据读取
-    let babyInfo = app.getBabyInfo();
-    
-    // 如果全局数据没有，尝试从本地存储读取
-    if (!babyInfo) {
-      const profile = wx.getStorageSync('babyProfile');
-      if (profile) {
-        babyInfo = {
-          birthday: profile.birthday,
-          name: profile.nickname || '宝宝'
-        };
-        // 同步到全局数据
-        app.setBabyInfo(profile.birthday, profile.nickname);
-      }
-    }
-    
-    if (babyInfo && babyInfo.birthday) {
-      const babyAge = app.calculateBabyAge();
-      this.setData({
-        babyName: babyInfo.name || '宝宝',
-        babyAgeText: babyAge.text
-      });
-      console.log('宝宝年龄:', babyAge.text);
-      
-      // 根据月龄筛选推荐文章
-      this.filterRecommendedArticles(babyAge.totalMonths);
-    } else {
-      // 没有宝宝信息，显示默认文章
-      this.showDefaultArticles();
-    }
-  },
-
-  // 根据月龄筛选推荐文章
-  filterRecommendedArticles(months) {
-    let categoryId = '';
-    
-    if (months < 6) {
-      categoryId = 'age-0-1';
-    } else if (months < 12) {
-      categoryId = 'age-0-1';
-    } else if (months < 36) {
-      categoryId = 'age-1-3';
-    } else {
-      categoryId = 'age-3-6';
-    }
-    
-    this.setData({
-      recommendedCategory: categoryId
-    });
-    
-    // 筛选对应分类的文章
-    let filteredArticles = this.data.allArticles.filter(article => {
-      return article.categoryId === categoryId;
-    });
-    
-    // 如果该分类下没有文章，使用通用知识分类
-    if (filteredArticles.length === 0) {
-      console.log('推荐分类无文章，使用通用知识分类');
-      filteredArticles = this.data.allArticles.filter(article => {
-        return article.categoryId === 'general';
-      });
-    }
-    
-    // 如果仍然没有文章，使用所有文章
-    if (filteredArticles.length === 0) {
-      console.log('通用知识分类也无文章，使用所有文章');
-      filteredArticles = this.data.allArticles;
-    }
-    
-    // 随机选择3篇文章展示
-    const recommended = this.shuffleArray(filteredArticles).slice(0, 3);
-    
-    this.setData({
-      hotArticles: recommended
-    });
-    
-    console.log('推荐分类:', categoryId, '推荐文章数:', recommended.length);
-  },
-
-  // 显示默认文章
-  showDefaultArticles() {
-    // 随机选择3篇文章
-    const defaultArticles = this.shuffleArray(this.data.allArticles).slice(0, 3);
-    
-    this.setData({
-      hotArticles: defaultArticles
-    });
-    
-    console.log('显示默认文章数:', defaultArticles.length);
-  },
-
-  // 数组乱序
-  shuffleArray(array) {
-    const shuffled = [...array];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    return shuffled;
-  },
-
-  // 跳转到宝宝档案
-
-  // 跳转到收藏页面
-  goToFavorites() {
-    console.log('点击收藏入口');
-    wx.switchTab({
-      url: '/pages/favorites/favorites',
-      success: () => {
-        console.log('收藏页跳转成功');
-      },
-      fail: (err) => {
-        console.error('收藏页跳转失败:', err);
-        wx.showToast({
-          title: '页面跳转失败',
-          icon: 'none'
-        });
-      }
-    });
-  },
-
-  goToBaby() {
+  // P3新增：跳转到专家问答
+  goToExpert() {
     wx.navigateTo({
-      url: '/pages/profile/profile'
+      url: '/pages/expert/expert'
+    });
+  },
+
+  // P3新增：跳转到附近服务
+  goToNearby() {
+    wx.navigateTo({
+      url: '/pages/nearby/nearby'
     });
   }
 });
