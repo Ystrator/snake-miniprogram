@@ -14,7 +14,7 @@
     <input class="search-input"
            placeholder="试试搜索：宝宝不睡觉、哭闹、发烧..."
            value="{{keyword}}"
-           bindinput="onSearchInput"
+           bindinput="onInput"
            confirm-type="search"
            bindconfirm="doSearch" />
     <text class="voice-btn" bindtap="startVoiceSearch">🎤</text>
@@ -47,14 +47,14 @@
           </view>
           <view class="article-content">
             <view class="article-header">
-              <text class="article-title">{{item.title}}</text>
+              <text class="article-title">{{item.highlightTitle || item.title}}</text>
               <view class="badges" wx:if="{{item.isTopMatch || item.isRecommended}}">
                 <text class="badge hot" wx:if="{{item.isTopMatch}}">🔥 最相关</text>
                 <text class="badge recommend" wx:if="{{item.isRecommended && !item.isTopMatch}}">⭐ 推荐</text>
               </view>
             </view>
 
-            <text class="article-description">{{item.description || item.summary}}</text>
+            <text class="article-description">{{item.highlightSummary || (item.description || item.summary)}}</text>
 
             <view class="article-meta">
               <text class="article-category">{{item.categoryName}}</text>
@@ -73,7 +73,7 @@
         </view>
         <view class="related-list">
           <view class="related-item" wx:for="{{relatedArticles}}" wx:key="id" bindtap="readArticle" data-id="{{item.id}}">
-            <text class="related-title-text">{{item.title}}</text>
+            <text class="related-title-text">{{item.highlightTitle || item.title}}</text>
             <text class="related-arrow">→</text>
           </view>
         </view>
