@@ -1,5 +1,7 @@
-// 文章详情页 - UED优化版
+// 文章详情页 - 集成行为追踪
 const knowledgeData = require('../../data.js');
+const recommendationEngine = require('../../utils/recommendation-engine.js');
+const storageManager = require('../../utils/storage-manager.js');
 
 const app = getApp();
 
@@ -8,26 +10,28 @@ Page({
     article: {},
     isFavorited: false,
     darkMode: false,
-    themeAnimating: false  // 主题动画状态
+    themeAnimating: false,
+    readStartTime: null,
+    relatedArticles: []
   },
 
   onLoad(options) {
     const articleId = options.id;
     console.log('文章页面加载, articleId:', articleId);
 
-    // 从 data.js 中查找文章
-    // 支持 article_001 和 001 两种格式
+    // 记录阅读开始时间
+    this.setData({
+      readStartTime: Date.now()
+    });
+
     let article = null;
 
-    // 首先尝试直接匹配
     article = knowledgeData.allArticles.find(a => a.id === articleId);
 
-    // 如果没找到，尝试带前缀的格式
     if (!article && !articleId.startsWith('article_')) {
       article = knowledgeData.allArticles.find(a => a.id === `article_${articleId}`);
     }
 
-    // 如果还没找到，尝试去掉前缀
     if (!article && articleId.startsWith('article_')) {
       const numericId = articleId.replace('article_', '');
       article = knowledgeData.allArticles.find(a => a.id === numericId || a.id === `article_${numericId}`);
@@ -48,14 +52,12 @@ Page({
       return;
     }
 
-    // 查找分类信息
     const category = knowledgeData.categories.find(cat => cat.id === article.categoryId);
 
     this.setData({
       darkMode: app.globalData.darkMode
     });
 
-    // 构建文章数据（兼容现有页面结构）
     const articleData = {
       id: article.id,
       title: article.title,
@@ -74,19 +76,37 @@ Page({
 
     console.log('文章数据已加载:', articleData.title);
 
-    // 检查是否已收藏
     this.checkFavorite(articleId);
+    
+    // 加载相关推荐
+    this.loadRelatedArticles(article);
   },
 
-  // 检查收藏状态
+  /**
+   * 加载相关文章推荐
+   */
+  loadRelatedArticles(currentArticle) {
+    const related = recommendationEngine.getPersonalizedRecommendations({
+      babyAgeMonths: null,
+      limit: 5,
+      excludeViewed: false
+    }).filter(a => 
+      a.id !== currentArticle.id && 
+      a.categoryId === currentArticle.categoryId
+    ).slice(0, 3);
+
+    this.setData({
+      relatedArticles: related
+    });
+
+    console.log('相关文章推荐:', related.length, '篇');
+  },
+
   checkFavorite(articleId) {
-    // 标准化ID格式（确保使用文章的实际ID）
     const standardId = this.data.article.id;
     
-    // 尝试从本地存储读取
     try {
       const favorites = wx.getStorageSync('favorites') || [];
-      // 检查多种ID格式
       const isFav = favorites.some(f => 
         f.id === standardId || 
         f.id === articleId ||
@@ -98,7 +118,6 @@ Page({
       console.error('读取收藏失败:', e);
     }
 
-    // 如果有全局收藏方法，也尝试使用
     if (app && app.loadFavorites && app.isFavorited) {
       try {
         app.loadFavorites();
@@ -111,58 +130,91 @@ Page({
   },
 
   onShow() {
-    // 每次显示时更新夜间模式状态
     this.setData({
       darkMode: app.globalData.darkMode
     });
   },
 
-  // 主题切换回调
   onThemeChange(enabled) {
     this.setData({
       darkMode: enabled
     });
   },
 
-  // 🔥 切换夜间模式 - 增强版（带动画反馈）
   toggleDarkMode() {
-    // 触发图标旋转动画
     this.setData({ themeAnimating: true });
     
-    // 切换主题
     app.toggleDarkMode();
     this.setData({
       darkMode: app.globalData.darkMode
     });
     
-    // 显示更强的视觉反馈
     wx.showToast({
       title: this.data.darkMode ? '🌙 夜间模式已开启' : '☀️ 日间模式已开启',
       icon: 'none',
       duration: 1500
     });
     
-    // 震动反馈（如果设备支持）
     wx.vibrateShort({
       type: 'light'
     });
     
-    // 动画结束后重置状态
     setTimeout(() => {
       this.setData({ themeAnimating: false });
     }, 500);
   },
 
-  // 返回上一页
   goBack() {
+    this._recordReadDuration();
     wx.navigateBack();
   },
 
-  // 切换收藏
+  /**
+   * 记录阅读时长
+   */
+  _recordReadDuration() {
+    if (!this.data.readStartTime) return;
+
+    const readDuration = Math.floor((Date.now() - this.data.readStartTime) / 1000);
+    
+    if (readDuration > 0) {
+      // 记录到推荐引擎
+      recommendationEngine.recordView(this.data.article.id, readDuration);
+      
+      console.log('记录阅读时长:', readDuration, '秒');
+      
+      // 如果阅读时长超过30秒，认为是高质量阅读
+      if (readDuration > 30) {
+        wx.getStorage({
+          key: 'userBehavior',
+          success: (res) => {
+            const behavior = res.data || { viewHistory: [] };
+            behavior.viewHistory.push({
+              articleId: this.data.article.id,
+              timestamp: Date.now(),
+              readDuration: readDuration,
+              quality: 'high'
+            });
+            wx.setStorage({
+              key: 'userBehavior',
+              data: behavior
+            });
+          }
+        });
+      }
+    }
+  },
+
+  /**
+   * 页面卸载时记录阅读时长
+   */
+  onUnload() {
+    this._recordReadDuration();
+  },
+
   toggleFavorite() {
     const article = this.data.article;
 
-    // 优先使用全局收藏方法
     if (app && app.addFavorite && app.removeFavorite) {
       try {
         if (this.data.isFavorited) {
@@ -173,6 +225,9 @@ Page({
             icon: 'none',
             duration: 1500 
           });
+          
+          // 记录取消收藏行为
+          recommendationEngine.removeFavorite(article.id);
         } else {
           app.addFavorite(article);
           this.setData({ isFavorited: true });
@@ -181,8 +236,11 @@ Page({
             icon: 'success',
             duration: 1500 
           });
+          
+          // 记录收藏行为
+          recommendationEngine.recordFavorite(article.id);
         }
-        // 震动反馈
+        
         wx.vibrateShort({ type: 'light' });
         return;
       } catch (e) {
@@ -190,7 +248,6 @@ Page({
       }
     }
 
-    // 备用：使用本地存储
     try {
       const favorites = wx.getStorageSync('favorites') || [];
       const isFav = favorites.some(f => f.id === article.id);
@@ -200,11 +257,15 @@ Page({
         wx.setStorageSync('favorites', newFav);
         this.setData({ isFavorited: false });
         wx.showToast({ title: '💔 已取消收藏', icon: 'none' });
+        
+        recommendationEngine.removeFavorite(article.id);
       } else {
         favorites.push(article);
         wx.setStorageSync('favorites', favorites);
         this.setData({ isFavorited: true });
         wx.showToast({ title: '❤️ 收藏成功', icon: 'success' });
+        
+        recommendationEngine.recordFavorite(article.id);
       }
     } catch (e) {
       console.error('本地收藏失败:', e);
@@ -215,7 +276,6 @@ Page({
     }
   },
 
-  // 分享文章
   shareArticle() {
     wx.showShareMenu({
       withShareTicket: true,
@@ -223,7 +283,6 @@ Page({
     });
   },
 
-  // 分享配置
   onShareAppMessage() {
     return {
       title: this.data.article.title,
@@ -232,11 +291,25 @@ Page({
     };
   },
 
-  // 分享到朋友圈
   onShareTimeline() {
     return {
       title: this.data.article.title,
       imageUrl: ''
     };
+  },
+
+  /**
+   * 阅读相关文章
+   */
+  readRelatedArticle(e) {
+    const articleId = e.currentTarget.dataset.id;
+    console.log('阅读相关文章:', articleId);
+    
+    // 记录当前文章阅读时长
+    this._recordReadDuration();
+    
+    wx.redirectTo({
+      url: `/pages/article/article?id=${articleId}`
+    });
   }
 });

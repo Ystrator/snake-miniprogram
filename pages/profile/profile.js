@@ -1,5 +1,7 @@
-// pages/profile/profile.js
+// 个人中心页面 - 用户行为分析版
 const app = getApp();
+const recommendationEngine = require('../../utils/recommendation-engine.js');
+const storageManager = require('../../utils/storage-manager.js');
 
 Page({
   data: {
@@ -8,7 +10,18 @@ Page({
     birthday: '',
     gender: '',
     babyAgeText: '',
-    hasProfile: false
+    hasProfile: false,
+    // 用户行为分析数据
+    userProfile: null,
+    stats: {
+      totalViews: 0,
+      favoriteCount: 0,
+      totalSearches: 0,
+      avgReadTime: 0
+    },
+    topTags: [],
+    topCategories: [],
+    recentActivity: []
   },
 
   onLoad() {
@@ -16,22 +29,26 @@ Page({
       darkMode: app.globalData.darkMode
     });
     this.loadProfile();
+    this.loadUserBehavior();
   },
 
   onShow() {
     this.setData({
       darkMode: app.globalData.darkMode
     });
+    // 每次显示时刷新用户行为数据
+    this.loadUserBehavior();
   },
 
-  // 主题切换回调
   onThemeChange(enabled) {
     this.setData({
       darkMode: enabled
     });
   },
 
-  // 加载档案
+  /**
+   * 加载档案
+   */
   loadProfile() {
     const profile = wx.getStorageSync('babyProfile');
     if (profile) {
@@ -42,7 +59,6 @@ Page({
         hasProfile: true
       });
       
-      // 计算月龄
       if (profile.birthday) {
         const babyAge = this.calculateAge(profile.birthday);
         this.setData({
@@ -52,21 +68,141 @@ Page({
     }
   },
 
-  // 输入小名
+  /**
+   * 加载用户行为数据
+   */
+  loadUserBehavior() {
+    // 获取用户画像
+    const profile = recommendationEngine.getUserProfile();
+    
+    // 获取统计信息
+    const behavior = storageManager.getUserBehavior();
+    const stats = {
+      totalViews: behavior.viewHistory ? behavior.viewHistory.length : 0,
+      favoriteCount: behavior.favoriteArticles ? behavior.favoriteArticles.length : 0,
+      totalSearches: behavior.searchHistory ? behavior.searchHistory.length : 0,
+      avgReadTime: this._calculateAvgReadTime(behavior.viewHistory || [])
+    };
+
+    // 获取最近活动
+    const recentActivity = this._getRecentActivity(behavior);
+
+    // 获取热门标签和分类
+    const topTags = profile.interests ? 
+      Object.entries(profile.interests.tags || {})
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5)
+        .map(([tag, score]) => ({ tag, score: (score * 100).toFixed(0) }))
+      : [];
+
+    const topCategories = profile.interests ?
+      Object.entries(profile.interests.categories || {})
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 3)
+        .map(([catId, score]) => {
+          const categoryNames = {
+            'age-0-1': '0-1岁',
+            'age-1-3': '1-3岁',
+            'age-3-6': '3-6岁',
+            'general': '通用知识'
+          };
+          return {
+            catId,
+            name: categoryNames[catId] || catId,
+            score: (score * 100).toFixed(0)
+          };
+        })
+      : [];
+
+    this.setData({
+      userProfile: profile,
+      stats: stats,
+      topTags: topTags,
+      topCategories: topCategories,
+      recentActivity: recentActivity.slice(0, 5)
+    });
+
+    console.log('用户行为数据加载完成:', stats);
+  },
+
+  /**
+   * 计算平均阅读时长
+   */
+  _calculateAvgReadTime(viewHistory) {
+    if (!viewHistory || viewHistory.length === 0) return 0;
+
+    const totalTime = viewHistory.reduce((sum, record) => {
+      return sum + (record.readDuration || 0);
+    }, 0);
+
+    return Math.floor(totalTime / viewHistory);
+  },
+
+  /**
+   * 获取最近活动
+   */
+  _getRecentActivity(behavior) {
+    const activities = [];
+
+    // 添加浏览记录
+    if (behavior.viewHistory && behavior.viewHistory.length > 0) {
+      behavior.viewHistory.slice(-5).forEach(record => {
+        activities.push({
+          type: 'view',
+          articleId: record.articleId,
+          timestamp: record.timestamp,
+          readDuration: record.readDuration
+        });
+      });
+    }
+
+    // 添加搜索记录
+    if (behavior.searchHistory && behavior.searchHistory.length > 0) {
+      behavior.searchHistory.slice(-3).forEach(record => {
+        activities.push({
+          type: 'search',
+          query: record.query,
+          timestamp: record.timestamp
+        });
+      });
+    }
+
+    // 按时间排序
+    return activities
+      .sort((a, b) => b.timestamp - a.timestamp)
+      .slice(0, 10);
+  },
+
+  /**
+   * 格式化时间
+   */
+  formatTime(timestamp) {
+    const now = Date.now();
+    const diff = now - timestamp;
+
+    if (diff < 60000) {
+      return '刚刚';
+    } else if (diff < 3600000) {
+      return `${Math.floor(diff / 60000)}分钟前`;
+    } else if (diff < 86400000) {
+      return `${Math.floor(diff / 3600000)}小时前`;
+    } else {
+      return `${Math.floor(diff / 86400000)}天前`;
+    }
+  },
+
   onNicknameInput(e) {
     this.setData({
       nickname: e.detail.value
     });
   },
 
-  // 选择生日
   onBirthdayChange(e) {
     const birthday = e.detail.value;
     this.setData({
       birthday: birthday
     });
     
-    // 实时计算月龄
     if (birthday) {
       const babyAge = this.calculateAge(birthday);
       this.setData({
@@ -75,7 +211,6 @@ Page({
     }
   },
 
-  // 选择性别
   selectGender(e) {
     const gender = e.currentTarget.dataset.gender;
     this.setData({
@@ -83,7 +218,6 @@ Page({
     });
   },
 
-  // 计算月龄
   calculateAge(birthdayStr) {
     const birthday = new Date(birthdayStr);
     const today = new Date();
@@ -115,7 +249,6 @@ Page({
     }
   },
 
-  // 保存档案
   saveProfile() {
     const { nickname, birthday, gender } = this.data;
     
@@ -151,8 +284,6 @@ Page({
     
     try {
       wx.setStorageSync('babyProfile', profile);
-      
-      // 同步到全局数据
       app.setBabyInfo(birthday, nickname);
       
       this.setData({
@@ -164,7 +295,6 @@ Page({
         icon: 'success'
       });
       
-      // 延迟返回
       setTimeout(() => {
         wx.navigateBack();
       }, 1500);
@@ -176,7 +306,6 @@ Page({
     }
   },
 
-  // 删除档案
   deleteProfile() {
     wx.showModal({
       title: '确认删除',
@@ -205,6 +334,26 @@ Page({
               icon: 'none'
             });
           }
+        }
+      }
+    });
+  },
+
+  /**
+   * 清空行为数据
+   */
+  clearBehaviorData() {
+    wx.showModal({
+      title: '确认清空',
+      content: '清空后将重新学习您的阅读偏好',
+      success: (res) => {
+        if (res.confirm) {
+          recommendationEngine.clearBehavior();
+          this.loadUserBehavior();
+          wx.showToast({
+            title: '已清空',
+            icon: 'success'
+          });
         }
       }
     });

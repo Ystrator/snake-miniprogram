@@ -1,4 +1,4 @@
-<!--文章详情页 - 优化版-->
+<!--文章详情页 - P3优化版本（视频支持）-->
 <scroll-view scroll-y class="article-container {{darkMode ? 'dark-mode' : ''}}">
   <view class="article-header">
     <!-- 顶部夜间模式切换按钮 -->
@@ -21,6 +21,33 @@
   </view>
 
   <view class="article-content">
+    <!-- 视频区域 - P3新增 -->
+    <view class="video-section" wx:if="{{article.videoUrl || article.videoCover}}">
+      <view class="video-container" bindtap="playVideo" wx:if="{{!videoPlaying}}">
+        <image class="video-cover" 
+               src="{{article.videoCover || '/assets/images/video-cover-placeholder.png'}}" 
+               mode="aspectFill"/>
+        <view class="video-play-btn">
+          <text class="play-icon">▶</text>
+        </view>
+        <view class="video-info">
+          <text class="video-duration" wx:if="{{article.videoDuration}}">{{article.videoDuration}}</text>
+          <text class="video-tip">点击播放视频</text>
+        </view>
+      </view>
+      <view class="video-player-wrapper" wx:if="{{videoPlaying}}">
+        <video class="video-player"
+               src="{{article.videoUrl}}"
+               controls="{{true}}"
+               autoplay="{{true}}"
+               show-center-play-btn="{{true}}"
+               object-fit="contain"
+               bindplay="onVideoPlay"
+               bindpause="onVideoPause"
+               bindended="onVideoEnd"/>
+      </view>
+    </view>
+
     <!-- 快速解答板块（优先显示） -->
     <view class="quick-answers-box" wx:if="{{article.quickAnswers && article.quickAnswers.length > 0}}">
       <text class="quick-answers-title">⚡ 30秒快速解答</text>
@@ -50,6 +77,19 @@
       <view class="content-section" wx:for="{{article.content || article.sections}}" wx:key="index">
         <!-- 标题 -->
         <text class="section-heading" wx:if="{{item.type === 'heading'}}">{{item.text}}</text>
+
+        <!-- 视频嵌入 - P3新增 -->
+        <view class="inline-video" wx:if="{{item.type === 'video'}}">
+          <view class="inline-video-container" bindtap="playInlineVideo" data-url="{{item.url}}">
+            <image class="inline-video-cover" 
+                   src="{{item.cover || '/assets/images/video-cover-placeholder.png'}}" 
+                   mode="aspectFill"/>
+            <view class="inline-play-btn">
+              <text class="play-icon">▶</text>
+            </view>
+            <text class="inline-video-title">{{item.title || '相关视频'}}</text>
+          </view>
+        </view>
 
         <!-- 无序列表（新格式：text字段） -->
         <view class="section-bullet" wx:if="{{item.type === 'bullet' && item.text}}">
@@ -106,5 +146,23 @@
     <button class="action-btn outline" bindtap="shareArticle">
       <text>📤 分享</text>
     </button>
+  </view>
+
+  <!-- 视频播放器弹窗 - P3新增 -->
+  <view class="video-modal" wx:if="{{showVideoModal}}" bindtap="closeVideoModal">
+    <view class="video-modal-content" catchtap="stopPropagation">
+      <view class="video-modal-header">
+        <text class="video-modal-title">{{videoModalTitle}}</text>
+        <text class="video-modal-close" bindtap="closeVideoModal">✕</text>
+      </view>
+      <view class="video-modal-player">
+        <video class="modal-video"
+               src="{{videoModalUrl}}"
+               controls="{{true}}"
+               autoplay="{{true}}"
+               show-center-play-btn="{{true}}"
+               object-fit="contain"/>
+      </view>
+    </view>
   </view>
 </scroll-view>

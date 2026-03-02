@@ -1,6 +1,6 @@
-<!--首页 - P0修复版-->
+<!--首页 - P3优化版本（新增服务入口）-->
 <view class="container {{darkMode ? 'dark-mode' : ''}}">
-  <!-- 顶部状态栏（夜间模式切换） -->
+  <!-- 顶部状态栏 -->
   <view class="status-bar">
     <text class="app-name">育儿知识大全</text>
     <view class="status-actions">
@@ -14,7 +14,7 @@
     </view>
   </view>
 
-  <!-- 宝宝年龄显示卡片 -->
+  <!-- 宝宝年龄卡片 -->
   <view class="baby-age-card large-tap" wx:if="{{babyAgeText}}" bindtap="goToBaby">
     <view class="baby-age-content">
       <text class="baby-age-label">{{babyName}}</text>
@@ -23,16 +23,56 @@
     <text class="baby-age-arrow">→</text>
   </view>
 
-  <!-- 顶部搜索区（最显眼） -->
+  <!-- 搜索区 -->
   <view class="search-hero large-tap" bindtap="goToSearch">
     <view class="search-box">
       <text class="search-icon">🔍</text>
       <text class="search-placeholder">试试搜索：不睡觉、哭闹、发烧、喂养...</text>
     </view>
-    <text class="search-hint">点击搜索育儿知识</text>
+    <text class="search-hint">AI智能搜索，精准匹配</text>
   </view>
 
-  <!-- 紧急问题快捷入口 -->
+  <!-- 健康工具区 -->
+  <view class="health-tools-section">
+    <text class="section-title">🏥 健康工具</text>
+    <view class="health-tools-grid">
+      <view class="health-tool-card large-tap" bindtap="goToFever">
+        <text class="health-icon">🌡️</text>
+        <text class="health-title">发烧护理</text>
+        <text class="health-desc">体温记录+护理指南</text>
+      </view>
+      <view class="health-tool-card large-tap" bindtap="goToGrowth">
+        <text class="health-icon">📊</text>
+        <text class="health-title">成长曲线</text>
+        <text class="health-desc">身高体重WHO对比</text>
+      </view>
+      <view class="health-tool-card large-tap" bindtap="goToVaccine">
+        <text class="health-icon">💉</text>
+        <text class="health-title">疫苗提醒</text>
+        <text class="health-desc">接种时间记录提醒</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- P3新增：专家问答入口 -->
+  <view class="expert-section">
+    <text class="section-title">👨‍⚕️ 专家服务</text>
+    <view class="expert-cards">
+      <view class="expert-card primary large-tap" bindtap="goToExpert">
+        <text class="expert-icon">💬</text>
+        <text class="expert-title">专家问答</text>
+        <text class="expert-desc">专业医生在线解答</text>
+        <text class="expert-badge">NEW</text>
+      </view>
+      <view class="expert-card secondary large-tap" bindtap="goToNearby">
+        <text class="expert-icon">🏥</text>
+        <text class="expert-title">附近服务</text>
+        <text class="expert-desc">发现身边的医院</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快捷问题入口 -->
   <view class="emergency-section">
     <text class="section-title">🚨 宝宝遇到问题？</text>
     <view class="quick-grid">
@@ -55,7 +95,7 @@
     </view>
   </view>
 
-  <!-- 核心功能区 - 整合收藏入口 -->
+  <!-- 快捷入口 -->
   <view class="core-section">
     <text class="section-title">✨ 快捷入口</text>
     <view class="core-grid">
@@ -78,12 +118,73 @@
     </view>
   </view>
 
-  <!-- 推荐阅读（精简版，只显示2篇） -->
-  <view class="articles-section" wx:if="{{hotArticles.length > 0}}">
-    <text class="section-title">📖 推荐阅读</text>
-    <view class="article-card large-tap" wx:for="{{hotArticles}}" wx:key="id" wx:for-index="idx" wx:if="{{idx < 2}}" bindtap="readArticle" data-id="{{item.id}}">
-      <text class="article-title">{{item.title}}</text>
-      <text class="article-summary">{{item.summary}}</text>
+  <!-- AI个性化推荐 -->
+  <view class="ai-recommend-section" wx:if="{{showPersonalized && personalizedArticles.length > 0}}">
+    <view class="section-header">
+      <text class="section-title">🤖 为你推荐</text>
+      <text class="recommend-badge">AI</text>
+    </view>
+    <view class="article-list">
+      <view 
+        class="article-card large-tap" 
+        wx:for="{{personalizedArticles}}" 
+        wx:key="id" 
+        bindtap="readArticle" 
+        data-id="{{item.id}}"
+      >
+        <text class="article-title">{{item.title}}</text>
+        <text class="article-summary">{{item.summary}}</text>
+        <view class="article-meta">
+          <text class="article-tag">{{item.categoryName}}</text>
+          <text class="recommend-score">推荐度 {{item.recommendationScore ? (item.recommendationScore * 100).toFixed(0) : 85}}%</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 热门文章 -->
+  <view class="trending-section" wx:if="{{trendingArticles.length > 0}}">
+    <view class="section-header">
+      <text class="section-title">🔥 热门文章</text>
+      <text class="trending-badge">HOT</text>
+    </view>
+    <view class="article-list">
+      <view 
+        class="article-card large-tap" 
+        wx:for="{{trendingArticles}}" 
+        wx:key="id" 
+        wx:if="{{index < 3}}"
+        bindtap="readArticle" 
+        data-id="{{item.id}}"
+      >
+        <text class="article-title">{{item.title}}</text>
+        <text class="article-summary">{{item.summary}}</text>
+        <view class="article-meta">
+          <text class="article-tag">{{item.categoryName}}</text>
+          <text class="trend-score">🔥 {{item.trendScore ? item.trendScore.toFixed(0) : 100}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 月龄推荐 -->
+  <view class="age-recommend-section" wx:if="{{hotArticles.length > 0}}">
+    <text class="section-title">📚 {{babyAgeText ? '适合' + babyName : '推荐阅读'}}</text>
+    <view class="article-list">
+      <view 
+        class="article-card large-tap" 
+        wx:for="{{hotArticles}}" 
+        wx:key="id" 
+        wx:if="{{index < 3}}" 
+        bindtap="readArticle" 
+        data-id="{{item.id}}"
+      >
+        <text class="article-title">{{item.title}}</text>
+        <text class="article-summary">{{item.summary}}</text>
+        <view class="article-tags">
+          <text class="article-tag">{{item.categoryName}}</text>
+        </view>
+      </view>
     </view>
   </view>
 </view>
@@ -113,18 +214,15 @@
   </view>
 </view>
 
-<!-- 每日一签弹窗 -->
-<view class="modal" wx:if="{{showTipModal}}" bindtap="hideDailyTip">
-  <view class="modal-content" catchtap="stopPropagation">
+<!-- 每日小贴士弹窗 -->
+<view class="modal tip-modal" wx:if="{{showTipModal}}" bindtap="hideDailyTip">
+  <view class="modal-content tip-content" catchtap="stopPropagation">
     <view class="modal-header">
       <text class="modal-title">💡 每日小贴士</text>
       <text class="modal-close large-tap" bindtap="hideDailyTip">✕</text>
     </view>
-    <view class="modal-body">
-      <text class="tip-content">{{dailyTip}}</text>
-    </view>
-    <view class="modal-footer">
-      <button class="modal-btn large-tap" bindtap="hideDailyTip">知道了</button>
+    <view class="modal-body tip-body">
+      <text class="tip-text">{{dailyTip}}</text>
     </view>
   </view>
 </view>
