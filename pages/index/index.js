@@ -199,7 +199,8 @@ Page({
             categoryId: article.categoryId,
             content: article.content,
             ageRange: article.ageRange || null,
-            recommendationScore: article.recommendationScore  // 保留推荐分数
+            recommendationScore: article.recommendationScore,
+            recommendationScoreDisplay: article.recommendationScore ? Math.round(article.recommendationScore * 100) + '%' : '85%'
           };
         });
 

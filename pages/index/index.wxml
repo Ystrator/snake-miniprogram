@@ -136,7 +136,7 @@
         <text class="article-summary">{{item.summary}}</text>
         <view class="article-meta">
           <text class="article-tag">{{item.categoryName}}</text>
-          <text class="recommend-score">推荐度 {{item.recommendationScore ? (item.recommendationScore * 100).toFixed(0) : 85}}%</text>
+          <text class="recommend-score">推荐度 {{item.recommendationScoreDisplay || '85%'}}</text>
         </view>
       </view>
     </view>
