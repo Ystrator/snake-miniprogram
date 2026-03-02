@@ -14,7 +14,7 @@
     <input class="search-input"
            placeholder="试试搜索：宝宝不睡觉、哭闹、发烧..."
            value="{{keyword}}"
-           bindinput="onInput"
+           bindinput="onSearchInput"
            confirm-type="search"
            bindconfirm="doSearch" />
     <text class="voice-btn" bindtap="startVoiceSearch">🎤</text>
