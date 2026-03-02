@@ -140,7 +140,6 @@ Page({
 
         // 转换为页面需要的格式
         const results = filteredResults.map(article => {
-          // 提取分类显示名称
           const categoryMap = {
             'feeding': '喂养',
             'sleep': '睡眠',
@@ -152,20 +151,31 @@ Page({
             'psychology': '心理',
             'age-0-1': '0-1岁',
             'age-1-3': '1-3岁',
-            'age-3-6': '3-6岁'
+            'age-3-6': '3-6岁',
+            'general': '通用'
           };
+
+          const categoryName = categoryMap[article.categoryId] || '综合';
 
           return {
             id: article.id,
             title: article.title,
             summary: article.summary || article.title,
-            category: categoryMap[article.categoryId] || '综合',
+            description: article.summary || article.description || article.title,
+            categoryName: categoryName,  // ✅ 添加
+            category: categoryName,
             categoryId: article.categoryId,
+            tags: article.tags || [],
             content: article.content,
             ageRange: article.ageRange || null,
-            relevanceScore: article.relevanceScore,  // 保留相关度分数
+            relevanceScore: article.relevanceScore,
             highlightTitle: this.highlightKeyword(article.title, keyword),
-            highlightSummary: this.highlightKeyword(article.summary || article.title, keyword)
+            highlightSummary: this.highlightKeyword(
+              article.summary || article.description || article.title, 
+              keyword
+            ),
+            isTopMatch: article.relevanceScore > 0.8,
+            isRecommended: article.relevanceScore > 0.5 && article.relevanceScore <= 0.8
           };
         });
 
@@ -177,9 +187,22 @@ Page({
           app.globalData.recommendationEngine.recordSearch(keyword);
         }
 
+        // 设置相关文章推荐
+        let relatedArticles = [];
+        if (results.length > 0) {
+          relatedArticles = results
+            .filter(a => a.categoryId !== results[0].categoryId)
+            .slice(0, 3)
+            .map(a => ({
+              id: a.id,
+              title: a.title
+            }));
+        }
+
         this.setData({
           searchResults: results,
-          searched: true
+          searched: true,
+          relatedArticles: relatedArticles  // ✅ 添加
         });
 
         wx.hideLoading();
@@ -300,6 +323,16 @@ Page({
     });
   },
 
+
+  // 快速搜索（点击热门标签/搜索历史）
+  quickSearch(e) {
+    const keyword = e.currentTarget.dataset.keyword;
+    this.setData({
+      keyword: keyword
+    });
+    this.doSearch();
+  },
+
   // 清空输入
   clearInput() {
     this.setData({
@@ -333,5 +366,13 @@ Page({
   // 返回
   goBack() {
     wx.navigateBack();
+  },
+
+  // 语音搜索（占位实现）
+  startVoiceSearch() {
+    wx.showToast({
+      title: '语音搜索即将上线',
+      icon: 'none'
+    });
   }
 });
