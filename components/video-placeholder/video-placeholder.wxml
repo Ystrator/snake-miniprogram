@@ -1,0 +1,6 @@
+<!--视频占位符组件-->
+<view class="video-placeholder {{darkMode ? 'dark' : ''}}">
+  <text class="icon">🎬</text>
+  <text class="text">视频内容</text>
+  <text class="hint">即将上线</text>
+</view>

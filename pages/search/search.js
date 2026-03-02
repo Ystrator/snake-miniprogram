@@ -318,7 +318,7 @@ Page({
   },
 
   // 输入变化
-  onInput(e) {
+  onSearchInput(e) {
     this.setData({
       keyword: e.detail.value
     });

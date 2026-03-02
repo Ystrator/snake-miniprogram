@@ -24,12 +24,12 @@
 }
 
 .back-btn {
+  min-width: 120rpx;
+  min-height: 120rpx;
   min-width: 88rpx;
-  min-height: 88rpx;
-  min-width: 88rpx;
-  width: 88rpx;
-  min-height: 88rpx;
-  height: 88rpx;
+  width: 120rpx;
+  min-height: 120rpx;
+  height: 120rpx;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -45,9 +45,9 @@
 
 .theme-toggle {
   min-width: 88rpx;
-  width: 88rpx;
-  min-height: 88rpx;
-  height: 88rpx;
+  width: 120rpx;
+  min-height: 120rpx;
+  height: 120rpx;
   display: flex;
   align-items: center;
   justify-content: center;
